@@ -1,0 +1,13 @@
+{
+  "name": "snce-pokemon",
+  "version": "1.0.0",
+  "description": "Dockerized environment with a MySQL database, a Next.js application.",
+  "scripts": {
+    "build:app": "docker-compose build snce-pokemon-app",
+    "start:db": "docker-compose up snce-pokemon-db",
+    "start:app": "docker-compose up snce-pokemon-app",
+    "clean": "docker-compose down -v"
+  },
+  "author": "",
+  "license": "ISC"
+}

@@ -1,0 +1,49 @@
+version: '3.8'
+
+networks:
+  default:
+
+services:
+
+  snce-pokemon-db:
+    # NOTE: Uncomment the line below if you are using Mac with m1/m2 chip
+    # platform: linux/x86_64
+    container_name:  snce-pokemon-db
+    image: mysql:8.0
+    # NOTE: use of "mysql_native_password" is not recommended: https://dev.mysql.com/doc/refman/8.0/en/upgrading-from-previous-series.html#upgrade-caching-sha2-password
+    # (this is just an example, not intended to be a production configuration)
+    command: --default-authentication-plugin=mysql_native_password --lower_case_table_names=0
+    restart: unless-stopped
+    env_file: .env
+    environment:
+      MYSQL_ROOT_PASSWORD: $DB_PASSWORD
+      MYSQL_DATABASE: $DB_HOST
+      MYSQL_USER: $DB_USER
+    ports:
+      - $DB_LOCAL_PORT:$DB_DOCKER_PORT
+    volumes:
+      - snce-pokemon-db-volume:/var/lib/mysql:rw
+      - ./snce-pokemon-db:/docker-entrypoint-initdb.d/
+    networks:
+      - default
+
+  ## NOTE: depends_on: snce-pokemon-db
+  snce-pokemon-app:
+    container_name: snce-pokemon-app
+    build:
+      context: ./snce-pokemon-app
+      dockerfile: Dockerfile
+    restart: unless-stopped
+    env_file: ./.env
+    ports:
+      - $APP_LOCAL_PORT:$APP_DOCKER_PORT
+    stdin_open: true
+    tty: true
+    volumes:
+      - ./node_modules
+      - ./.next
+    networks:
+      - default
+
+volumes: 
+  snce-pokemon-db-volume:
