@@ -29,6 +29,15 @@ services:
     networks:
       - default
 
+  nginx:
+    container_name: snce-pokemon-nginx
+    build: ./nginx
+    ports:
+      - 80:80
+    depends_on:
+      app: 
+        condition: service_started
+
   app:
     container_name: snce-pokemon-app
     build:
