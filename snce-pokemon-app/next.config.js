@@ -2,12 +2,13 @@
 const nextConfig = {
   reactStrictMode: true,
 
-  //Webpack/Docker hot reload config
+  //Webpack/Docker hot reload
   webpack: (config) => {
     config.watchOptions = {
       poll: 1000,
       aggregateTimeout: 300,
     };
+
     return config;
   },
 };

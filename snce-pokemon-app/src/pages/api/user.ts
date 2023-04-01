@@ -9,7 +9,12 @@ type Data = {
 export default async function handler(
   req: NextApiRequest,
   res: NextApiResponse<any>
-) {
-  const users = await prisma.users.findMany();
-  res.status(200).json({users})
+  ) {
+  
+  const user = await prisma.users.create({
+    data: {
+      username: 'Elsa Prisma',
+    },
+  })
+  res.status(200).json({user})
 }
