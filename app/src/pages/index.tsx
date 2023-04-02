@@ -3,8 +3,7 @@ import { Inter } from 'next/font/google'
 import styles from '@/styles/Home.module.css'
 import { useEffect, useState } from 'react'
 import axios from 'axios'
-
-import PokemonCard from '@components/PokemonCard'
+import { PokemonCard } from '@/components'
 
 // const inter = Inter({ subsets: ['latin'] })
 

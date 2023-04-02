@@ -3,11 +3,11 @@
   "version": "1.0.0",
   "description": "Dockerized environment with a MySQL database, a Next.js application.",
   "scripts": {
-    "build:app": "docker-compose build snce-pokemon-app",
+    "build:app": "docker-compose build app",
     "start:db": "docker-compose up snce-pokemon-db",
-    "start:app": "docker-compose up snce-pokemon-app",
+    "start:app": "docker-compose up app",
     "clean": "docker-compose down -v"
   },
-  "author": "",
+  "author": "Marco Canopoli",
   "license": "ISC"
 }

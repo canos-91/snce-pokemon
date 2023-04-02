@@ -1,4 +1,8 @@
+/* eslint-disable @typescript-eslint/no-var-requires */
 /** @type {import('next').NextConfig} */
+
+const path = require('path')
+
 const nextConfig = {
   images: {
     remotePatterns: [
@@ -9,6 +13,11 @@ const nextConfig = {
     ],
   },
   reactStrictMode: false,
+  sassOptions: {
+    includePaths: [path.join(__dirname, 'styles')],
+    additionalData: `@use "sass:math"; @import "@/styles/_functions.scss"; @import "@/styles/_mixins.scss";`,
+    charset: false,
+  },
 
   // Webpack/Docker hot reload
   webpack: (config) => {

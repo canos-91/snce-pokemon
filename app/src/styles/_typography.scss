@@ -1,0 +1,116 @@
+
+
+html {
+  font-family: 'Roboto', sans-serif;
+  font-size: pxToRem(16);
+}
+
+body {
+  @include text-style(400, 16, 0.5);
+  word-break: break-word;
+}
+
+* {
+  &.x-small {
+    @include text-style(400, 10, 0.5);
+  }
+
+  &.body-alt {
+    @include text-style(400, 14, 0.25);
+  }
+
+  &:focus-visible {
+    outline: none;
+  }
+
+  &.light {
+    font-weight: 300 !important;
+  }
+
+  &.regular {
+    font-weight: 400 !important;
+  }
+
+  &.medium {
+    font-weight: 500 !important;
+  }
+
+  &.semibold {
+    font-weight: 600 !important;
+  }
+
+  &.bold {
+    font-weight: 700 !important;
+  }
+
+  &.bolder {
+    font-weight: 800 !important;
+  }
+
+  &.capital {
+    &::first-letter {
+      text-transform: capitalize !important;
+    }
+  }
+
+  &.uppercase {
+    text-transform: uppercase !important;
+
+    &::placeholder {
+      text-transform: none !important;
+    }
+  }
+}
+
+h1, h2, h3, h4, h5, h6 {
+  word-break: normal;
+}
+
+h1 {
+  @include text-style(800, 48);
+}
+
+h2 {
+  @include text-style(800, 34, 0.25);
+}
+
+h3 {
+  @include text-style(700, 24);
+}
+
+h4 {
+  @include text-style(700, 20, 0.15);
+}
+
+h5 {
+  @include text-style(600, 16, 0.15);
+}
+
+h6 {
+  @include text-style(700, 14, 0.1);
+}
+
+small {
+  @include text-style(400, 12, 0.4);  
+}
+
+p {
+  white-space: pre-wrap;
+}
+
+// @each $size in [
+// 10,
+// 12,
+// 14,
+// 16,
+// 20,
+// 24,
+// 34,
+// 48,
+// 72] {
+//   .fs-#{$size} {
+//     font-size: pxToRem($size) !important;
+//   }
+// }
+
+// ;

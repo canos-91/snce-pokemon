@@ -1,0 +1,96 @@
+:root {
+  //Background
+  --background-color: var(--grey-100);
+
+  // Accent
+  --accent-100: #fff0E4;
+  --accent-200: #FFDDC2;
+  --accent-300: #ffc599;
+  --accent-400: #ffa966;
+  --accent-500: #ff8c33;
+  --accent-p: #ff7d1a;
+  --accent-600: #ff7d1a;
+  --accent-700: #e66400;
+  --accent-750: #6E4F3A;
+  --accent-800: #564032;
+  --accent-900: #322927;
+  --accent-gradient: linear-gradient(231.84deg, #ffbd8a 11.3%, var(--accent-600) 90.55%);
+
+  // Black
+  --black-100: #202020;
+  --black-200: #1a1a1a;
+  --black-300: #131313;
+  --black-400: #0e0e0e;
+  --black-p: #000000;
+
+  //Error
+  --error-100: #FFD5DD;
+  --error-200: #FFC0CC;
+  --error-300: #FE8099;
+  --error-p: #FE2C55;
+  --error-400: #FE2C55;
+  --error-500: #CC2344;
+  --error-600: #561B2D;
+  --error-700: #3E1827;
+
+  // Grey
+  --grey-100: #fafafa;
+  --grey-200: #f7f7f7;
+  --grey-300: #f2f2f2;
+  --grey-400: #dedede;
+  --grey-500: #bdbdbd;
+  --grey-600: #979797;
+  --grey-700: #5b5b5b;
+  --grey-800: #3c3c3c;
+  --grey-900: #1e1e1e;
+
+  // Blue/Grey
+  --blue-grey: #9294ab;
+  --blue-grey-light: #A7A9BF;
+  --blue-grey-dark: #787A8E;
+  --blue-grey-30: rgb(146, 148, 171, 0.3);
+
+  // Primary
+  --primary-25: #DEE6FA;
+  --primary-50: #BBC8E8;
+  --primary-75: #8498CA;
+  --primary-100: #48609a;
+  --primary-200: #2e3d63;
+  --primary-p: #212c47;
+  --primary-400: #1a2339;
+  --primary-500: #0e172b;
+  --primary-gradient: linear-gradient(233.14deg, #BBC8E8 -0.72%, #48609A 90.72%);;
+
+  //Success
+  --success-100: #DDF8E6;
+  --success-200: #CBF5DA;
+  --success-300: #98EAB4;
+  --success-p: #53DC82;
+  --success-400: #53DC82;
+  --success-500: #43B169;
+  --success-600: #234F3B;
+  --success-700: #1C3B30;
+
+  //Warning
+  --warning-100: #FDF5DA;
+  --warning-200: #FCEBB5;
+  --warning-300: #F9D86B;
+  --warning-p: #F7CE46;
+  --warning-400: #F7CE46;
+  --warning-500: #DCA000;
+  --warning-600: #544B29;
+  --warning-700: #3D3824;
+
+  // White
+  --white-10: rgba(255, 255, 255, 0.1);
+  --white-15: rgba(255, 255, 255, 0.15);
+  --white-20: rgba(255, 255, 255, 0.2);
+  --white-30: rgba(255, 255, 255, 0.3);
+  --white-40: rgba(255, 255, 255, 0.4);
+  --white-50: rgba(255, 255, 255, 0.5);
+  --white-60: rgba(255, 255, 255, 0.6);
+  --white-70: rgba(255, 255, 255, 0.7);
+  --white-80: rgba(255, 255, 255, 0.8);
+  --white-90: rgba(255, 255, 255, 0.9);
+  --white-100: #ffffff;
+}

@@ -1,0 +1,35 @@
+$colors: "accent-100", "accent-200", "accent-300", "accent-400", "accent-500", "accent-p", "accent-600", "accent-700", "accent-gradient", "black-p", "error-p", "error-100", "error-200", "error-300", "error-500", "error-600", "error-700", "grey-100", "grey-200", "grey-300", "grey-400", "grey-500", "grey-600", "grey-700", "grey-800", "grey-900", "blue-grey", "blue-grey-30", "primary-p", "primary-25", "primary-50", "primary-75", "primary-100", "primary-200", "primary-400", "primary-500", "primary-gradient", "success-p", "success-100", "success-200", "success-300", "success-500", "success-600", "success-700", "warning-p", "white-100", "warning-200", "warning-300", "warning-500", "warning-600", "warning-700", "depth-00", "depth-10", "depth-20", "depth-30", "depth-40", "depth-60", "depth-120", "depth-160", "depth-240", "depth-280", "depth-300", "text-p", "text-50", "text-100", "text-300", "text-400", "klarna", "stripe";
+
+@each $color in $colors {
+  .is-#{$color} {
+    color: var(--#{$color}) !important;
+  }
+
+  .bg-#{$color} {
+    background: var(--#{$color}) !important;
+  }
+
+  .fill-#{$color} {
+    fill: var(--#{$color}) !important;
+  }
+
+  .border-#{$color} {
+    border-color: var(--#{$color}) !important;
+  }
+
+  .bt-#{$color} {
+    border-top-color: var(--#{$color}) !important;
+  }
+
+  .bb-#{$color} {
+    border-bottom-color: var(--#{$color}) !important;
+  }
+
+  .bl-#{$color} {
+    border-left-color: var(--#{$color}) !important;
+  }
+
+  .br-#{$color} {
+    border-right-color: var(--#{$color}) !important;
+  }
+}

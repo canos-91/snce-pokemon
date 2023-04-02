@@ -20,7 +20,7 @@ services:
       - ${DB_PORT}:${DB_PORT}
     volumes:
       - snce-pokemon-db:/var/lib/mysql
-      - ./snce-pokemon-db:/docker-entrypoint-initdb.d/
+      # - ./snce-pokemon-db:/docker-entrypoint-initdb.d/
     healthcheck:
       test: curl -f snce-pokemon-db:${DB_PORT}
       interval: 3s
@@ -41,7 +41,7 @@ services:
   app:
     container_name: snce-pokemon-app
     build:
-      context: ./snce-pokemon-app
+      context: ./app
       dockerfile: Dockerfile
       target: run
     restart: unless-stopped
@@ -55,7 +55,7 @@ services:
         condition: service_healthy
 
     volumes:
-      - ./snce-pokemon-app:/app
+      - ./app:/app
     networks:
       - default
 

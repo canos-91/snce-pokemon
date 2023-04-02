@@ -2,19 +2,23 @@ import Image from 'next/image'
 import { useEffect, useState } from 'react'
 import axios from 'axios'
 
+import style from './PokemonCard.module.scss'
+
 export default function PokemonCard() {
   const [pokemon, setPokemon] = useState<any>([])
   const [input, setInput] = useState<string>('')
 
   const getPkmn = () => {
-    axios
-      .get('http://localhost:3000/api/pokemon/' + input)
-      .then((response) => {
-        if (response.data) {
-          setPokemon(response.data)
-        }
-      })
-      .catch((e) => console.log(e))
+    if (input) {
+      axios
+        .get('http://localhost:3000/api/pokemon/' + input)
+        .then((response) => {
+          if (response.data) {
+            setPokemon(response.data)
+          }
+        })
+        .catch((e) => console.log(e))
+    }
   }
 
   return (
@@ -35,7 +39,7 @@ export default function PokemonCard() {
             priority
           ></Image>
         )}
-        <h1> {pokemon.name}</h1>
+        <h1 className={style.title}> {pokemon.name}</h1>
         <h2 onClick={getPkmn}>GET</h2>
       </div>
     </>

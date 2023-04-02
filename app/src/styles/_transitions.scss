@@ -1,0 +1,66 @@
+@import "./animations";
+
+/* ==========================================================================
+1. Transitions from animations
+========================================================================== */
+
+//Fade in
+.fade-in-enter-active {
+  animation: fadeIn 0.15s ease-in-out;
+}
+
+.fade-in-leave-active {
+  animation: fadeIn 0.15s ease-in-out reverse;
+}
+
+//Slide in from right
+.slide-left-enter-active {
+  animation: slideLeft 0.3s ease-in-out;
+}
+
+.slide-left-leave-active {
+  animation: slideLeft 0.3s reverse;
+}
+
+//Slide in from left
+.slide-right-enter-active {
+  animation: slideRight 0.3s ease-in-out;
+}
+
+.slide-right-leave-active {
+  animation: slideRight 0.3s reverse;
+}
+
+//Slide up
+.slide-up-enter-active {
+  animation: slideUp 0.15s ease-in-out;
+}
+
+.slide-up-leave-active {
+  animation: slideUp 0.15s reverse;
+}
+
+/* ==========================================================================
+2. list
+========================================================================== */
+
+.list-enter-from {
+  transform: translateY(-100%);
+  opacity: 0;
+}
+
+.list-enter-to {
+  transition: transform 0.2s, opacity 0.1s 0.1s;
+  opacity: 1;
+}
+
+.list-leave-from {
+  opacity: 1;
+}
+
+.list-leave-active {
+  transition: transform 0.2s 0.2s, opacity 0.2s;
+  transform: translateY(-100%);
+  opacity: 0;
+}
+
