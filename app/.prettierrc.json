@@ -1,10 +1,10 @@
 {
   "semi": false,
   "trailingComma": "es5",
+  "bracketSpacing": true,
   "singleQuote": true,
   "tabWidth": 2,
   "useTabs": false,
-  "parser": "flow",
   "editor.formatOnSave": true,
   "stylelintIntegration": true
 }

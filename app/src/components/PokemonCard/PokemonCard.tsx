@@ -1,6 +1,5 @@
 import Image from 'next/image'
 import { useEffect, useState } from 'react'
-import axios from 'axios'
 import style from './PokemonCard.module.scss'
 import { pokemonService } from '@/services'
 import type { IPokemon } from '@/types/models/Pokemon'

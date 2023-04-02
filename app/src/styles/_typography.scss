@@ -12,6 +12,7 @@ body {
 }
 
 * {
+
   &.x-small {
     @include text-style(400, 10, 0.5);
   }
@@ -49,6 +50,7 @@ body {
   }
 
   &.capital {
+
     &::first-letter {
       text-transform: capitalize !important;
     }
@@ -99,7 +101,6 @@ p {
   white-space: pre-wrap;
 }
 
-
 $font-sizes: 10,
 12,
 14,
@@ -108,7 +109,8 @@ $font-sizes: 10,
 24,
 34,
 48,
-72;
+72; 
+
 
 
 @each $size in $font-sizes {
