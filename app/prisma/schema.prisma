@@ -10,7 +10,58 @@ datasource db {
   url      = env("DATABASE_URL")
 }
 
-model users {
-  id        Int       @id   @default(autoincrement())
-  username  String
+model Trainer {
+  id          Int       @id   @default(autoincrement())
+  username    String    @unique
+  teams       Team[]
+}
+
+model Team {
+  id          Int       @id   @default(autoincrement())
+  trainerId   Int
+  trainer     Trainer   @relation(fields: [trainerId], references: [id])
+  name        String    
+  createdAt   DateTime  @default(now())
+  updatedAt   DateTime  @default(now())
+  pokemons    Pokemon[]
+}
+
+model Pokemon {
+  id          Int       @id   @default(autoincrement())
+  teamId      Int
+  team        Team      @relation(fields: [teamId], references: [id])
+  name        String    @unique
+  base_xp     Int
+  abilities   PokemonAbilities[]
+  types       PokemonTypes[]
+}
+
+model Ability {
+  id          Int       @id   @default(autoincrement())
+  name        String    @unique
+  pokemons    PokemonAbilities[]
+}
+
+model PokemonAbilities {
+  pokemon     Pokemon      @relation(fields: [pokemonId], references: [id])
+  pokemonId   Int
+  ability     Ability   @relation(fields: [abilityId], references: [id])
+  abilityId   Int 
+
+  @@id([pokemonId, abilityId])
+}
+
+model Type {
+  id          Int       @id   @default(autoincrement())
+  name        String    @unique
+  pokemons    PokemonTypes[]
+}
+
+model PokemonTypes {
+  pokemon     Pokemon      @relation(fields: [pokemonId], references: [id])
+  pokemonId   Int
+  type        Type      @relation(fields: [typeId], references: [id])
+  typeId      Int 
+
+  @@id([pokemonId, typeId])
 }
