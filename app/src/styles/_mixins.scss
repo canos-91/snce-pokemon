@@ -8,7 +8,7 @@
       border-color: $color;
     }
     
-    @if (str-index($class, '-gradient')) {
+    @if  str-index($class, '-gradient') {
       border: none;
 
       &.is-small {
@@ -35,18 +35,13 @@
   
   @if $status == hover {
     $path: ":not(.active):not(:active):hover#{$path}";
-  }
-
-  @else if $status == active {
+  } @else if $status == active {
     $path: ".active#{$path}, &:active#{$path}";
-  }
-
-  @else if $status == disabled {
+  } @else if $status == disabled {
     $path: ".disabled#{$path}";
   }
 
   &#{$path} {
-    
     @if $bg-color != base {
       background-color: $bg-color;
       border-color: $bg-color;
@@ -72,8 +67,8 @@
   $spacing: 0
 ) {
   font-weight: $weight;
-  font-size: pxToRem($size);
-  letter-spacing: pxToRem($spacing);
+  font-size: pxtorem($size);
+  letter-spacing: pxtorem($spacing);
   line-height: 1.5;
 }
 

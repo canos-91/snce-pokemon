@@ -1,12 +1,13 @@
 
 
 html {
-  font-family: 'Roboto', sans-serif;
-  font-size: pxToRem(16);
+  font-family: Roboto, sans-serif;
+  font-size: pxtorem(16);
 }
 
 body {
   @include text-style(400, 16, 0.5);
+
   word-break: break-word;
 }
 
@@ -98,19 +99,20 @@ p {
   white-space: pre-wrap;
 }
 
-// @each $size in [
-// 10,
-// 12,
-// 14,
-// 16,
-// 20,
-// 24,
-// 34,
-// 48,
-// 72] {
-//   .fs-#{$size} {
-//     font-size: pxToRem($size) !important;
-//   }
-// }
 
-// ;
+$font-sizes: 10,
+12,
+14,
+16,
+20,
+24,
+34,
+48,
+72;
+
+
+@each $size in $font-sizes {
+  .fs-#{$size} {
+    font-size: pxtorem($size) !important;
+  }
+}

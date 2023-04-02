@@ -1,6 +1,4 @@
 import ApiClient from '@/lib/apiClient'
-import PokemonService, { PokeApiClient } from '@/services/pokeApiService'
+import PokemonService from '@/services/pokeApiService'
 
-export const pokemonService = new PokemonService(
-  new PokeApiClient(new ApiClient())
-)
+export const pokemonService = new PokemonService(new ApiClient())

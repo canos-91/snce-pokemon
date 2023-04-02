@@ -1,5 +1,4 @@
 import Axios, { AxiosInstance } from 'axios'
-// import { handleError } from './ApiServiceErrors';
 
 export type HttpHeaders = {
   [key: string]: string

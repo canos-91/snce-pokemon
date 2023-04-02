@@ -1,7 +1,8 @@
   
 
 .title {
-  @include flex-center();
+  @include flex-center;
+
   color:var(--accent-p);
-  font-size: pxToRem(72);
+  font-size: pxtorem(72);
 }

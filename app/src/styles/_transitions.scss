@@ -4,40 +4,40 @@
 1. Transitions from animations
 ========================================================================== */
 
-//Fade in
+// Fade in
 .fade-in-enter-active {
-  animation: fadeIn 0.15s ease-in-out;
+  animation: fade-in 0.15s ease-in-out;
 }
 
 .fade-in-leave-active {
-  animation: fadeIn 0.15s ease-in-out reverse;
+  animation: fade-in 0.15s ease-in-out reverse;
 }
 
-//Slide in from right
+// Slide in from right
 .slide-left-enter-active {
-  animation: slideLeft 0.3s ease-in-out;
+  animation: slide-left 0.3s ease-in-out;
 }
 
 .slide-left-leave-active {
-  animation: slideLeft 0.3s reverse;
+  animation: slide-left 0.3s reverse;
 }
 
-//Slide in from left
+// Slide in from left
 .slide-right-enter-active {
-  animation: slideRight 0.3s ease-in-out;
+  animation: slide-right 0.3s ease-in-out;
 }
 
 .slide-right-leave-active {
-  animation: slideRight 0.3s reverse;
+  animation: slide-right 0.3s reverse;
 }
 
-//Slide up
+// Slide up
 .slide-up-enter-active {
-  animation: slideUp 0.15s ease-in-out;
+  animation: slide-up 0.15s ease-in-out;
 }
 
 .slide-up-leave-active {
-  animation: slideUp 0.15s reverse;
+  animation: slide-up 0.15s reverse;
 }
 
 /* ==========================================================================

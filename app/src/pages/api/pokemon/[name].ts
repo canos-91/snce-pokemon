@@ -1,34 +1,19 @@
 // Next.js API route support: https://nextjs.org/docs/api-routes/introduction
 import type { NextApiRequest, NextApiResponse } from 'next'
-import { prisma } from '@/prisma'
-import axios from 'axios'
-
-type Pokemon = {
-  [key: string]: any
-}
+import { pokemonService } from '@/services'
+import type { IPokemon } from '@/types/models/Pokemon'
 
 export default async function handler(
   req: NextApiRequest,
-  res: NextApiResponse<Pokemon>
+  res: NextApiResponse<IPokemon | undefined>
 ) {
   const { method, query }: NextApiRequest = req
 
-  let pokemon = {}
+  let pokemon: IPokemon | undefined
 
   switch (method) {
     case 'GET': {
-      const fetchPokemon = async (name: string) => {
-        const res = await axios.get<Pokemon>(
-          'https://pokeapi.co/api/v2/pokemon/' + name
-        )
-        return {
-          name: res.data.name,
-          types: res.data.types,
-          sprite: res.data.sprites.front_default,
-        }
-      }
-
-      pokemon = await fetchPokemon(query.name as string)
+      pokemon = await pokemonService.getPokemonByName(query.name as string)
       break
     }
     default:
@@ -36,5 +21,5 @@ export default async function handler(
       res.status(405).end(`Method ${method} not allowed`)
   }
 
-  res.status(200).json({ ...pokemon })
+  res.status(200).json(pokemon)
 }

@@ -5,7 +5,6 @@
   },
   "plugins": ["@typescript-eslint"],
   "extends": [
-    "standard-with-typescript",
     "next/core-web-vitals",
     "plugin:@typescript-eslint/recommended",
     "prettier"

@@ -1,14 +1,11 @@
 @import "./colors";
 
 :root {
-
   /* ==========================================================================
 1. Border radius
 ========================================================================== */
 
-  --radius-xxxs: 3px;
-  --radius-xxs: 4px;
-  --radius-xs: 6px;
+  --radius-xs: 4px;
   --radius-s: 8px;
   --radius-sm: 12px;
   --radius: 16px;
@@ -20,19 +17,13 @@
   --header-height: 84px;
   --footer-height: 64px;
   --navbar-width: 96px;
-  --sidebar-width: 400px;
-  --sidebar-large-width: 600px;
-  --nprogress-height: 4px;
 
   /* ==========================================================================
 3. Shadows
 ========================================================================== */
 
-  --shadow: 0px 2px 20px 1px rgba(33, 44, 71, 0.07);
-  --shadow-hover: 0px 4px 40px rgba(33, 44, 71, 0.05);
-  --shadow-alt: 0 4px 4px rgba(151, 151, 151, 0.4);
-  --shadow-alt-reverse: 0 -4px 4px rgba(151, 151, 151, 0.4);
-  --shadow-dropdown: 0px 2px 20px rgba(33, 44, 71, 0.15);
+  --shadow: 0px 2px 20px 1px rgb(33 44 71 / 7%);
+  --shadow-hover: 0px 4px 40px rgb(33 44 71 / 5%);
 
   /* ==========================================================================
 4. Transitions
@@ -42,6 +33,4 @@
   --transition-all-2: all 0.2s ease-in-out;
   --transition-all-3: all 0.3s ease-in-out;
   --transition-all-5: all 0.5s ease-in-out;
-  --sidebar-transition: all 0.5s ease;
-  --navbar-transition: all 0.3s ease;
 }
