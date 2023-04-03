@@ -1,11 +1,28 @@
 {
-  "extends": "stylelint-config-standard-scss",
+  "extends": ["stylelint-config-standard-scss"],
   "formatter": "stylelint-checkstyle-formatter",
   "plugins": ["stylelint-scss"],
   "rules": {
     "at-rule-no-unknown": null,
     "scss/at-rule-no-unknown": true,
     "max-nesting-depth": 10,
-    "rule-empty-line-before": ["always"]
+    "rule-empty-line-before": [
+      "always",
+      {
+        "ignore": ["after-comment", "first-nested"]
+      }
+    ],
+    "comment-empty-line-before": [
+      "always",
+      {
+        "ignore": ["after-comment", "stylelint-commands"]
+      }
+    ],
+    "selector-pseudo-class-no-unknown": [
+      true,
+      {
+        "ignorePseudoClasses": ["global"]
+      }
+    ]
   }
 }

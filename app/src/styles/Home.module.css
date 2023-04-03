@@ -1,6 +1,7 @@
 
 /* Enable hover only on non-touch devices */
 @media (hover: hover) and (pointer: fine) {
+
   .card:hover {
     background: rgb(var(--card-rgb) 0.1);
     border: 1px solid rgb(var(--card-border-rgb) 0.15);
@@ -12,6 +13,7 @@
 }
 
 @media (prefers-reduced-motion) {
+
   .thirteen::before {
     animation: none;
   }

@@ -15,7 +15,7 @@ const nextConfig = {
   reactStrictMode: false,
   sassOptions: {
     includePaths: [path.join(__dirname, 'styles')],
-    additionalData: `@use "sass:math"; @import "@/styles/_functions.scss"; @import "@/styles/_mixins.scss";`,
+    additionalData: `@use "sass:math"; @use "sass:color"; @import "@/styles/_functions.scss"; @import "@/styles/_mixins.scss";`,
     charset: false,
   },
 

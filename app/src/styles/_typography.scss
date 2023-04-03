@@ -2,7 +2,7 @@
 
 html {
   font-family: Roboto, sans-serif;
-  font-size: pxtorem(16);
+  font-size: px-to-rem(16);
 }
 
 body {
@@ -115,6 +115,6 @@ $font-sizes: 10,
 
 @each $size in $font-sizes {
   .fs-#{$size} {
-    font-size: pxtorem($size) !important;
+    font-size: px-to-rem($size) !important;
   }
 }

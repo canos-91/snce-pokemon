@@ -1,0 +1,12 @@
+.navbar :global {
+  ul {
+    @include flex-center;
+
+    flex-direction: column;
+    
+    li {
+      width: 100%;
+      padding: 12px;
+    }
+  }
+}

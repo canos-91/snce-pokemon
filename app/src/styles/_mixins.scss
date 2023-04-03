@@ -67,8 +67,8 @@
   $spacing: 0
 ) {
   font-weight: $weight;
-  font-size: pxtorem($size);
-  letter-spacing: pxtorem($spacing);
+  font-size: px-to-rem($size);
+  letter-spacing: px-to-rem($spacing);
   line-height: 1.5;
 }
 

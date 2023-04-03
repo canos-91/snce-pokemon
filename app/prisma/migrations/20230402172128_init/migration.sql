@@ -13,15 +13,16 @@ CREATE TABLE `Team` (
     `trainerId` INTEGER NOT NULL,
     `name` VARCHAR(191) NOT NULL,
     `createdAt` DATETIME(3) NOT NULL DEFAULT CURRENT_TIMESTAMP(3),
-    `updatedAt` DATETIME(3) NOT NULL DEFAULT CURRENT_TIMESTAMP(3),
+    `updatedAt` DATETIME(3) NOT NULL,
 
     PRIMARY KEY (`id`)
 ) DEFAULT CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci;
 
 -- CreateTable
 CREATE TABLE `Pokemon` (
-    `id` INTEGER NOT NULL AUTO_INCREMENT,
+    `id` INTEGER NOT NULL,
     `teamId` INTEGER NOT NULL,
+    `abilityId` INTEGER NOT NULL,
     `name` VARCHAR(191) NOT NULL,
     `base_xp` INTEGER NOT NULL,
 
@@ -31,7 +32,7 @@ CREATE TABLE `Pokemon` (
 
 -- CreateTable
 CREATE TABLE `Ability` (
-    `id` INTEGER NOT NULL AUTO_INCREMENT,
+    `id` INTEGER NOT NULL,
     `name` VARCHAR(191) NOT NULL,
 
     UNIQUE INDEX `Ability_name_key`(`name`),
@@ -39,16 +40,8 @@ CREATE TABLE `Ability` (
 ) DEFAULT CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci;
 
 -- CreateTable
-CREATE TABLE `PokemonAbilities` (
-    `pokemonId` INTEGER NOT NULL,
-    `abilityId` INTEGER NOT NULL,
-
-    PRIMARY KEY (`pokemonId`, `abilityId`)
-) DEFAULT CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci;
-
--- CreateTable
 CREATE TABLE `Type` (
-    `id` INTEGER NOT NULL AUTO_INCREMENT,
+    `id` INTEGER NOT NULL,
     `name` VARCHAR(191) NOT NULL,
 
     UNIQUE INDEX `Type_name_key`(`name`),
@@ -70,10 +63,7 @@ ALTER TABLE `Team` ADD CONSTRAINT `Team_trainerId_fkey` FOREIGN KEY (`trainerId`
 ALTER TABLE `Pokemon` ADD CONSTRAINT `Pokemon_teamId_fkey` FOREIGN KEY (`teamId`) REFERENCES `Team`(`id`) ON DELETE RESTRICT ON UPDATE CASCADE;
 
 -- AddForeignKey
-ALTER TABLE `PokemonAbilities` ADD CONSTRAINT `PokemonAbilities_pokemonId_fkey` FOREIGN KEY (`pokemonId`) REFERENCES `Pokemon`(`id`) ON DELETE RESTRICT ON UPDATE CASCADE;
-
--- AddForeignKey
-ALTER TABLE `PokemonAbilities` ADD CONSTRAINT `PokemonAbilities_abilityId_fkey` FOREIGN KEY (`abilityId`) REFERENCES `Ability`(`id`) ON DELETE RESTRICT ON UPDATE CASCADE;
+ALTER TABLE `Pokemon` ADD CONSTRAINT `Pokemon_abilityId_fkey` FOREIGN KEY (`abilityId`) REFERENCES `Ability`(`id`) ON DELETE RESTRICT ON UPDATE CASCADE;
 
 -- AddForeignKey
 ALTER TABLE `PokemonTypes` ADD CONSTRAINT `PokemonTypes_pokemonId_fkey` FOREIGN KEY (`pokemonId`) REFERENCES `Pokemon`(`id`) ON DELETE RESTRICT ON UPDATE CASCADE;

@@ -1,8 +1,10 @@
 import type { IApiClient } from '@/lib/apiClient'
 import type { IPokemon } from '@/types/models/Pokemon'
+import { getRandomInt } from '@/utils/number'
 
 export interface PokeApiClient {
-  getPokemonByName(pokemonName: string): Promise<IPokemon | undefined>
+  getPokemon(pokemonName: string): Promise<IPokemon | undefined>
+  list(): Promise<any>
 }
 
 // export class PokeApiClient implements PokeApiClient {
@@ -17,13 +19,15 @@ export default class PokemonService implements PokeApiClient {
 
   /**
    * Retrieves a Pokémon by its name
-   * @param pokemonName - the Pokémon name
+   * @param id - the Pokémon name or ID
    * @returns the found Pokémon or undefined
    */
-  async getPokemonByName(pokemonName: string): Promise<IPokemon | undefined> {
+  async getPokemon(id?: string | number): Promise<IPokemon | undefined> {
+    const pokemon = id ?? getRandomInt(1, 500)
+
     try {
       const response = await this.pokeApiClient.get<any>(
-        `${this.apiBaseURL}/pokemon/${pokemonName}`
+        `${this.apiBaseURL}/pokemon/${pokemon}`
       )
 
       return response
@@ -35,8 +39,20 @@ export default class PokemonService implements PokeApiClient {
         : undefined
     } catch (e) {
       console.error(
-        `An error occurred while retrieving Pokémon '${pokemonName}': ${e}`
+        `An error occurred while retrieving Pokémon '${pokemon}': ${e}`
       )
+    }
+  }
+
+  async list(): Promise<any> {
+    try {
+      const response = await this.pokeApiClient.get<any>(
+        `${this.apiBaseURL}/ability`
+      )
+
+      return response ?? undefined
+    } catch (e) {
+      console.error(`An error occurred while retrieving Pokémon list: ${e}`)
     }
   }
 }
@@ -48,7 +64,7 @@ export default class PokemonService implements PokeApiClient {
 //     this.pokeApiClient = pokeApiClient
 //   }
 
-//   async getPokemonByName(pokemonName: string): Promise<Pokemon | undefined> {
-//     return this.pokeApiClient.getPokemonByName(pokemonName)
+//   async getPokemon(pokemonName: string): Promise<Pokemon | undefined> {
+//     return this.pokeApiClient.getPokemon(pokemonName)
 //   }
 // }

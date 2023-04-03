@@ -2,7 +2,6 @@
 @import "./animations";
 @import "./colors";
 @import "./forms";
-@import "./transitions";
 @import "./typography";
 
 *,
@@ -12,6 +11,7 @@
   margin: 0;
   padding: 0;
 }
+
 
 /* stylelint-disable-next-line selector-id-pattern */
 html,
@@ -63,6 +63,7 @@ body {
   }
   
   &.modals-overlay {
+
     &::after {
       visibility: visible;
       opacity: 1;
@@ -77,21 +78,6 @@ a {
 
 ul, li {
   list-style: none;
-}
-
-.is-link {
-  color: var(--accent-p);
-  font-weight: 600;
-  cursor: pointer;
-  border-bottom: 1px solid transparent;
-  transition: var(--transition-all-1);
-
-  &.underline {    
-    &:hover {
-      border-color: var(--accent-p);
-    }
-  }
-
 }
 
 .no-pointer-events * {
@@ -217,7 +203,14 @@ Dimensions
 };
 
 @media (prefers-color-scheme: dark) {
+
   html {
     color-scheme: dark;
+  }
+}
+
+@supports (font: -apple-system-body) and (-webkit-appearance: none) {
+  img[loading="lazy"] {
+    clip-path: inset(0.6px)
   }
 }

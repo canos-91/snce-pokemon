@@ -22,46 +22,38 @@ model Team {
   trainer     Trainer   @relation(fields: [trainerId], references: [id])
   name        String    
   createdAt   DateTime  @default(now())
-  updatedAt   DateTime  @default(now())
+  updatedAt   DateTime  @updatedAt
   pokemons    Pokemon[]
 }
 
 model Pokemon {
-  id          Int       @id   @default(autoincrement())
+  id          Int       @id   
   teamId      Int
+  abilityId   Int 
   team        Team      @relation(fields: [teamId], references: [id])
+  ability     Ability   @relation(fields: [abilityId], references: [id])
   name        String    @unique
   base_xp     Int
-  abilities   PokemonAbilities[]
   types       PokemonTypes[]
 }
 
 model Ability {
-  id          Int       @id   @default(autoincrement())
+  id          Int       @id   
   name        String    @unique
-  pokemons    PokemonAbilities[]
-}
-
-model PokemonAbilities {
-  pokemon     Pokemon      @relation(fields: [pokemonId], references: [id])
-  pokemonId   Int
-  ability     Ability   @relation(fields: [abilityId], references: [id])
-  abilityId   Int 
-
-  @@id([pokemonId, abilityId])
+  pokemons    Pokemon[]
 }
 
 model Type {
-  id          Int       @id   @default(autoincrement())
+  id          Int       @id   
   name        String    @unique
   pokemons    PokemonTypes[]
 }
 
 model PokemonTypes {
-  pokemon     Pokemon      @relation(fields: [pokemonId], references: [id])
   pokemonId   Int
-  type        Type      @relation(fields: [typeId], references: [id])
   typeId      Int 
+  pokemon     Pokemon   @relation(fields: [pokemonId], references: [id])
+  type        Type      @relation(fields: [typeId], references: [id])
 
   @@id([pokemonId, typeId])
 }

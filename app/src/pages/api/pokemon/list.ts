@@ -9,11 +9,11 @@ export default async function handler(
 ) {
   const { method, query }: NextApiRequest = req
 
-  let pokemon: IPokemon | undefined
+  let list: any
 
   switch (method) {
     case 'GET': {
-      pokemon = await pokemonService.getPokemon(query.name as string)
+      list = await pokemonService.list()
       break
     }
     default:
@@ -21,5 +21,5 @@ export default async function handler(
       res.status(405).end(`Method ${method} not allowed`)
   }
 
-  res.status(200).json(pokemon)
+  res.status(200).json(list)
 }
