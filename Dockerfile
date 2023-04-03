@@ -14,7 +14,7 @@ WORKDIR /next-app
 
 COPY    package*.json /next-app/
 
-RUN     npm ci
+RUN     npm ci 
 
 # Copies file into app directory and builds the app
 FROM    node:18-alpine AS build

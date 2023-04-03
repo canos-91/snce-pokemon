@@ -8,7 +8,7 @@ export default async function handler(
   req: NextApiRequest,
   res: NextApiResponse<any>
 ) {
-  const trainer = await prisma.trainer.findMany()
+  const trainer = await prisma.type.findMany()
   console.log(trainer)
   res.status(200).json({ trainer })
 }

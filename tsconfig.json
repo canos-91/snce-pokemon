@@ -15,9 +15,20 @@
     "jsx": "preserve",
     "incremental": true,
     "paths": {
-      "@/*": ["./src/*"]
+      "@/*": ["./src/*"],
+      "@public*": ["./public/*"]
     }
   },
-  "include": ["../next-env.d.ts", "**/*.ts", "**/*.tsx"],
-  "exclude": ["node_modules"]
+  "include": [
+    "../next-env.d.ts",
+    "**/*.ts",
+    "**/*.tsx",
+    "prisma/seeds/types.json"
+  ],
+  "exclude": ["node_modules"],
+  "ts-node": {
+    "compilerOptions": {
+      "module": "CommonJS"
+    }
+  }
 }

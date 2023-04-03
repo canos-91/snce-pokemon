@@ -1,7 +1,7 @@
 import { useState } from 'react'
-import style from './PokemonCard.module.scss'
+import styles from './PokemonTeam.module.scss'
 import { IPokemon } from '@/types/models/Pokemon'
-import PokemonCard from '../PokemonCard/PokemonCard'
+import { PokemonCard } from '@/components'
 
 export type PokemonTeamProps = {
   team: IPokemon[]
@@ -13,10 +13,10 @@ export default function PokemonTeam({ team }: PokemonTeamProps) {
   return (
     <>
       {loaded && (
-        <ul className={style['pokemon-team']}>
+        <ul className={styles['pokemon-team']}>
           {team.map((pokemon, index) => (
             <li key={index}>
-              <PokemonCard sprite={pokemon.sprite} pkmnName={pokemon.name} />
+              <PokemonCard pkmn={pokemon} />
             </li>
           ))}
         </ul>

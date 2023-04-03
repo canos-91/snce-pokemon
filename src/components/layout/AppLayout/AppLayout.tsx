@@ -10,7 +10,7 @@ export default function AppLayout({ children }: AppLayoutProps) {
     <div className={styles.layout}>
       <Header />
       <Navbar />
-      <main className="page">{children}</main>
+      <main className={styles.pages}>{children}</main>
     </div>
   )
 }

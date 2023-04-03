@@ -1,30 +1,37 @@
 import { useState } from 'react'
 import Image from 'next/image'
-import style from './PokemonCard.module.scss'
+import styles from './PokemonCard.module.scss'
+import { IPokemon } from '@/types/models/Pokemon'
+import classNames from 'classnames'
+import PokeBallSvg from '@public/pokeball.svg'
 
 export type PokemonCardProps = {
-  pkmnName: string
-  sprite: string
+  pkmn: IPokemon
 }
 
-export default function PokemonCard({ pkmnName, sprite }: PokemonCardProps) {
-  const [loaded, setLoaded] = useState(true)
+export default function PokemonCard({ pkmn }: PokemonCardProps) {
+  const [isActive, setActive] = useState(false)
 
   return (
-    <>
-      {loaded && (
-        <div>
+    <div
+      className={classNames(styles['pokemon-card'], isActive && styles.active)}
+      onClick={() => setActive(!isActive)}
+    >
+      <div className={styles.inner}>
+        <PokeBallSvg className={styles.pokeball} />
+        {/* Sprite */}
+        <div className={styles.sprite}>
           <Image
-            src={sprite}
-            alt={pkmnName}
-            width={100}
-            height={100}
-            onLoadingComplete={() => setLoaded(true)}
+            src={pkmn.sprite}
+            alt={pkmn.name}
+            fill
+            // onLoadingComplete={() => setLoaded(true)}
             priority
           ></Image>
-          <h1 className={style.title}> {pkmnName}</h1>
         </div>
-      )}
-    </>
+        {/* Name */}
+        <span className="capital"> {pkmn.name}</span>
+      </div>
+    </div>
   )
 }
