@@ -1,47 +1,45 @@
 # Creates app directory and installs dependencies
-FROM node:18-alpine AS dependencies
+FROM    node:18-alpine AS dependencies
 
-RUN mkdir -p /next-app
+ARG     user=nextjs
+ARG     group=nodejs
+ARG     usergroup=${user}:${group}
+RUN     adduser -u 1001 -S ${user}
+RUN     addgroup -g 1001 -S ${group}
+
+RUN     apk add --no-cache libc6-compat
+RUN     mkdir -p /next-app
 
 WORKDIR /next-app
-COPY package*.json /next-app
-COPY prisma /next-app/prisma/
 
-RUN  npm install
+COPY    package*.json /next-app/
+
+RUN     npm ci
 
 # Copies file into app directory and builds the app
-FROM node:18-alpine AS build
+FROM    node:18-alpine AS build
 
 WORKDIR /next-app
-COPY --from=dependencies /next-app/node_modules ./node_modules
-COPY . .
+COPY    --from=dependencies /next-app/node_modules ./node_modules
+COPY    --chown=${usergroup} . .
 
-# ENV NEXT_TELEMETRY_DISABLED 1
+ENV     NEXT_TELEMETRY_DISABLED 1
 
-RUN npx prisma generate
-RUN npm run build
+RUN     npx prisma generate
+RUN     npm run build
 
 # Copies files from build stage and runs the application
-FROM node:18-alpine AS run
+FROM    node:18-alpine AS run
 
 WORKDIR /next-app
 
-# ENV NODE_ENV production
+COPY    --from=build  /next-app/public ./public
+COPY    --from=build  /next-app/package.json ./package.json
+COPY    --from=build  /next-app/node_modules ./node_modules
+COPY    --from=build  /next-app/.next ./.next
 
-# RUN addgroup --system --gid 1001 nodejs
-# RUN adduser --system --uid 1001 nextjs
+USER    ${user}
 
-# COPY --from=build --chown=nextjs:nodejs /next-app/.next ./.next
+EXPOSE  3000
 
-COPY --from=build /next-app/next.config.js ./
-COPY --from=build /next-app/public ./public
-COPY --from=build /next-app/package.json ./package.json
-COPY --from=build /next-app/prisma ./prisma
-
-# USER node
-
-EXPOSE 3000
-
-# ENV PORT 3000
-
-CMD [ "npm", "run", "migrate:dev" ]
+ENTRYPOINT [ "npm", "run"]
