@@ -14,7 +14,7 @@ services:
     # env_file: ./.env
     environment:
       MYSQL_ROOT_PASSWORD: ${DB_PASSWORD}
-      MYSQL_DATABASE: ${DB_HOST}
+      MYSQL_DATABASE: ${DB_NAME}
       # MYSQL_USER: root
     ports:
       - ${DB_PORT}:${DB_PORT}
@@ -31,7 +31,9 @@ services:
 
   nginx:
     container_name: snce-pokemon-nginx
-    build: ./nginx
+    build:
+      context: ./nginx
+      dockerfile: Dockerfile
     ports:
       - 80:80
     depends_on:
@@ -41,7 +43,7 @@ services:
   app:
     container_name: snce-pokemon-app
     build:
-      context: ./app
+      context: ./
       dockerfile: Dockerfile
       target: run
     restart: unless-stopped
@@ -55,7 +57,7 @@ services:
         condition: service_healthy
 
     volumes:
-      - ./app:/app
+      - ./:/app
     networks:
       - default
 
