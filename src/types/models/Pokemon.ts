@@ -4,8 +4,7 @@ export interface Pokemon {
   readonly id: number
   name: string
   baseXp: number
-  abilityId: number
-  abilities: string
+  abilities: string[]
   types: PokemonType[]
-  sprite: string
+  sprite?: string
 }

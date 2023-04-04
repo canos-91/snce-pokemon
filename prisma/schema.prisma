@@ -29,11 +29,10 @@ model Team {
 model Pokemon {
   id          Int       @id   
   name        String    @unique
-  base_xp     Int
-  abilityId   Int 
-  ability     Ability   @relation(fields: [abilityId], references: [id])
+  baseXp      Int
   teams       TeamPokemons[]
   types       PokemonTypes[]
+  abilities   PokemonAbilities[]
 }
 
 model TeamPokemons {
@@ -48,7 +47,7 @@ model TeamPokemons {
 model Ability {
   id          Int       @id   
   name        String    @unique
-  pokemons    Pokemon[]
+  pokemons    PokemonAbilities[]
 }
 
 model Type {
@@ -57,9 +56,20 @@ model Type {
   pokemons    PokemonTypes[]
 }
 
+model PokemonAbilities {
+  pokemonId   Int
+  abilityId   Int
+  slot        Int
+  pokemon     Pokemon   @relation(fields: [pokemonId], references: [id])
+  ability     Ability   @relation(fields: [abilityId], references: [id])
+
+  @@id([pokemonId, abilityId])
+}
+
 model PokemonTypes {
   pokemonId   Int
-  typeId      Int 
+  typeId      Int
+  slot        Int
   pokemon     Pokemon   @relation(fields: [pokemonId], references: [id])
   type        Type      @relation(fields: [typeId], references: [id])
 

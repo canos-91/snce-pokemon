@@ -1,5 +1,15 @@
 import { prisma } from '@/lib/prismaClient'
-import { Team, TeamCreateData } from '@/types/models/Team'
+import { Team } from '@/types/models/Team'
+
+export interface TeamCreateData {
+  trainerId: number
+  name: string
+}
+
+export interface TeamAddPokemonData {
+  teamId: number
+  pokemonId: number
+}
 
 // export const getTeam = async (id: string): Promise<ClientUser> => {
 //   const user = await prisma.user.findUnique({ where: { id } })
@@ -59,15 +69,21 @@ import { Team, TeamCreateData } from '@/types/models/Team'
 // }
 
 export interface TeamServiceClient {
-  addPkmnToTeam(teamId: number, pokemonId: number): Promise<string>
+  addPkmnToTeam(teamAddData: TeamAddPokemonData): Promise<string>
   createTeam(teamData: TeamCreateData): Promise<Team | undefined>
+  listTeams(trainerId: number): Promise<Team[]>
 }
 
 // export class PokeApiClient implements PokeApiClient {
 export default class TeamService implements TeamServiceClient {
-  addPkmnToTeam = async (teamId: number, pokemonId: number): Promise<string> => {
+  /**
+   * Adds a Pokémon to a team
+   * @param teamData - teamId and pokemonId
+   * @returns
+   */
+  addPkmnToTeam = async (teamAddData: TeamAddPokemonData): Promise<string> => {
     const created = await prisma.teamPokemons.create({
-      data: { pokemonId, teamId },
+      data: teamAddData,
     })
 
     if (!created) throw new Error('An error occurred while adding pokemon to team')
@@ -75,71 +91,38 @@ export default class TeamService implements TeamServiceClient {
     return 'OK'
   }
 
+  /**
+   * Creates a new team for a specific trainer
+   * @param teamData - trainerId and name
+   * @returns - the created team or undefined
+   */
   createTeam = async (teamData: TeamCreateData): Promise<Team | undefined> => {
-    // unique email
-    // const _team = await prisma.team.findFirst({
-    //   where: { email },
-    // })
-    // if (_user1)
     //   throw new ApiError(`User with email: ${email} already exists.`, 409)
 
     const team = await prisma.team.create({
       data: teamData,
     })
 
-    if (!team) throw new Error('An error occurred while createng new team')
+    if (!team) throw new Error('An error occurred while creating new team')
 
     return team
   }
+
+  /**
+   * Lists all teams for a specific trainer
+   * @param trainerId - the trainer's ID
+   * @returns - the trainer's teams
+   */
+  listTeams = async (trainerId: number): Promise<Team[]> => {
+    const teams = await prisma.team.findMany({
+      where: { trainerId },
+      orderBy: {
+        createdAt: 'asc',
+      },
+    })
+
+    if (!teams.length) throw new Error(`An error occurred while listing trainer's teams`)
+
+    return teams
+  }
 }
-
-// export const list = async (
-//   usersGetData: UsersGetData = {}
-// ): Promise<PaginatedResponse<ClientUser>> => {
-//   const {
-//     page = 1,
-//     limit = defaultLimit,
-//     searchTerm,
-//     sortDirection = 'desc',
-//   } = usersGetData
-
-//   const search = filterSearchTerm(searchTerm, 'or')
-
-//   const where = {
-//     where: {
-//       ...(search && {
-//         OR: [
-//           { name: { search } },
-//           { username: { search } },
-//           { email: { search } },
-//         ],
-//       }),
-//     },
-//   }
-
-//   const totalCount = await prisma.user.count({ ...where })
-
-//   const users = await prisma.user.findMany({
-//     ...where,
-//     skip: (page - 1) * limit,
-//     take: limit,
-//     orderBy: {
-//       createdAt: sortDirection as SortDirection,
-//     },
-//   })
-
-//   const result = {
-//     items: users.map((user) => excludeFromUser(user)),
-//     pagination: {
-//       total: totalCount,
-//       pagesCount: Math.ceil(totalCount / limit),
-//       currentPage: page,
-//       perPage: limit,
-//       from: (page - 1) * limit + 1,
-//       to: (page - 1) * limit + users.length,
-//       hasMore: page < Math.ceil(totalCount / limit),
-//     },
-//   }
-
-//   return result
-// }

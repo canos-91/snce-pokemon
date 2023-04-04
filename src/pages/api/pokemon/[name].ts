@@ -1,4 +1,3 @@
-// Next.js API route support: https://nextjs.org/docs/api-routes/introduction
 import type { NextApiRequest, NextApiResponse } from 'next'
 import { pokeApiService } from '@/services'
 import type { Pokemon } from '@/types/models/Pokemon'
@@ -9,6 +8,6 @@ const getPokemon = async (req: NextApiRequest): Promise<Pokemon | undefined> => 
   return await pokeApiService.getPokemon(query.name as string)
 }
 
-export default async function handler(req: NextApiRequest, res: NextApiResponse) {
+export default async function handler(req: NextApiRequest, res: NextApiResponse): Promise<void> {
   return await RouteHandler(req, res, { GET: getPokemon })
 }

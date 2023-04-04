@@ -17,25 +17,27 @@ export default function PokemonCard({ pkmn, active = false }: PokemonCardProps) 
   return (
     <div
       className={classNames(styles['pokemon-card'], (isActive || active) && styles.active)}
-      onClick={() => setActive(!isActive)}
+      onClick={() => pkmn && !active && setActive(!isActive)}
     >
       <PokeBallSvg className={styles.pokeball} />
       {pkmn && (
         <div className={styles.inner}>
           {/* Sprite */}
-          <div className={styles.sprite}>
-            <Image
-              src={pkmn.sprite}
-              alt={pkmn.name}
-              fill
-              // onLoadingComplete={() => setLoaded(true)}
-              priority
-            ></Image>
-          </div>
+          {pkmn.sprite && (
+            <div className={styles.sprite}>
+              <Image
+                src={pkmn.sprite}
+                alt={pkmn.name}
+                fill
+                // onLoadingComplete={() => setLoaded(true)}
+                priority
+              ></Image>
+            </div>
+          )}
 
           {/* Types */}
           <div className={classNames(styles.badges)}>
-            {pkmn.types.map((type, index) => (
+            {pkmn.types?.map((type, index) => (
               <Badge key={index} label={type} color={type} />
             ))}
           </div>

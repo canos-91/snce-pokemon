@@ -1,18 +1,16 @@
-// Next.js API route support: https://nextjs.org/docs/api-routes/introduction
 import type { NextApiRequest, NextApiResponse } from 'next'
 import { teamService } from '@/services'
-import type { Team, TeamCreateData } from '@/types/models/Team'
+import type { Team } from '@/types/models/Team'
+import type { TeamCreateData } from '@/services/teamService'
 import { RouteHandler } from '@/handlers/apiRouteHandler'
 
 interface TeamCreateRequest extends NextApiRequest {
   body: TeamCreateData
 }
 
-const createTeam = async (req: TeamCreateRequest, res: NextApiResponse<Team | undefined>) => {
+const createTeam = async (req: TeamCreateRequest): Promise<Team | undefined> => {
   const { body }: TeamCreateRequest = req
-  const team: Team | undefined = await teamService.createTeam(body)
-  console.log(team)
-  res.status(200).json(team)
+  return await teamService.createTeam(body)
 }
 
 export default async function handler(req: NextApiRequest, res: NextApiResponse) {

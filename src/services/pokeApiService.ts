@@ -2,9 +2,23 @@ import type { IApiClient } from '@/lib/apiClient'
 import type { Pokemon } from '@/types/models/Pokemon'
 import { getRandomInt } from '@/utils/number'
 
+export interface ApiPokemon {
+  id: number
+  name: string
+  abilities: { slot: number; ability: { name: string } }[]
+  types: {
+    slot: number
+    type: {
+      name: string
+    }
+  }[]
+  sprites: { front_default: string }
+  base_experience: number
+}
+
 export interface PokeApiClient {
   getPokemon(pokemonName: string): Promise<Pokemon | undefined>
-  list(): Promise<any>
+  getPokemonCount(): Promise<number | undefined>
 }
 
 // export class PokeApiClient implements PokeApiClient {
@@ -26,7 +40,9 @@ export default class PokeApiService implements PokeApiClient {
     const pokemon = id ?? getRandomInt(1, 500)
 
     try {
-      const response = await this.pokeApiClient.get<any>(`${this.apiBaseURL}/pokemon/${pokemon}`)
+      const response = await this.pokeApiClient.get<ApiPokemon | Record<string, never>>(
+        `${this.apiBaseURL}/pokemon/${pokemon}`
+      )
 
       const { id, base_experience, name, abilities, types, sprites } = response
 
@@ -34,11 +50,10 @@ export default class PokeApiService implements PokeApiClient {
         ? {
             id,
             name,
-            abilities,
-            types: types.map((t: { type: { name: string } }) => t.type.name),
+            abilities: abilities.map((a: { ability: { name: string } }) => a.ability.name) || [],
+            types: types.map((t: { type: { name: string } }) => t.type.name) || [],
             sprite: sprites.front_default,
             baseXp: base_experience,
-            abilityId: 0,
           }
         : undefined
     } catch (e) {
@@ -46,25 +61,17 @@ export default class PokeApiService implements PokeApiClient {
     }
   }
 
-  async list(): Promise<any> {
+  /**
+   * Gets the number of available Pokémons
+   * @returns the total value
+   */
+  async getPokemonCount(): Promise<number | undefined> {
     try {
-      const response = await this.pokeApiClient.get<any>(`${this.apiBaseURL}/ability`)
+      const response = await this.pokeApiClient.get<{ count: number }>(`${this.apiBaseURL}/pokemon-species`)
 
-      return response ?? undefined
+      return response !== undefined ? response.count : undefined
     } catch (e) {
       console.error(`An error occurred while retrieving Pokémon list: ${e}`)
     }
   }
 }
-
-// export default class PokeApiService {
-//   pokeApiClient: PokeApiClient
-
-//   constructor(pokeApiClient: PokeApiClient) {
-//     this.pokeApiClient = pokeApiClient
-//   }
-
-//   async getPokemon(pokemonName: string): Promise<Pokemon | undefined> {
-//     return this.pokeApiClient.getPokemon(pokemonName)
-//   }
-// }

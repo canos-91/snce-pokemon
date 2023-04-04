@@ -5,8 +5,3 @@ export interface Team {
   // readonly createdAt?: Date
   // readonly updatedAt?: Date
 }
-
-export interface TeamCreateData {
-  trainerId: number
-  name: string
-}

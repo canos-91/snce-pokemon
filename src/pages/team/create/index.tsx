@@ -13,36 +13,45 @@ export default function CreateTeam() {
   const [pokemon, setPokemon] = useState<Pokemon>()
   const [team, setTeam] = useState<Pokemon[]>([])
 
+  /**
+   * Fetches a random Pokémon from the api
+   */
   const getRandomPokemon = async () => {
-    const id = getRandomInt(1, 500)
-
-    await fetch(`/api/pokemon/${id}`, {
-      method: 'GET',
-    })
-      .then((res: Response) => {
-        return res.json()
-      })
-      .then((pokemon: Pokemon | undefined) => {
-        if (pokemon) setPokemon(pokemon)
-      })
-      .catch((error) => console.log(error))
+    const id = getRandomInt(1, 1010)
+    const pkmn: Pokemon | undefined = await axiosClient.get(`/api/pokemon/${id}`)
+    if (pkmn) setPokemon(pkmn)
   }
 
+  /**
+   * Adds the random Pokémon to the created team
+   */
   const addToTeam = async () => {
-    await fetch(`/api/team/pippo`, {
-      method: 'POST',
-    }).catch((error) => console.log(error))
+    if (pokemon) {
+      try {
+        const createdPkmnId = await axiosClient.post(`/api/pokemon/create/${pokemon?.id}`, { ...pokemon })
+
+        console.log('addes', createdPkmnId)
+        if (createdPkmnId) {
+          const added = await axiosClient.post(`/api/team/add/${1}`, { teamId: 1, pokemonId: createdPkmnId })
+
+          console.log('addes', added)
+
+          if (added) {
+            setTeam([...team, pokemon])
+            setPokemon(undefined)
+          }
+        }
+      } catch (err) {
+        console.log(err)
+      }
+    }
   }
 
+  /**
+   * Creates a new team for tehe current trainer
+   */
   const createTeam = async () => {
     await axiosClient.post(`/api/team/create`, { trainerId: 1, name: 'Pippo' })
-    // await fetch(`/api/team/create`, {
-    //   method: 'POST',
-    //   headers: {
-    //     'Content-Type': 'application/json',
-    //   },
-    //   body: JSON.stringify({ trainerId: 1, name: 'Pippo' }),
-    // }).catch((error) => console.log(error))
   }
   return (
     <>
@@ -56,7 +65,7 @@ export default function CreateTeam() {
           <PokemonCard pkmn={pokemon} active={pokemon !== undefined} />
           <div className={styles.btns}>
             <Button onClick={getRandomPokemon} action="Gotta catch 'em all!" />
-            <Button onClick={addToTeam} action="Add to team" />
+            <Button onClick={addToTeam} action="Add to team" disabled={!pokemon || team.length >= 6} />
           </div>
         </section>
         <section className={styles.team}>

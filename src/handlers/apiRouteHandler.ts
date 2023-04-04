@@ -1,9 +1,9 @@
 import type { NextApiRequest, NextApiResponse } from 'next'
 
 type HttpMethod = 'GET' | 'POST' | 'PUT' | 'DELETE'
-type HttpHandler = (request: NextApiRequest, response: NextApiResponse) => Promise<any>
+export type HttpHandler = (request: NextApiRequest, response: NextApiResponse) => Promise<any>
 
-interface RouteHandlers {
+export interface RouteHandlers {
   GET?: HttpHandler
   POST?: HttpHandler
   PUT?: HttpHandler
@@ -12,7 +12,7 @@ interface RouteHandlers {
 
 export async function RouteHandler(request: NextApiRequest, response: NextApiResponse, handlers: RouteHandlers) {
   const method = request.method as HttpMethod
-  const handler = handlers[method]
+  const handler: HttpHandler | undefined = handlers[method]
 
   if (!handler) {
     return response.status(405).send('Method not allowed')
