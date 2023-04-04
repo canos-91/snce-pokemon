@@ -18,7 +18,7 @@
     Colors
   ========================================================================== */
 
-  @include badge-style("default", var(--black-p), var(--grey-300));
+  @include badge-style("default", var(--black), var(--grey-300));
   @include badge-style("bug", var(--white-90), var(--bug-gradient));
   @include badge-style("dark", var(--white-90), var(--dark-gradient));
   @include badge-style("dragon", var(--white-90), var(--dragon-gradient));

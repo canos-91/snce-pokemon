@@ -109,8 +109,6 @@ $font-sizes: 10,
 48,
 72; 
 
-
-
 @each $size in $font-sizes {
   .fs-#{$size} {
     font-size: px-to-rem($size) !important;

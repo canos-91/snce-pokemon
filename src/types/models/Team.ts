@@ -1,8 +1,12 @@
-import { Pokemon } from '@/types/models/Pokemon'
-
-export interface ITeam {
+export interface Team {
   readonly id?: number
   trainerId: number
   name: string
-  pokemons: Pokemon[]
+  // readonly createdAt?: Date
+  // readonly updatedAt?: Date
+}
+
+export interface TeamCreateData {
+  trainerId: number
+  name: string
 }

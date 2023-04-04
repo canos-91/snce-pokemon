@@ -1,19 +1,16 @@
 // Next.js API route support: https://nextjs.org/docs/api-routes/introduction
 import type { NextApiRequest, NextApiResponse } from 'next'
-import { PokeApiService } from '@/services'
+import { pokeApiService } from '@/services'
 import type { Pokemon } from '@/types/models/Pokemon'
 
-export default async function handler(
-  req: NextApiRequest,
-  res: NextApiResponse<Pokemon | undefined>
-) {
+export default async function handler(req: NextApiRequest, res: NextApiResponse<Pokemon | undefined>) {
   const { method, query }: NextApiRequest = req
 
   let list: any
 
   switch (method) {
     case 'GET': {
-      list = await PokeApiService.list()
+      list = await pokeApiService.list()
       break
     }
     default:

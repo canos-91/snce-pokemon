@@ -14,7 +14,7 @@ export default function AppLayout({ children }: AppLayoutProps) {
     <div className={classNames(styles.layout, rubik.className)}>
       <Header />
       <Navbar />
-      <main className={styles.page}>{children}</main>
+      {children}
     </div>
   )
 }

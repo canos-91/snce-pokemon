@@ -26,13 +26,11 @@ export default class PokeApiService implements PokeApiClient {
     const pokemon = id ?? getRandomInt(1, 500)
 
     try {
-      const response = await this.pokeApiClient.get<any>(
-        `${this.apiBaseURL}/pokemon/${pokemon}`
-      )
+      const response = await this.pokeApiClient.get<any>(`${this.apiBaseURL}/pokemon/${pokemon}`)
 
       const { id, base_experience, name, abilities, types, sprites } = response
 
-      return response
+      return Object.keys(response).length
         ? {
             id,
             name,
@@ -44,17 +42,13 @@ export default class PokeApiService implements PokeApiClient {
           }
         : undefined
     } catch (e) {
-      console.error(
-        `An error occurred while retrieving Pokémon '${pokemon}': ${e}`
-      )
+      console.error(`An error occurred while retrieving Pokémon '${pokemon}': ${e}`)
     }
   }
 
   async list(): Promise<any> {
     try {
-      const response = await this.pokeApiClient.get<any>(
-        `${this.apiBaseURL}/ability`
-      )
+      const response = await this.pokeApiClient.get<any>(`${this.apiBaseURL}/ability`)
 
       return response ?? undefined
     } catch (e) {

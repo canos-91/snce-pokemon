@@ -1,4 +1,5 @@
 import { prisma } from '@/lib/prismaClient'
+import { Team, TeamCreateData } from '@/types/models/Team'
 
 // export const getTeam = async (id: string): Promise<ClientUser> => {
 //   const user = await prisma.user.findUnique({ where: { id } })
@@ -59,26 +60,22 @@ import { prisma } from '@/lib/prismaClient'
 
 export interface TeamServiceClient {
   addPkmnToTeam(teamId: number, pokemonId: number): Promise<string>
-  createTeam(name: string, trainerId: number): Promise<string>
+  createTeam(teamData: TeamCreateData): Promise<Team | undefined>
 }
 
 // export class PokeApiClient implements PokeApiClient {
 export default class TeamService implements TeamServiceClient {
-  addPkmnToTeam = async (
-    teamId: number,
-    pokemonId: number
-  ): Promise<string> => {
+  addPkmnToTeam = async (teamId: number, pokemonId: number): Promise<string> => {
     const created = await prisma.teamPokemons.create({
       data: { pokemonId, teamId },
     })
 
-    if (!created)
-      throw new Error('An error occurred while adding pokemon to team')
+    if (!created) throw new Error('An error occurred while adding pokemon to team')
 
     return 'OK'
   }
 
-  createTeam = async (name: string, trainerId: number): Promise<string> => {
+  createTeam = async (teamData: TeamCreateData): Promise<Team | undefined> => {
     // unique email
     // const _team = await prisma.team.findFirst({
     //   where: { email },
@@ -87,12 +84,12 @@ export default class TeamService implements TeamServiceClient {
     //   throw new ApiError(`User with email: ${email} already exists.`, 409)
 
     const team = await prisma.team.create({
-      data: { name, trainerId },
+      data: teamData,
     })
 
     if (!team) throw new Error('An error occurred while createng new team')
 
-    return 'OK'
+    return team
   }
 }
 

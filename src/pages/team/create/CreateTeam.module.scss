@@ -1,0 +1,15 @@
+.create-team-page { 
+  
+  .random-pkmn {
+    @include flex-center;
+
+    flex-direction: column;
+    
+    .btns {
+      @include flex-center;
+
+      flex-direction: column;
+      gap: 16px;
+    }
+  }
+}

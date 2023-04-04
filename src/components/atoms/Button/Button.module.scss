@@ -39,8 +39,8 @@
     Default
   ========================================================================== */
 
-  @include btn-style(".btn-default", default, var(--primary-p), var(--grey-300));
-  @include btn-style(".btn-default", hover, var(--accent-p), var(--accent-200));
+  @include btn-style(".btn-default", default, var(--primary-300), var(--grey-300));
+  @include btn-style(".btn-default", hover, var(--accent-600), var(--accent-200));
   @include btn-style(".btn-default", active, var(--accent-700), var(--accent-300));
   @include btn-style(".btn-default", disabled, base, var(--grey-500));
 
@@ -48,7 +48,7 @@
     Accent
   ========================================================================== */
 
-  @include btn-style(".btn-accent", default, var(--white-90), var(--accent-p));
+  @include btn-style(".btn-accent", default, var(--white-90), var(--accent-600));
   @include btn-style(".btn-accent", hover, base, var(--accent-400));
   @include btn-style(".btn-accent", active, base, var(--accent-700));
   @include btn-style(".btn-accent", disabled);
@@ -57,16 +57,16 @@
     Secondary
   ========================================================================== */
 
-  @include btn-style(".btn-secondary", default, var(--primary-p), transparent);
-  @include btn-style(".btn-secondary", hover, var(--accent-p), var(--accent-100));
-  @include btn-style(".btn-secondary", active, var(--accent-p), var(--accent-200));
+  @include btn-style(".btn-secondary", default, var(--primary-300), transparent);
+  @include btn-style(".btn-secondary", hover, var(--accent-600), var(--accent-100));
+  @include btn-style(".btn-secondary", active, var(--accent-600), var(--accent-200));
   @include btn-style(".btn-secondary", disabled);
 
    /* ==========================================================================
     Primary
   ========================================================================== */
 
-  @include btn-style(".btn-primary", default, var(--white-90), var(--primary-p));
+  @include btn-style(".btn-primary", default, var(--white-90), var(--primary-300));
   @include btn-style(".btn-primary", hover, base, var(--primary-200));
   @include btn-style(".btn-primary", active, base, var(--primary-500));
   @include btn-style(".btn-primary", disabled);
@@ -79,7 +79,7 @@
   @include btn-style(".btn-error", hover, base, var(--error-300));
   @include btn-style(".btn-error", active, base, var(--error-500));
   @include btn-style(".btn-error", disabled);
-  @include btn-style(".btn-error.no-action", default, var(--primary-p), var(--grey-300));
+  @include btn-style(".btn-error.no-action", default, var(--primary-300), var(--grey-300));
   @include btn-style(".btn-error.no-action", hover, var(--error-p), var(--error-100));
   @include btn-style(".btn-error.no-action", active, var(--error-500), var(--error-200));
   @include btn-style(".btn-error.no-action", disabled, var(--primary-300), var(--grey-500));
@@ -98,7 +98,7 @@
     Success
   ========================================================================== */
 
-  @include btn-style(".btn-success", default, var(--primary-p), var(--grey-300));
+  @include btn-style(".btn-success", default, var(--primary-300), var(--grey-300));
   @include btn-style(".btn-success", hover, var(--success-500), var(--success-100));
   @include btn-style(".btn-success", active, var(--success-500), var(--success-200));
   @include btn-style(".btn-success", disabled, var(--primary-300), var(--grey-500));
@@ -107,7 +107,7 @@
     Warning
   ========================================================================== */
 
-  @include btn-style(".btn-warning", default, var(--primary-p), var(--grey-300));
+  @include btn-style(".btn-warning", default, var(--primary-300), var(--grey-300));
   @include btn-style(".btn-warning", hover, var(--warning-p), var(--warning-100));
   @include btn-style(".btn-warning", active, var(--warning-500), var(--warning-200));
   @include btn-style(".btn-warning", disabled, var(--primary-300), var(--grey-500));

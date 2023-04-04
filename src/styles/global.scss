@@ -26,7 +26,7 @@ body,
 // body {
 //   scrollbar-color: var(--accent-300) transparent;
 //   background-color: var(--background-color);
-//   color: var(--primary-p);
+//   color: var(--primary-300);
 //   overflow-y: overlay;
 
 //   ::-webkit-scrollbar {
@@ -58,24 +58,12 @@ a {
 
   &:active,
   &:hover{
-    color: var(--accent-p)
+    color: var(--accent-600)
   }
 }
 
 ul, li {
   list-style: none;
-}
-
-.no-pointer-events * {
-  pointer-events: none;
-}
-
-.pointer {
-  cursor: pointer;
-}
-
-.block {
-  display: block;
 }
 
 .flex-align-h {
@@ -84,15 +72,6 @@ ul, li {
 
 .flex-align-v {
   @include flex-center(cross);
-}
-
-.not-visible {
-  visibility: hidden;
-}
-
-.hidden {
-  display: none;
-  visibility: hidden;
 }
 
 .shimmer {
@@ -167,7 +146,6 @@ ul, li {
 Dimensions
 ========================================================================== */
 
-
 @for $i from 1 through 100 {
   .h-#{$i} {
     height: #{$i} + '%' !important;
@@ -200,3 +178,27 @@ Dimensions
     clip-path: inset(0.6px)
   }
 }
+
+/* Enable hover only on non-touch devices */
+// @media (hover: hover) and (pointer: fine) {
+
+//   .card:hover {
+//     background: rgb(var(--card-rgb) 0.1);
+//     border: 1px solid rgb(var(--card-border-rgb) 0.15);
+//   }
+
+//   .card:hover span {
+//     transform: translateX(4px);
+//   }
+// }
+
+// @media (prefers-reduced-motion) {
+
+//   .thirteen::before {
+//     animation: none;
+//   }
+
+//   .card:hover span {
+//     transform: none;
+//   }
+// }

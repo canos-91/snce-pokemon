@@ -1,4 +1,4 @@
-import ApiClient from '@/lib/apiClient'
+import { ApiClient } from '@/lib/apiClient'
 import PokeApiService from '@/services/pokeApiService'
 import TeamService from '@/services/teamService'
 
