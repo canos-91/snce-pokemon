@@ -1,5 +1,9 @@
 import { Header, Navbar } from '@/components/layout'
 import styles from './AppLayout.module.scss'
+import { Rubik } from 'next/font/google'
+import classNames from 'classnames'
+
+const rubik = Rubik({ subsets: ['latin'] })
 
 interface AppLayoutProps {
   children: React.ReactNode
@@ -7,10 +11,10 @@ interface AppLayoutProps {
 
 export default function AppLayout({ children }: AppLayoutProps) {
   return (
-    <div className={styles.layout}>
+    <div className={classNames(styles.layout, rubik.className)}>
       <Header />
       <Navbar />
-      <main className={styles.pages}>{children}</main>
+      <main className={styles.page}>{children}</main>
     </div>
   )
 }

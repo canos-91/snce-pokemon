@@ -1,20 +1,16 @@
 import Head from 'next/head'
-import { Inter } from 'next/font/google'
 import styles from './createPage.module.scss'
-import { useEffect, useState } from 'react'
-import axios from 'axios'
+import { useState } from 'react'
 import { PokemonTeam } from '@/components'
 import { Button } from '@/components/atoms'
-import { pokemonService } from '@/services'
-import type { IPokemon } from '@/types/models/Pokemon'
+import type { Pokemon } from '@/types/models/Pokemon'
 import { getRandomInt } from '@/utils/number'
 
 // const inter = Inter({ subsets: ['latin'] })
 
 export default function CreateTeam() {
-  const [pokemon, setPokemon] = useState<IPokemon | undefined>()
-  const [team, setTeam] = useState<IPokemon[]>([])
-  console.log(team)
+  // const [pokemon, setPokemon] = useState<Pokemon | undefined>()
+  const [team, setTeam] = useState<Pokemon[]>([])
 
   const getRandomPokemon = async () => {
     const id = getRandomInt(1, 500)
@@ -25,10 +21,17 @@ export default function CreateTeam() {
       .then((res: Response) => {
         return res.json()
       })
-      .then((pokemon: IPokemon | undefined) => {
+      .then((pokemon: Pokemon | undefined) => {
+        console.log(pokemon)
         if (pokemon) setTeam([...team, pokemon])
       })
       .catch((error) => console.log(error))
+  }
+
+  const createTeam = async () => {
+    await fetch(`/api/team/pippo`, {
+      method: 'POST',
+    }).catch((error) => console.log(error))
   }
   return (
     <>
@@ -39,6 +42,7 @@ export default function CreateTeam() {
       <main className={styles['create-team-page']}>
         <PokemonTeam team={team} />
         <Button onClick={getRandomPokemon} action="Gotta cath 'em all!" />
+        <Button onClick={createTeam} action="Create new team" />
       </main>
     </>
   )

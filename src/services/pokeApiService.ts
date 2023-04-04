@@ -1,14 +1,14 @@
 import type { IApiClient } from '@/lib/apiClient'
-import type { IPokemon } from '@/types/models/Pokemon'
+import type { Pokemon } from '@/types/models/Pokemon'
 import { getRandomInt } from '@/utils/number'
 
 export interface PokeApiClient {
-  getPokemon(pokemonName: string): Promise<IPokemon | undefined>
+  getPokemon(pokemonName: string): Promise<Pokemon | undefined>
   list(): Promise<any>
 }
 
 // export class PokeApiClient implements PokeApiClient {
-export default class PokemonService implements PokeApiClient {
+export default class PokeApiService implements PokeApiClient {
   apiBaseURL: string
   pokeApiClient: IApiClient
 
@@ -22,7 +22,7 @@ export default class PokemonService implements PokeApiClient {
    * @param id - the Pokémon name or ID
    * @returns the found Pokémon or undefined
    */
-  async getPokemon(id?: string | number): Promise<IPokemon | undefined> {
+  async getPokemon(id?: string | number): Promise<Pokemon | undefined> {
     const pokemon = id ?? getRandomInt(1, 500)
 
     try {
@@ -30,11 +30,17 @@ export default class PokemonService implements PokeApiClient {
         `${this.apiBaseURL}/pokemon/${pokemon}`
       )
 
+      const { id, base_experience, name, abilities, types, sprites } = response
+
       return response
         ? {
-            name: response.name,
-            types: response.types,
-            sprite: response.sprites.front_default,
+            id,
+            name,
+            abilities,
+            types: types.map((t: { type: { name: string } }) => t.type.name),
+            sprite: sprites.front_default,
+            baseXp: base_experience,
+            abilityId: 0,
           }
         : undefined
     } catch (e) {
@@ -57,7 +63,7 @@ export default class PokemonService implements PokeApiClient {
   }
 }
 
-// export default class PokemonService {
+// export default class PokeApiService {
 //   pokeApiClient: PokeApiClient
 
 //   constructor(pokeApiClient: PokeApiClient) {

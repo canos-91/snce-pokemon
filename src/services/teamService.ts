@@ -1,40 +1,6 @@
-// import ApiError from 'lib-server/error'
-// import prisma, { excludeFromUser } from 'lib-server/prisma'
-// import { hash } from 'bcryptjs'
-// import { getSession, GetSessionParams } from 'next-auth/react'
-// import { PaginatedResponse, SortDirection } from 'types'
-// import {
-//   ClientUser,
-//   UserCreateData,
-//   UserGetData,
-//   UsersGetData,
-//   UserUpdateServiceData,
-// } from 'types/models/User'
-// import { filterSearchTerm } from 'utils'
+import { prisma } from '@/lib/prismaClient'
 
-// /**
-//  *
-//  * @returns null on fail, doesn't throw exception, user is not logged in
-//  *
-//  */
-// export const getMe = async (
-//   params: GetSessionParams
-// ): Promise<ClientUser | null> => {
-//   const session = await getSession(params)
-//   const id = session?.user?.id
-
-//   if (!id) return null
-
-//   const me = await prisma.user.findUnique({ where: { id } })
-
-//   if (!me) return null
-
-//   return excludeFromUser(me)
-// }
-
-// // -------- pages/api/users/[id].ts
-
-// export const getUser = async (id: string): Promise<ClientUser> => {
+// export const getTeam = async (id: string): Promise<ClientUser> => {
 //   const user = await prisma.user.findUnique({ where: { id } })
 //   if (!user) throw new ApiError(`User with id: ${id} not found.`, 404)
 
@@ -91,46 +57,46 @@
 //   return excludeFromUser(user)
 // }
 
-// // -------- pages/api/users/index.ts
+export interface TeamServiceClient {
+  addPkmnToTeam(teamId: number, pokemonId: number): Promise<string>
+  createTeam(name: string, trainerId: number): Promise<string>
+}
 
-// export const createUser = async (
-//   userCreateData: UserCreateData
-// ): Promise<ClientUser> => {
-//   const { name, username, email, password: _password } = userCreateData
+// export class PokeApiClient implements PokeApiClient {
+export default class TeamService implements TeamServiceClient {
+  addPkmnToTeam = async (
+    teamId: number,
+    pokemonId: number
+  ): Promise<string> => {
+    const created = await prisma.teamPokemons.create({
+      data: { pokemonId, teamId },
+    })
 
-//   // unique email
-//   const _user1 = await prisma.user.findFirst({
-//     where: { email },
-//   })
-//   if (_user1)
-//     throw new ApiError(`User with email: ${email} already exists.`, 409)
+    if (!created)
+      throw new Error('An error occurred while adding pokemon to team')
 
-//   // unique username
-//   const _user2 = await prisma.user.findFirst({
-//     where: { username },
-//   })
-//   if (_user2) throw new ApiError(`Username: ${username} is already taken.`, 409)
+    return 'OK'
+  }
 
-//   const password = await hash(_password, 10)
+  createTeam = async (name: string, trainerId: number): Promise<string> => {
+    // unique email
+    // const _team = await prisma.team.findFirst({
+    //   where: { email },
+    // })
+    // if (_user1)
+    //   throw new ApiError(`User with email: ${email} already exists.`, 409)
 
-//   const user = await prisma.user.create({
-//     data: {
-//       name,
-//       username,
-//       email,
-//       password,
-//       // role: 'user' // create admin through database...
-//     },
-//   })
+    const team = await prisma.team.create({
+      data: { name, trainerId },
+    })
 
-//   if (!user) throw new ApiError('User cerate failed.', 400)
+    if (!team) throw new Error('An error occurred while createng new team')
 
-//   return excludeFromUser(user)
-// }
+    return 'OK'
+  }
+}
 
-// const defaultLimit = parseInt(process.env.NEXT_PUBLIC_USERS_PER_PAGE)
-
-// export const getUsers = async (
+// export const list = async (
 //   usersGetData: UsersGetData = {}
 // ): Promise<PaginatedResponse<ClientUser>> => {
 //   const {
@@ -179,20 +145,4 @@
 //   }
 
 //   return result
-// }
-
-// // -------- pages/api/users/profile.ts
-
-// export const getUserByIdOrUsernameOrEmail = async (
-//   userGetData: UserGetData = {}
-// ): Promise<ClientUser> => {
-//   const { id, username, email } = userGetData
-
-//   const user = await prisma.user.findFirst({
-//     where: { OR: [{ id }, { username }, { email }] },
-//   })
-
-//   if (!user) throw new ApiError('User not found.', 404)
-
-//   return excludeFromUser(user)
 // }

@@ -1,12 +1,13 @@
 import { useState } from 'react'
 import Image from 'next/image'
 import styles from './PokemonCard.module.scss'
-import { IPokemon } from '@/types/models/Pokemon'
+import { Pokemon } from '@/types/models/Pokemon'
 import classNames from 'classnames'
 import PokeBallSvg from '@public/pokeball.svg'
+import { Badge } from '@/components/atoms'
 
 export type PokemonCardProps = {
-  pkmn: IPokemon
+  pkmn: Pokemon
 }
 
 export default function PokemonCard({ pkmn }: PokemonCardProps) {
@@ -17,8 +18,8 @@ export default function PokemonCard({ pkmn }: PokemonCardProps) {
       className={classNames(styles['pokemon-card'], isActive && styles.active)}
       onClick={() => setActive(!isActive)}
     >
+      <PokeBallSvg className={styles.pokeball} />
       <div className={styles.inner}>
-        <PokeBallSvg className={styles.pokeball} />
         {/* Sprite */}
         <div className={styles.sprite}>
           <Image
@@ -29,8 +30,18 @@ export default function PokemonCard({ pkmn }: PokemonCardProps) {
             priority
           ></Image>
         </div>
+
+        {/* Types */}
+        <div className={classNames(styles.badges)}>
+          {pkmn.types.map((type, index) => (
+            <Badge key={index} label={type} color={type} />
+          ))}
+        </div>
+
         {/* Name */}
-        <span className="capital"> {pkmn.name}</span>
+        <h3 className={classNames(styles['pkmn-name'], 'capital')}>
+          {pkmn.name}
+        </h3>
       </div>
     </div>
   )

@@ -28,9 +28,9 @@ const seed = async () => {
       console.log('Pokémon types data seeder executed')
     })
 
-    // await prisma.type.createMany({
-    //   data: types,
-    // })
+    await prisma.trainer.create({
+      data: { username: 'TestTrainer' },
+    })
   } catch (e) {
     console.error(`An error occured while seeding DB: ${e}`)
     await prisma.$disconnect()

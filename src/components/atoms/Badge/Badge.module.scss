@@ -1,0 +1,40 @@
+.badge {
+  @include flex-center;
+
+  flex-shrink: 0;
+  height: fit-content;
+  width: fit-content;
+  padding: 2px 8px;
+  border-radius: var(--radius-s);
+  user-select: none;
+  transition: var(--transition-all-1);
+
+  small {
+    font-size: px-to-rem(16);
+    font-weight: 600;
+  }
+
+  /* ==========================================================================
+    Colors
+  ========================================================================== */
+
+  @include badge-style("default", var(--black-p), var(--grey-300));
+  @include badge-style("bug", var(--white-90), var(--bug-gradient));
+  @include badge-style("dark", var(--white-90), var(--dark-gradient));
+  @include badge-style("dragon", var(--white-90), var(--dragon-gradient));
+  @include badge-style("electric", var(--white-90), var(--electric-gradient));
+  @include badge-style("fairy", var(--white-90), var(--fairy-gradient));
+  @include badge-style("fighting", var(--white-90), var(--fighting-gradient));
+  @include badge-style("fire", var(--white-90), var(--fire-gradient));
+  @include badge-style("flying", var(--white-90), var(--flying-gradient));
+  @include badge-style("ghost", var(--white-90), var(--ghost-gradient));
+  @include badge-style("grass", var(--white-90), var(--grass-gradient));
+  @include badge-style("ground", var(--white-90), var(--ground-gradient));
+  @include badge-style("ice", var(--white-90), var(--ice-gradient));
+  @include badge-style("normal", var(--white-90), var(--normal-gradient));
+  @include badge-style("poison", var(--white-90), var(--poison-gradient));
+  @include badge-style("psychic", var(--white-90), var(--psychic-gradient));
+  @include badge-style("rock", var(--white-90), var(--rock-gradient));
+  @include badge-style("steel", var(--white-90), var(--steel-gradient));
+  @include badge-style("water", var(--white-90), var(--water-gradient));
+}

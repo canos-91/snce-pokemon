@@ -1,10 +1,10 @@
 import { useState } from 'react'
 import styles from './PokemonTeam.module.scss'
-import { IPokemon } from '@/types/models/Pokemon'
+import { Pokemon } from '@/types/models/Pokemon'
 import { PokemonCard } from '@/components'
 
 export type PokemonTeamProps = {
-  team: IPokemon[]
+  team: Pokemon[]
 }
 
 export default function PokemonTeam({ team }: PokemonTeamProps) {

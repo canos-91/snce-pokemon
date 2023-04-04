@@ -46,7 +46,7 @@ services:
       dockerfile: Dockerfile
       target: run
     image: snce-pokemon-app:latest
-    command: dev
+    command: start:${NODE_ENV}
     restart: unless-stopped
     env_file: .env
     # ports:

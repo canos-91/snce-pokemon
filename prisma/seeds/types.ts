@@ -71,12 +71,4 @@ export const types = [
     id: 19,
     name: 'fairy',
   },
-  {
-    id: 10001,
-    name: 'unknown',
-  },
-  {
-    id: 10002,
-    name: 'shadow',
-  },
 ]

@@ -1,7 +1,6 @@
-import Image from 'next/image'
-import { useEffect, useState } from 'react'
 import style from './Button.module.scss'
 import classNames from 'classnames'
+
 type ButtonColor =
   | 'default'
   | 'accent'
@@ -19,7 +18,7 @@ export type ButtonProps = {
   onClick: () => void
 }
 
-export default function PokemonCard({
+export default function Button({
   action = '',
   color = 'default',
   disabled = false,
@@ -33,7 +32,6 @@ export default function PokemonCard({
         })}
         onClick={onClick}
       >
-        {/* <VIconSvg v-if="icon" :icon="icon" :width="iconSize" :height="iconSize" /> */}
         <span className="capital">{action}</span>
       </button>
     </>

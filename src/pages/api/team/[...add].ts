@@ -1,6 +1,6 @@
 // Next.js API route support: https://nextjs.org/docs/api-routes/introduction
 import type { NextApiRequest, NextApiResponse } from 'next'
-import { PokeApiService } from '@/services'
+import { teamService } from '@/services'
 import type { Pokemon } from '@/types/models/Pokemon'
 
 export default async function handler(
@@ -9,17 +9,14 @@ export default async function handler(
 ) {
   const { method, query }: NextApiRequest = req
 
-  let list: any
-
   switch (method) {
-    case 'GET': {
-      list = await PokeApiService.list()
+    case 'POST': {
+      // await teamService.addPkmnToTeam('TestTeam', 1)
       break
     }
     default:
-      res.setHeader('Allow', ['GET'])
+      res.setHeader('Allow', ['POST'])
       res.status(405).end(`Method ${method} not allowed`)
   }
-
-  res.status(200).json(list)
+  res.status(200)
 }

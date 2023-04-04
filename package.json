@@ -9,9 +9,9 @@
     "seed": "ts-node prisma/seeds/seed.ts"
   },
   "scripts": {
-    "dev": "npm run migrate:dev && npm run db:seed && next dev",
     "build": "next build",
-    "start": "npm run migrate:prod && next start",
+    "start:development": "npm run migrate:dev && next dev",
+    "start:production": "npm run migrate:prod && next start",
     "migrate:dev": "prisma migrate dev --name init ",
     "migrate:prod": "npm run start",
     "migrate:reset": "npx prisma migrate reset",

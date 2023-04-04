@@ -3,6 +3,9 @@
 
   grid-column: span 2;
   padding: 12px 24px;
+  background: linear-gradient(rgb(255 255 255 / 30%), rgb(255 255 255 / 50%));
+  box-shadow: var(--shadow);
+    
   
   .logo {
     position: relative;

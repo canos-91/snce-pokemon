@@ -23,18 +23,26 @@ model Team {
   name        String    
   createdAt   DateTime  @default(now())
   updatedAt   DateTime  @updatedAt
-  pokemons    Pokemon[]
+  pokemons    TeamPokemons[]
 }
 
 model Pokemon {
   id          Int       @id   
-  teamId      Int
-  abilityId   Int 
-  team        Team      @relation(fields: [teamId], references: [id])
-  ability     Ability   @relation(fields: [abilityId], references: [id])
   name        String    @unique
   base_xp     Int
+  abilityId   Int 
+  ability     Ability   @relation(fields: [abilityId], references: [id])
+  teams       TeamPokemons[]
   types       PokemonTypes[]
+}
+
+model TeamPokemons {
+  pokemonId   Int
+  teamId      Int 
+  pokemon     Pokemon   @relation(fields: [pokemonId], references: [id])
+  team        Team      @relation(fields: [teamId], references: [id])
+
+  @@id([pokemonId, teamId])
 }
 
 model Ability {
