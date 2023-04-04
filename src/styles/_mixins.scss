@@ -1,0 +1,90 @@
+@mixin badge-style($class, $color, $bg-color: transparent) {
+
+  &.badge-#{$class} {  
+    background: $bg-color;
+    color: $color;
+    
+    @if $bg-color != transparent {
+      background: linear-gradient(var(--#{$class}-dark), var(--#{$class}, var(--#{$class}-light)));
+    }
+  }
+}
+
+@mixin btn-style($class, $status, $color: base, $bg-color: base, $size: all) {
+  $path: $class !default;
+  
+  @if $size != all {
+    $path: "#{$path}.is-#{$size}";
+  }
+  
+  @if $status == hover {
+    $path: ":not(.active):not(:active):hover#{$path}";
+  } @else if $status == active {
+    $path: ".active#{$path}, &:active#{$path}";
+  } @else if $status == disabled {
+    $path: ".disabled#{$path}";
+  }
+
+  &#{$path} {
+    @if $bg-color != base {
+      background-color: $bg-color;
+      border-color: $bg-color;
+    }
+
+    @if $bg-color == transparent {
+      border-color: $color;
+    }    
+    
+    @if $color != base {
+      color: $color;
+
+      .fillable-icon {
+        fill: $color;    
+      }
+    }
+  }
+}
+
+@mixin text-style(
+  $weight,
+  $size,
+  $spacing: 0
+) {
+  font-weight: $weight;
+  font-size: px-to-rem($size);
+  letter-spacing: px-to-rem($spacing);
+  line-height: 1.5;
+}
+
+@mixin flex-center($axis: both) {
+  display: flex;
+
+  @if $axis == main {
+    justify-content: center;
+  } @else if $axis == cross {
+    align-items: center;
+  } @else if $axis == both {
+    justify-content: center;
+    align-items: center;
+  }
+}
+
+@mixin ellipsis() {
+  white-space: nowrap;
+  text-overflow: ellipsis;
+  overflow: hidden;
+}
+
+@mixin line-clamp($lines: 1, $fontSize: 16 ) {
+  display: -webkit-box;
+  -webkit-line-clamp: $lines;
+  -webkit-box-orient: vertical;
+  max-height: calc($lines * ($fontSize * 1.5)) + px;
+  overflow: hidden;
+  word-break: break-word;
+}
+
+@mixin square($size) {  
+  width: $size !important;
+  height: $size !important;
+}

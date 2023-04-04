@@ -1,0 +1,145 @@
+:root {
+  // Background
+  --background-color: var(--grey-100);
+
+  // Pokemon types colors
+  --bug: #A8B820;
+  --bug-light: #C6D16E;
+  --bug-dark: #6D7815;
+  --dark: #705848;
+  --dark-light: #A29288;
+  --dark-dark: #49392F;
+  --dragon: #7038F8;
+  --dragon-light: #A27DFA; 
+  --dragon-dark: #4924A1;
+  --electric: #F8D030;
+  --electric-light: #FAE078; 
+  --electric-dark: #A1871F;
+  --fairy: #EE99AC;
+  --fairy-light: #F4BDC9; 
+  --fairy-dark: #9B6470;
+  --fighting: #C03028;
+  --fighting-light: #D67873; 
+  --fighting-dark: #7D1F1A;
+  --fire: #F08030;
+  --fire-light: #F5AC78; 
+  --fire-dark: #9C531F;
+  --flying: #A890F0;
+  --flying-light: #C6B7F5; 
+  --flying-dark: #6D5E9C;
+  --ghost: #705898;
+  --ghost-light: #A292BC; 
+  --ghost-dark: #493963;
+  --grass: #78C850;
+  --grass-light: #A7DB8D; 
+  --grass-dark: #4E8234;
+  --ground: #E0C068;
+  --ground-light: #EBD69D; 
+  --ground-dark: #927D44;
+  --ice: #98D8D8;
+  --ice-light: #BCE6E6; 
+  --ice-dark: #638D8D;
+  --normal: #A8A878;
+  --normal-light: #C6C6A7; 
+  --normal-dark: #6D6D4E;
+  --poison: #A040A0;
+  --poison-light: #C183C1; 
+  --poison-dark: #682A68;
+  --psychic: #F85888;
+  --psychic-light: #FA92B2; 
+  --psychic-dark: #A13959;
+  --rock: #B8A038;
+  --rock-light: #D1C17D; 
+  --rock-dark: #786824;
+  --steel: #B8B8D0;
+  --steel-light: #D1D1E0; 
+  --steel-dark: #787887;
+  --water: #6890F0;
+  --water-light: #9DB7F5; 
+  --water-dark: #445E9C;
+ 
+
+  // Accent
+  --accent-100: #fff0E4;
+  --accent-200: #FFDDC2;
+  --accent-300: #ffc599;
+  --accent-400: #ffa966;
+  --accent-500: #ff8c33;
+  --accent-p: #ff7d1a;
+  --accent-600: #ff7d1a;
+  --accent-700: #e66400;
+  --accent-750: #6E4F3A;
+  --accent-800: #564032;
+  --accent-900: #322927;
+
+  // Black
+  --black-100: #202020;
+  --black-200: #1a1a1a;
+  --black-300: #131313;
+  --black-400: #0e0e0e;
+  --black-p: #000;
+
+  // Error
+  --error-100: #FFD5DD;
+  --error-200: #FFC0CC;
+  --error-300: #FE8099;
+  --error-p: #FE2C55;
+  --error-400: #FE2C55;
+  --error-500: #CC2344;
+  --error-600: #561B2D;
+  --error-700: #3E1827;
+
+  // Grey
+  --grey-100: #fafafa;
+  --grey-200: #f7f7f7;
+  --grey-300: #f2f2f2;
+  --grey-400: #dedede;
+  --grey-500: #bdbdbd;
+  --grey-600: #979797;
+  --grey-700: #5b5b5b;
+  --grey-800: #3c3c3c;
+  --grey-900: #1e1e1e;
+
+  // Primary
+  --primary-25: #DEE6FA;
+  --primary-50: #BBC8E8;
+  --primary-75: #8498CA;
+  --primary-100: #48609a;
+  --primary-200: #2e3d63;
+  --primary-p: #212c47;
+  --primary-400: #1a2339;
+  --primary-500: #0e172b;
+ 
+  // Success
+  --success-100: #DDF8E6;
+  --success-200: #CBF5DA;
+  --success-300: #98EAB4;
+  --success-p: #53DC82;
+  --success-400: #53DC82;
+  --success-500: #43B169;
+  --success-600: #234F3B;
+  --success-700: #1C3B30;
+
+  // Warning
+  --warning-100: #FDF5DA;
+  --warning-200: #FCEBB5;
+  --warning-300: #F9D86B;
+  --warning-p: #F7CE46;
+  --warning-400: #F7CE46;
+  --warning-500: #DCA000;
+  --warning-600: #544B29;
+  --warning-700: #3D3824;
+
+  // White
+  --white-10: rgb(255 255 255 / 10%);
+  --white-15: rgb(255 255 255 / 15%);
+  --white-20: rgb(255 255 255 / 20%);
+  --white-30: rgb(255 255 255 / 30%);
+  --white-40: rgb(255 255 255 / 40%);
+  --white-50: rgb(255 255 255 / 50%);
+  --white-60: rgb(255 255 255 / 60%);
+  --white-70: rgb(255 255 255 / 70%);
+  --white-80: rgb(255 255 255 / 80%);
+  --white-90: rgb(255 255 255 / 90%);
+  --white-100: #fff;
+}

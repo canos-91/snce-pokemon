@@ -1,0 +1,5 @@
+.pokemon-team {
+  @include flex-center;
+
+  flex-wrap: wrap;
+}
