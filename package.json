@@ -10,8 +10,8 @@
   },
   "scripts": {
     "build": "next build",
-    "start:development": "npm run migrate:dev && next dev",
-    "start:production": "npm run migrate:prod && next start",
+    "start:development": "next dev",
+    "start:production": "next start",
     "migrate:dev": "prisma migrate dev --name init ",
     "migrate:prod": "npm run start",
     "migrate:reset": "npx prisma migrate reset",

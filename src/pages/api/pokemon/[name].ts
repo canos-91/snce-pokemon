@@ -1,9 +1,9 @@
 import type { NextApiRequest, NextApiResponse } from 'next'
 import { pokeApiService } from '@/services'
-import type { Pokemon } from '@/types/models/Pokemon'
 import { RouteHandler } from '@/handlers/apiRouteHandler'
+import { ApiPokemon } from '@/services/pokeApiService'
 
-const getPokemon = async (req: NextApiRequest): Promise<Pokemon | undefined> => {
+const getPokemon = async (req: NextApiRequest): Promise<ApiPokemon | undefined> => {
   const { query }: NextApiRequest = req
   return await pokeApiService.getPokemon(query.name as string)
 }

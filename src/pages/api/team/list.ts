@@ -1,7 +1,7 @@
 import type { NextApiRequest, NextApiResponse } from 'next'
 import { teamService } from '@/services'
-import type { Team } from '@/types/models/Team'
 import { RouteHandler } from '@/handlers/apiRouteHandler'
+import { Team } from '@prisma/client'
 
 const listTeams = async (req: NextApiRequest): Promise<Team[]> => {
   const { query }: NextApiRequest = req

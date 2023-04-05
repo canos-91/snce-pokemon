@@ -1,8 +1,8 @@
 import type { NextApiRequest, NextApiResponse } from 'next'
 import { teamService } from '@/services'
-import type { Team } from '@/types/models/Team'
 import type { TeamCreateData } from '@/services/teamService'
 import { RouteHandler } from '@/handlers/apiRouteHandler'
+import { Team } from '@prisma/client'
 
 interface TeamCreateRequest extends NextApiRequest {
   body: TeamCreateData

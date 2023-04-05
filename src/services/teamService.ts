@@ -1,5 +1,5 @@
 import { prisma } from '@/lib/prismaClient'
-import { Team } from '@/types/models/Team'
+import { Team } from '@prisma/client'
 
 export interface TeamCreateData {
   trainerId: number
@@ -11,71 +11,7 @@ export interface TeamAddPokemonData {
   pokemonId: number
 }
 
-// export const getTeam = async (id: string): Promise<ClientUser> => {
-//   const user = await prisma.user.findUnique({ where: { id } })
-//   if (!user) throw new ApiError(`User with id: ${id} not found.`, 404)
-
-//   return excludeFromUser(user)
-// }
-
-// export const updateUser = async (
-//   id: string,
-//   userUpdateData: UserUpdateServiceData
-// ): Promise<ClientUser> => {
-//   const { name, username, bio, password, files } = userUpdateData // email reconfirm...
-
-//   // validate userId
-//   const _user = await prisma.user.findUnique({ where: { id } })
-//   if (!_user) throw new ApiError(`User with id: ${id} not found.`, 404)
-
-//   // check if new username is available
-//   if (username && username !== _user.username) {
-//     const _user = await prisma.user.findFirst({
-//       where: { username },
-//     })
-//     if (_user)
-//       throw new ApiError(`Username: ${username} is already taken.`, 409)
-//   }
-
-//   const data = {
-//     ...(name && { name }),
-//     ...(username && { username }),
-//     ...(bio && { bio }),
-//     ...(files?.avatar?.length > 0 && { image: files.avatar[0].filename }),
-//     ...(files?.header?.length > 0 && { headerImage: files.header[0].filename }),
-//     ...(password && { password: await hash(password, 10) }),
-//   }
-
-//   const user = await prisma.user.update({
-//     where: { id },
-//     data,
-//   })
-
-//   if (!user) throw new ApiError('Update user failed.', 400)
-
-//   return excludeFromUser(user)
-// }
-
-// export const deleteUser = async (id: string): Promise<ClientUser> => {
-//   // validate id
-//   const _user = await prisma.user.findUnique({ where: { id } })
-//   if (!_user) throw new ApiError('User not found.', 404)
-
-//   // delete posts too, cascade defined in schema
-//   const user = await prisma.user.delete({ where: { id } })
-//   if (!user) throw new ApiError('Delete user failed.', 400)
-
-//   return excludeFromUser(user)
-// }
-
-export interface TeamServiceClient {
-  addPkmnToTeam(teamAddData: TeamAddPokemonData): Promise<string>
-  createTeam(teamData: TeamCreateData): Promise<Team | undefined>
-  listTeams(trainerId: number): Promise<Team[]>
-}
-
-// export class PokeApiClient implements PokeApiClient {
-export default class TeamService implements TeamServiceClient {
+export default class TeamService {
   /**
    * Adds a Pokémon to a team
    * @param teamData - teamId and pokemonId

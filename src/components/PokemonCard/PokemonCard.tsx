@@ -1,18 +1,29 @@
-import { useEffect, useState } from 'react'
+import { useMemo, useState } from 'react'
 import Image from 'next/image'
 import styles from './PokemonCard.module.scss'
-import { Pokemon } from '@/types/models/Pokemon'
 import classNames from 'classnames'
 import PokeBallSvg from '@public/pokeball.svg'
 import { Badge } from '@/components/atoms'
+import { ApiPokemon } from '@/services/pokeApiService'
 
 export type PokemonCardProps = {
-  pkmn?: Pokemon
+  // pkmn?: ApiPokemon | Pokemon
+  pkmn?: ApiPokemon
   active?: boolean
 }
 
 export default function PokemonCard({ pkmn, active = false }: PokemonCardProps) {
   const [isActive, setActive] = useState(false)
+  const pokemon = useMemo(() => {
+    if (pkmn) {
+      if ('spriteURL' in pkmn) {
+        return pkmn
+      } else {
+        return pkmn
+      }
+    }
+  }, [pkmn])
+  console.log(pokemon)
 
   return (
     <div
@@ -23,10 +34,10 @@ export default function PokemonCard({ pkmn, active = false }: PokemonCardProps) 
       {pkmn && (
         <div className={styles.inner}>
           {/* Sprite */}
-          {pkmn.sprite && (
+          {pkmn.sprites.front_default && (
             <div className={styles.sprite}>
               <Image
-                src={pkmn.sprite}
+                src={pkmn.sprites.front_default}
                 alt={pkmn.name}
                 fill
                 // onLoadingComplete={() => setLoaded(true)}
@@ -37,8 +48,8 @@ export default function PokemonCard({ pkmn, active = false }: PokemonCardProps) 
 
           {/* Types */}
           <div className={classNames(styles.badges)}>
-            {pkmn.types?.map((type, index) => (
-              <Badge key={index} label={type} color={type} />
+            {pkmn.types?.map((t: { type: { name: string } }, index: number) => (
+              <Badge key={index} label={t.type.name} color={t.type.name} />
             ))}
           </div>
 
