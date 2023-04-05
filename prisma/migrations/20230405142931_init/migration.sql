@@ -60,7 +60,6 @@ CREATE TABLE `Type` (
 CREATE TABLE `PokemonAbilities` (
     `pokemonId` INTEGER NOT NULL,
     `abilityId` INTEGER NOT NULL,
-    `slot` INTEGER NOT NULL,
 
     PRIMARY KEY (`pokemonId`, `abilityId`)
 ) DEFAULT CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci;
@@ -69,7 +68,6 @@ CREATE TABLE `PokemonAbilities` (
 CREATE TABLE `PokemonTypes` (
     `pokemonId` INTEGER NOT NULL,
     `typeId` INTEGER NOT NULL,
-    `slot` INTEGER NOT NULL,
 
     PRIMARY KEY (`pokemonId`, `typeId`)
 ) DEFAULT CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci;

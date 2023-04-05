@@ -16,17 +16,15 @@ export default class PokemonService {
     const { id, base_experience, name, abilities, types, sprites } = pokemon
 
     // const pokemonAbilities: PokemonAbilities[] = abilities.map(
-    //   (a: { slot: number; ability: { name: string; url: string } }) => ({
+    //   (a: { ability: { name: string; url: string } }) => ({
     //     abilityId: getLastIntFromURL(a.ability.url),
     //     pokemonId: id,
-    //     slot: a.slot,
     //   })
     // )
 
-    // const pokemonTypes: PokemonTypes[] = types.map((t: { slot: number; type: { name: string; url: string } }) => ({
+    // const pokemonTypes: PokemonTypes[] = types.map((t: { type: { name: string; url: string } }) => ({
     //   typeId: getLastIntFromURL(t.type.url),
     //   pokemonId: id,
-    //   slot: t.slot,
     // }))
 
     try {
@@ -48,22 +46,20 @@ export default class PokemonService {
         //   await Promise.all(pokemonTypes.map((t) => this.upsertPkmnType(t)))
         // }
 
-        const pokemonAbilities = abilities.map((a: { slot: number; ability: { name: string; url: string } }) => ({
+        const pokemonAbilities = abilities.map((a: { ability: { name: string; url: string } }) => ({
           ability: {
             connect: {
               id: getLastIntFromURL(a.ability.url),
             },
           },
-          slot: a.slot,
         }))
 
-        const pokemonTypes = types.map((t: { slot: number; type: { name: string; url: string } }) => ({
+        const pokemonTypes = types.map((t: { type: { name: string; url: string } }) => ({
           type: {
             connect: {
               id: getLastIntFromURL(t.type.url),
             },
           },
-          slot: t.slot,
         }))
 
         pkmn = await prisma.pokemon.create({
@@ -77,6 +73,22 @@ export default class PokemonService {
             },
             types: {
               create: pokemonTypes,
+            },
+          },
+          include: {
+            abilities: {
+              select: {
+                ability: {
+                  select: { name: true },
+                },
+              },
+            },
+            types: {
+              select: {
+                type: {
+                  select: { name: true },
+                },
+              },
             },
           },
         })
@@ -117,6 +129,22 @@ export default class PokemonService {
       return await prisma.pokemon.findUnique({
         where: {
           id,
+        },
+        include: {
+          abilities: {
+            select: {
+              ability: {
+                select: { name: true },
+              },
+            },
+          },
+          types: {
+            select: {
+              type: {
+                select: { name: true },
+              },
+            },
+          },
         },
       })
     } catch (e) {

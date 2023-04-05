@@ -5,25 +5,37 @@ import classNames from 'classnames'
 import PokeBallSvg from '@public/pokeball.svg'
 import { Badge } from '@/components/atoms'
 import { ApiPokemon } from '@/services/pokeApiService'
+import { Pokemon } from '@prisma/client'
+
+export interface CardPokemon extends Pokemon {
+  types: { type: { name: string; url: string } }[]
+  abilities: { ability: { name: string; url: string } }[]
+}
 
 export type PokemonCardProps = {
-  // pkmn?: ApiPokemon | Pokemon
-  pkmn?: ApiPokemon
+  pkmn?: ApiPokemon | Pokemon
   active?: boolean
 }
 
 export default function PokemonCard({ pkmn, active = false }: PokemonCardProps) {
   const [isActive, setActive] = useState(false)
-  const pokemon = useMemo(() => {
+  const pokemon = useMemo((): CardPokemon | undefined => {
     if (pkmn) {
       if ('spriteURL' in pkmn) {
-        return pkmn
+        return pkmn as CardPokemon
       } else {
-        return pkmn
+        const { id, name, base_experience, sprites, types, abilities } = pkmn
+        return {
+          id,
+          baseXp: base_experience,
+          name,
+          spriteURL: sprites.front_default,
+          types,
+          abilities,
+        }
       }
     }
   }, [pkmn])
-  console.log(pokemon)
 
   return (
     <div
@@ -31,30 +43,28 @@ export default function PokemonCard({ pkmn, active = false }: PokemonCardProps) 
       onClick={() => pkmn && !active && setActive(!isActive)}
     >
       <PokeBallSvg className={styles.pokeball} />
-      {pkmn && (
+      {pokemon && (
         <div className={styles.inner}>
           {/* Sprite */}
-          {pkmn.sprites.front_default && (
-            <div className={styles.sprite}>
-              <Image
-                src={pkmn.sprites.front_default}
-                alt={pkmn.name}
-                fill
-                // onLoadingComplete={() => setLoaded(true)}
-                priority
-              ></Image>
-            </div>
-          )}
+          <div className={styles.sprite}>
+            <Image
+              src={pokemon.spriteURL}
+              alt={pokemon.name}
+              fill
+              // onLoadingComplete={() => setLoaded(true)}
+              priority
+            ></Image>
+          </div>
 
           {/* Types */}
           <div className={classNames(styles.badges)}>
-            {pkmn.types?.map((t: { type: { name: string } }, index: number) => (
+            {pokemon.types?.map((t: { type: { name: string } }, index: number) => (
               <Badge key={index} label={t.type.name} color={t.type.name} />
             ))}
           </div>
 
           {/* Name */}
-          <h3 className={classNames(styles['pkmn-name'], 'capital')}>{pkmn.name}</h3>
+          <h3 className={classNames(styles['pkmn-name'], 'capital')}>{pokemon.name}</h3>
         </div>
       )}
     </div>

@@ -66,6 +66,15 @@ ul, li {
   list-style: none;
 }
 
+.container {
+  position: relative;
+  padding: 32px;
+  border-radius: var(--radius);
+  border: 1px solid rgb(255 255 255 / 50%);
+  background: linear-gradient(rgb(255 255 255 / 30%), rgb(255 255 255 / 50%));
+  box-shadow: 0 4px 8px rgb(0 0 0 / 15%);
+}
+
 .flex-align-h {
   @include flex-center(main);
 }

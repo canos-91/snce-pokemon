@@ -6,21 +6,34 @@ import { Button } from '@/components/atoms'
 import { getRandomInt } from '@/utils/number'
 import classNames from 'classnames'
 import { PokemonCard } from '@/components'
-import { axiosClient } from '@/lib/apiClient'
 import { Pokemon } from '@prisma/client'
 import { ApiPokemon } from '@/services/pokeApiService'
+// import useSWR, { Fetcher } from 'swr'
+import { axiosClient } from '@/lib/apiClient'
 
 export default function CreateTeam() {
   const [rndPokemon, setPokemon] = useState<ApiPokemon>()
   const [team, setTeam] = useState<ApiPokemon[]>([])
+  // const [rndPkmnId, setRndPkmnId] = useState<number>()
+
+  // const pkmnFetcher: Fetcher<void> = (url: string) => {
+  //   if (rndPkmnId) {
+  //     axiosClient.get<ApiPokemon>(url).then((pkmn) => {
+  //       setPokemon(pkmn)
+  //     })
+  //   }
+  // }
+
+  // useSWR(() => `/api/pokemon/${rndPkmnId}`, pkmnFetcher)
 
   /**
    * Fetches a random Pokémon from the api
    */
   const getRandomPokemon = async () => {
-    const id = getRandomInt(1, 1010)
+    const id = getRandomInt(1, 1)
     const pkmn: ApiPokemon | undefined = await axiosClient.get(`/api/pokemon/${id}`)
-    if (pkmn) setPokemon(pkmn)
+    setPokemon(pkmn)
+    // setRndPkmnId(id)
   }
 
   /**
@@ -36,7 +49,6 @@ export default function CreateTeam() {
 
           if (added) {
             setTeam([...team, rndPokemon])
-            setPokemon(undefined)
           }
         }
       } catch (err) {
@@ -73,3 +85,5 @@ export default function CreateTeam() {
     </>
   )
 }
+
+CreateTeam.requireAuth = true

@@ -61,7 +61,6 @@ model Type {
 model PokemonAbilities {
   pokemonId   Int
   abilityId   Int
-  slot        Int
   pokemon     Pokemon   @relation(fields: [pokemonId], references: [id])
   ability     Ability   @relation(fields: [abilityId], references: [id])
 
@@ -71,7 +70,6 @@ model PokemonAbilities {
 model PokemonTypes {
   pokemonId   Int
   typeId      Int
-  slot        Int
   pokemon     Pokemon   @relation(fields: [pokemonId], references: [id])
   type        Type      @relation(fields: [typeId], references: [id])
 

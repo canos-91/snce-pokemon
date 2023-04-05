@@ -5,11 +5,10 @@ import { PrismaClient } from '@prisma/client'
 const prisma: PrismaClient = new PrismaClient()
 
 export default async function handler(req: NextApiRequest, res: NextApiResponse<any>) {
-  const types = await prisma.pokemon.findMany({
+  const pokemons = await prisma.pokemon.findMany({
     include: {
       abilities: {
         select: {
-          slot: true,
           ability: {
             select: { name: true },
           },
@@ -24,6 +23,5 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse<
       },
     },
   })
-  console.log(types)
-  res.status(200).json(types)
+  res.status(200).json(pokemons)
 }

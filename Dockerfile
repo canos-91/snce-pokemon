@@ -37,6 +37,7 @@ COPY    --from=build  /next-app/public ./public
 COPY    --from=build  /next-app/package.json ./package.json
 COPY    --from=build  /next-app/node_modules ./node_modules
 COPY    --from=build  /next-app/.next ./.next
+COPY    --from=build  /next-app/prisma ./prisma
 
 USER    ${user}
 

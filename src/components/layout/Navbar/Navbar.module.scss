@@ -7,6 +7,22 @@
     li {
       width: 100%;
       padding: 12px;
+
+
+      &.active {
+        a {
+            color: violet;
+          }
+      }
+
+      &.disabled:not(.active) {
+        a {
+          color: grey;
+        }
+
+        pointer-events: none;
+      }
+
     }
   }
 }

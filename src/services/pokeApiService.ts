@@ -5,9 +5,8 @@ import { Ability, Type } from '@prisma/client'
 export interface ApiPokemon {
   id: number
   name: string
-  abilities: { slot: number; ability: { name: string; url: string } }[]
+  abilities: { ability: { name: string; url: string } }[]
   types: {
-    slot: number
     type: { name: string; url: string }
   }[]
   sprites: { front_default: string }
