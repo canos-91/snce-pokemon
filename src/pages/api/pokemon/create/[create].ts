@@ -1,7 +1,7 @@
 import type { NextApiRequest, NextApiResponse } from 'next'
 import { pokemonService } from '@/services'
 import { RouteHandler } from '@/handlers/apiRouteHandler'
-import { ApiPokemon } from '@/services/pokeApiService'
+import { ApiPokemon } from '@/types/models'
 import { Pokemon } from '@prisma/client'
 
 interface PokemonCreateRequest extends NextApiRequest {

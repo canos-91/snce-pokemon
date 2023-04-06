@@ -5,7 +5,7 @@ html {
 }
 
 body {
-  @include text-style(400, 16, 0.5);
+  @include text-style(400, 16);
 
   word-break: break-word;
 }
@@ -90,6 +90,10 @@ h5 {
 
 h6 {
   @include text-style(700, 14, 0.1);
+}
+
+span, a {
+  @include text-style(400, 16);
 }
 
 small {

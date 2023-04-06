@@ -1,0 +1,8 @@
+.new-trainer-form {
+  @include flex-center;
+  
+  text-align: center;
+  margin: 48px 0 96px;
+  flex-direction: column;
+  gap: 24px;
+}

@@ -4,13 +4,13 @@
   flex-shrink: 0;
   height: fit-content;
   width: fit-content;
-  padding: 2px 8px;
-  border-radius: var(--radius-s);
+  padding: 4px 8px;
+  border-radius: var(--radius);
   user-select: none;
   transition: var(--transition-all-1);
 
   small {
-    font-size: px-to-rem(16);
+    font-size: px-to-rem(14);
     font-weight: 600;
   }
 

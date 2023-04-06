@@ -1,21 +1,38 @@
 .layout {
   position: relative;
   display: flex;
+  flex-direction: column;
   height: 100vh;
   width: 100%;
   max-width: 100%;
-  overflow-x: hidden;
-  background: linear-gradient(45deg, #d2ffde, #ceefff, #ded1ff);  
-
+  overflow: hidden;
+  background: var(--bg-gradient);
+  
   .view {
+    position: relative;
     display: flex;
-    flex-direction: column;
     width: 100%;
+    overflow: auto;
+    height: 100%;
+
+    .pokeball {
+      position: absolute;
+      top: 50%;
+      left: calc(50% + var(--navbar-width) / 2);
+      transform: translate(-50%, -50%);
+      fill: rgb(255 255 255 / 15%);
+      height: 600px;
+    }
     
     & > [class*="-page"] {
+      overflow: auto;
       scroll-behavior: smooth;
-      padding: 24px 24px 48px;
-      flex-grow: 1;
+      padding: 48px 24px;
+      width: 100%;
+      min-height: 100%;
+      z-index: 1;
+
+      // flex-grow: 1;
     }
   }
 }

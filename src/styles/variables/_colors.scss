@@ -1,9 +1,11 @@
 :root {
   // Background
   --background-color: var(--grey-100);
+  --bg-gradient: linear-gradient(45deg, #cfffdc, #b4e6ff, #c2aafd);
 
   // Glass
   --glass-border: 1px solid rgb(255 255 255 / 50%);
+  --glass-gradient-top: linear-gradient(to top, transparent, #c2aafd);
   --glass-gradient-1: linear-gradient(rgb(255 255 255 / 10%), rgb(255 255 255 / 30%));
   --glass-gradient-2: linear-gradient(rgb(255 255 255 / 30%), rgb(255 255 255 / 50%));
   --glass-gradient-3: linear-gradient(rgb(255 255 255 / 50%), rgb(255 255 255 / 70%));

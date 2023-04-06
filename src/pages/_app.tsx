@@ -1,10 +1,15 @@
 import '@/styles/global.scss'
+import '@fortawesome/fontawesome-svg-core/styles.css'
+import { config } from '@fortawesome/fontawesome-svg-core'
+import Head from 'next/head'
 import type { AppProps } from 'next/app'
 import { AppLayout } from '@/components/layout'
-import Head from 'next/head'
 import { UserProvider } from '@/context/UserContext'
 
-export default function App({ Component, pageProps }: AppProps) {
+// Tell Font Awesome to skip adding the CSS automatically since it's already imported above
+config.autoAddCss = false
+
+const App = ({ Component, pageProps }: AppProps) => {
   return (
     <>
       <Head>
@@ -35,3 +40,4 @@ export default function App({ Component, pageProps }: AppProps) {
     </>
   )
 }
+export default App

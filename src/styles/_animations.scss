@@ -89,11 +89,11 @@
 
   0%,
   100% {
-    transform: translateY(-5%) scaleX(1) scaleY(1);
+    transform: translateY(0%) scaleX(1) scaleY(1);
   }
 
   50% {
-    transform: translateY(-10%) scaleX(0.95) scaleY(1.03);
+    transform: translateY(-15%) scaleX(0.95) scaleY(1.03);
   }
 }
 

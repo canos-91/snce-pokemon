@@ -23,33 +23,35 @@ body,
   scroll-behavior: smooth;
 }
 
-// body {
-//   scrollbar-color: var(--accent-300) transparent;
-//   background-color: var(--background-color);
-//   color: var(--primary-300);
-//   overflow-y: overlay;
+body {
+  scrollbar-color: var(--primary-200) transparent;
 
-//   ::-webkit-scrollbar {
-//     width: 16px;
-//     height: 16px;
-//   }
+  // background-color: var(--background-color);
+  color: var(--primary-100);
 
-//   ::-webkit-scrollbar-thumb,
-//   ::-webkit-scrollbar-track {
-//     border-radius: var(--radius-s);
-//   }
+  // overflow-y: overlay;
 
-//   ::-webkit-scrollbar-thumb {
-//     border: 4px solid transparent;
-//     background-color: var(--accent-300);
-//     background-clip: padding-box;
-//   }
+  ::-webkit-scrollbar {
+    width: 16px;
+    height: 16px;
+  }
 
-//   ::-webkit-scrollbar-track {
-//     background-color: transparent;
-//   }
+  ::-webkit-scrollbar-thumb,
+  ::-webkit-scrollbar-track {
+    border-radius: var(--radius-s);
+  }
 
-// }
+  ::-webkit-scrollbar-thumb {
+    border: 4px solid transparent;
+    background-color: var(--primary-200);
+    background-clip: padding-box;
+  }
+
+  ::-webkit-scrollbar-track {
+    background-color: transparent;
+  }
+
+}
 
 a {
   text-decoration: none;
@@ -64,15 +66,44 @@ a {
 
 ul, li {
   list-style: none;
+  font-size: 0;
 }
 
 .container {
   position: relative;
   padding: 32px;
   border-radius: var(--radius);
+
+  // border: var(--glass-border);
+  // background: var(--glass-gradient-1);
+  // box-shadow: 0 4px 8px rgb(0 0 0 / 10%);
+  backdrop-filter: blur(16px) saturate(180%);
+  background-color: rgb(255 255 255 / 60%);
+  border: 1px solid rgb(209 213 219 / 30%);
+}
+
+.glass-box {
+  position: relative;
+  border-radius: var(--radius-s);
   border: var(--glass-border);
+  box-shadow: 0 2px 8px rgb(0 0 0 / 10%);
+  z-index: 1;
   background: var(--glass-gradient-1);
-  box-shadow: 0 4px 8px rgb(0 0 0 / 10%);
+
+  &::before {
+    position: absolute;
+    content: '';
+    inset: 0;
+    background: var(--glass-gradient-2);
+    transition: var(--transition-all-1);
+    opacity: 0;
+    z-index: -1;
+  }
+
+  &:hover:not(.disabled)::before,
+  &.active::before {
+    opacity: 1;
+  }
 }
 
 .flex-align-h {

@@ -1,19 +1,8 @@
-import type { IApiClient } from '@/lib/apiClient'
+import { ApiClient, IApiClient } from '@/lib/apiClient'
 import { getRandomInt } from '@/utils/number'
-import { Ability, Type } from '@prisma/client'
+import { ApiPokemon } from '@/types/models'
 
-export interface ApiPokemon {
-  id: number
-  name: string
-  abilities: { ability: { name: string; url: string } }[]
-  types: {
-    type: { name: string; url: string }
-  }[]
-  sprites: { front_default: string }
-  base_experience: number
-}
-
-export default class PokeApiService {
+class PokeApiService {
   apiBaseURL: string
   pokeApiClient: IApiClient
 
@@ -51,3 +40,5 @@ export default class PokeApiService {
     }
   }
 }
+
+export const pokeApiService = new PokeApiService(new ApiClient())

@@ -1,26 +1,22 @@
-import { useState, HTMLAttributes } from 'react'
+import { HTMLAttributes } from 'react'
 
 import styles from './TrainerBadge.module.scss'
 import PokeBallColorSvg from '@public/assets/svg/pokeball_color.svg'
-import { Pokemon, Trainer } from '@prisma/client'
-
-export interface CardPokemon extends Pokemon {
-  types: { type: { name: string; url: string } }[]
-  abilities: { ability: { name: string; url: string } }[]
-}
+import { TrainerWithTeams } from '@/types/models'
 
 interface TrainerBadgeProps extends HTMLAttributes<HTMLDivElement> {
-  trainer: Trainer
+  trainer: TrainerWithTeams
 }
 
 export default function TrainerBadge({ trainer, ...attrs }: TrainerBadgeProps) {
-  const [isActive, setActive] = useState(false)
-
   return (
     <div className={styles['trainer-badge']} {...attrs}>
       <PokeBallColorSvg className={styles.pokeball} />
       {/* Username */}
-      <span className="bold">{trainer.username}</span>
+      <div className={styles.attributes}>
+        <span className={styles.username}>{trainer.username}</span>
+        <small className={styles.teams}>{trainer.teams.length} teams</small>
+      </div>
     </div>
   )
 }

@@ -3,9 +3,9 @@
 .pokemon-card {
   position: relative; 
   padding: 16px 8px 32px;
-  width: 190px;
-  height: 270px;
-  color: var(--white-90);
+  width: 200px;
+  height: 310px;
+  flex-shrink: 0;
   font-size: px-to-rem(24);
   border-radius: 50% 50% / 20% 20%;
   border: var(--glass-border); 
@@ -45,34 +45,46 @@
   
   .inner {
     @include flex-center(cross);
-
+    
     z-index: 1;
     position: relative;
     flex-direction: column;
-    justify-content: space-between;
     height: 100%;
-    width: 100%;
+    
+    // gap: 12px;
     
     .sprite {
-      @include square(100px);
-
+      overflow: hidden;
       position: relative;
     }
     
     
-    .badges {
+    .types {
       display: flex;
+      justify-self: flex-start;
       width: fit-content;
       max-width: 100%;
       gap: 8px;
+      margin-top: 8px;
+    }
+    
+    .abilities {
+      @include flex-center(main);
+
+      flex-direction: column;
+      flex-grow: 1;
+      text-transform: capitalize;
     }
     
     .sprite,
-    .badges {
+    .types,
+    .abilities {
       z-index: 1;
     }
 
     .pkmn-name {
+      justify-self: flex-start;
+      padding: 0 4px;
       color: var(--primary-100);
       text-shadow: 2px 4px 2px rgb(0 0 0 / 10%);
     }
@@ -80,7 +92,7 @@
   
   &.active {
     transform: scale(1.02);
-    box-shadow: 0 8px 16px rgb(0 0 0 / 30%);
+    box-shadow: 0 8px 16px rgb(0 0 0 / 20%);
     
     &::before {
       filter: drop-shadow(0 2px 6px white);
@@ -93,7 +105,7 @@
     
     .inner {
       .sprite {
-        animation: bounce 0.8s ease infinite;
+        animation: bounce 1.3s ease-in-out infinite;
       }
     }
   }

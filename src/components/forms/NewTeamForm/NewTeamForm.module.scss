@@ -1,0 +1,6 @@
+.new-team-form {
+  @include flex-center(cross);
+  
+  flex-direction: column;
+  gap: 24px;
+}

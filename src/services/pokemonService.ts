@@ -1,6 +1,6 @@
 import { prisma } from '@/lib/prismaClient'
 import { Ability, Pokemon, PokemonAbilities, PokemonTypes, Type } from '@prisma/client'
-import { ApiPokemon } from '@/services/pokeApiService'
+import { ApiPokemon, PokemonWithRelations } from '@/types/models'
 import { getLastIntFromURL } from '@/utils/string'
 
 export default class PokemonService {
@@ -12,7 +12,7 @@ export default class PokemonService {
    * Creates a new Pokémon with abilities and types
    * @param pokemon - the Pokémon retrieved from PokéAPI
    */
-  createPokemon = async (pokemon: ApiPokemon): Promise<Pokemon | undefined> => {
+  createPokemon = async (pokemon: ApiPokemon): Promise<PokemonWithRelations | undefined> => {
     const { id, base_experience, name, abilities, types, sprites } = pokemon
 
     // const pokemonAbilities: PokemonAbilities[] = abilities.map(
@@ -66,7 +66,7 @@ export default class PokemonService {
           data: {
             id,
             name,
-            baseXp: base_experience,
+            baseXp: base_experience || 0,
             spriteURL: sprites.front_default,
             abilities: {
               create: pokemonAbilities,
@@ -78,16 +78,12 @@ export default class PokemonService {
           include: {
             abilities: {
               select: {
-                ability: {
-                  select: { name: true },
-                },
+                ability: true,
               },
             },
             types: {
               select: {
-                type: {
-                  select: { name: true },
-                },
+                type: true,
               },
             },
           },
@@ -124,7 +120,7 @@ export default class PokemonService {
    * @param id
    * @returns the found Pokemon or null
    */
-  readPokemon = async (id: number): Promise<Pokemon | null> => {
+  readPokemon = async (id: number): Promise<PokemonWithRelations | null> => {
     try {
       return await prisma.pokemon.findUnique({
         where: {
@@ -133,16 +129,12 @@ export default class PokemonService {
         include: {
           abilities: {
             select: {
-              ability: {
-                select: { name: true },
-              },
+              ability: true,
             },
           },
           types: {
             select: {
-              type: {
-                select: { name: true },
-              },
+              type: true,
             },
           },
         },

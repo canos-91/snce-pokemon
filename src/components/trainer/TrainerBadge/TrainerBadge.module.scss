@@ -6,10 +6,14 @@
   position: relative;
   padding: 8px;
   padding-right: 16px;
-  color: var(--white-90);
+
+  // color: var(--white-90);
   border-radius: 100px;
   box-shadow: 0 4px 8px rgb(0 0 0 / 10%);
   text-shadow: 1px 2px 2px rgb(0 0 0 / 10%);
+
+  // background-color: var(--white-90);
+
   background: linear-gradient(rgb(201 85 255 / 10%), rgb(201 85 255 / 30%));
   cursor: pointer;
   filter: drop-shadow(0 2px 6px white);
@@ -30,11 +34,25 @@
   }
   
   .pokeball {
-    @include square(32px);
+    @include square(24px);
 
     margin-right: 16px;
 
     // animation: jump 0.7s ease infinite ;
+  }
+
+  .attributes {
+    @include flex-center(main);
+
+    flex-direction: column;
+
+    .username {
+      font-weight: 700;
+    }
+
+    .teams {
+      align-self: flex-end;
+    }
   }
 
 }

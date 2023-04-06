@@ -1,27 +1,29 @@
-.create-team-page { 
-  display: flex;
-  justify-content: space-evenly;
-  
-  .random-pkmn {
-    @include flex-center(cross);
+.create-team-page {   
+  .add-to-team {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-evenly;
+    max-width: 100%;
+    gap: 36px;
 
-    flex-direction: column;
-    
-    .btns {
+    .random-pkmn {
       @include flex-center;
-
-      flex-direction: column;
-      margin-top: 32px;
-      gap: 16px;
+      
+      flex-wrap: wrap;
+      
+      // flex-direction: column;
+      height: fit-content;
+      gap: 24px;
+      
+      .btns {
+        @include flex-center;
+        
+        flex-direction: column;
+        flex-shrink: 0;
+        margin-top: 32px;
+        gap: 16px;
+      }
     }
   }
-
-  .team {
-    @include flex-center;
-
-    flex-wrap: wrap;
-    align-content: flex-start;
-    gap: 20px;
-    width: calc(190px * 3 + 106px)
-  }
 }
+  

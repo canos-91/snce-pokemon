@@ -1,5 +1,5 @@
 import { prisma } from '@/lib/prismaClient'
-import { Team } from '@prisma/client'
+import { TeamWithRelations } from '@/types/models'
 
 export interface TeamCreateData {
   trainerId: number
@@ -9,6 +9,28 @@ export interface TeamCreateData {
 export interface TeamAddPokemonData {
   teamId: number
   pokemonId: number
+}
+
+const teamRelations = {
+  trainer: true,
+  pokemons: {
+    include: {
+      pokemon: {
+        include: {
+          abilities: {
+            select: {
+              ability: true,
+            },
+          },
+          types: {
+            select: {
+              type: true,
+            },
+          },
+        },
+      },
+    },
+  },
 }
 
 export default class TeamService {
@@ -32,11 +54,15 @@ export default class TeamService {
    * @param teamData - trainerId and name
    * @returns - the created team or undefined
    */
-  createTeam = async (teamData: TeamCreateData): Promise<Team | undefined> => {
-    //   throw new ApiError(`User with email: ${email} already exists.`, 409)
-
+  createTeam = async (teamData: TeamCreateData): Promise<TeamWithRelations | undefined> => {
     const team = await prisma.team.create({
-      data: teamData,
+      data: {
+        name: teamData.name,
+        trainer: {
+          connect: { id: teamData.trainerId },
+        },
+      },
+      include: teamRelations,
     })
 
     if (!team) throw new Error('An error occurred while creating new team')
@@ -45,16 +71,36 @@ export default class TeamService {
   }
 
   /**
+   * Finds an Team by its ID
+   * @param id
+   * @returns the found Team or null
+   */
+  readTeam = async (id: number): Promise<TeamWithRelations | null> => {
+    try {
+      return await prisma.team.findUnique({
+        where: {
+          id,
+        },
+        include: teamRelations,
+      })
+    } catch (e) {
+      console.log(`An error occurred while reading Team with id ${id}: ${e}`)
+      throw e
+    }
+  }
+
+  /**
    * Lists all teams for a specific trainer
    * @param trainerId - the trainer's ID
    * @returns - the trainer's teams
    */
-  listTeams = async (trainerId: number): Promise<Team[]> => {
+  listTeams = async (trainerId: number): Promise<TeamWithRelations[]> => {
     const teams = await prisma.team.findMany({
-      where: { trainerId },
+      ...(trainerId && { where: { trainerId } }),
       orderBy: {
         createdAt: 'asc',
       },
+      include: teamRelations,
     })
 
     if (!teams.length) throw new Error(`An error occurred while listing trainer's teams`)

@@ -1,12 +1,15 @@
 /* eslint-disable @typescript-eslint/no-empty-function */
-import { Trainer } from '@prisma/client'
+import { TeamWithRelations, TrainerWithTeams } from '@/types/models'
+import { Team } from '@prisma/client'
 import { createContext, useState, useContext, ReactNode, useMemo, useCallback } from 'react'
 
 type TUserContext = {
-  user: Trainer | null
-  setTrainer: (trainer: Trainer) => void
-  setTrainersList: (trainers: Trainer[]) => void
-  trainers: Trainer[]
+  user: TrainerWithTeams | null
+  team: TeamWithRelations | null
+  trainers: TrainerWithTeams[]
+  setTrainer: (trainer: TrainerWithTeams) => void
+  setTrainersList: (trainers: TrainerWithTeams[]) => void
+  setUserTeam: (team: TeamWithRelations) => void
 }
 
 type UserContextProps = {
@@ -15,9 +18,11 @@ type UserContextProps = {
 
 const userContextDefault: TUserContext = {
   user: null,
+  team: null,
+  trainers: [],
   setTrainer: () => {},
   setTrainersList: () => {},
-  trainers: [],
+  setUserTeam: () => {},
 }
 
 const UserContext = createContext<TUserContext>(userContextDefault)
@@ -27,25 +32,32 @@ export function useUser() {
 }
 
 export function UserProvider({ children }: UserContextProps) {
-  const [user, setUser] = useState<Trainer | null>(null)
-  const [trainers, setTrainers] = useState<Trainer[]>([])
+  const [user, setUser] = useState<TrainerWithTeams | null>(null)
+  const [team, setTeam] = useState<TeamWithRelations | null>(null)
+  const [trainers, setTrainers] = useState<TrainerWithTeams[]>([])
 
-  const setTrainer = useCallback((trainer: Trainer) => {
+  const setTrainer = useCallback((trainer: TrainerWithTeams) => {
     setUser(trainer)
   }, [])
 
-  const setTrainersList = useCallback((trainers: Trainer[]) => {
+  const setUserTeam = useCallback((team: TeamWithRelations) => {
+    setTeam(team)
+  }, [])
+
+  const setTrainersList = useCallback((trainers: TrainerWithTeams[]) => {
     setTrainers([...trainers])
   }, [])
 
-  const contextValue: TUserContext = useMemo(
-    () => ({
+  const contextValue = useMemo(
+    (): TUserContext => ({
       user,
+      team,
       trainers,
       setTrainer,
       setTrainersList,
+      setUserTeam,
     }),
-    [user, setTrainer, setTrainersList, trainers]
+    [team, user, setTrainer, setTrainersList, setUserTeam, trainers]
   )
   return (
     <>

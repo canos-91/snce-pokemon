@@ -1,4 +1,5 @@
 import { prisma } from '@/lib/prismaClient'
+import { TrainerWithTeams } from '@/types/models'
 import { Trainer } from '@prisma/client'
 
 export default class TrainerService {
@@ -27,17 +28,13 @@ export default class TrainerService {
    * Lists all trainers
    * @returns - the trainers
    */
-  listTrainers = async (): Promise<Trainer[]> => {
+  listTrainers = async (): Promise<TrainerWithTeams[]> => {
     const trainers = await prisma.trainer.findMany({
       orderBy: {
         id: 'asc',
       },
       include: {
-        teams: {
-          include: {
-            pokemons: true,
-          },
-        },
+        teams: true,
       },
     })
 

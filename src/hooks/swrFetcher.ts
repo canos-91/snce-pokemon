@@ -1,6 +1,6 @@
 // import useSWR from 'swr'
 // import { axiosClient } from '@/lib/apiClient'
-// import { ApiPokemon } from '@/services/pokeApiService'
+// import { ApiPokemon } from '@/types/models'
 
 // const fetcher = (url: string) => axiosClient.get(url).then((res) => res)
 

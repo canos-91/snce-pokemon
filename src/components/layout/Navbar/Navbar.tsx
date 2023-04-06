@@ -35,7 +35,7 @@ export default function Navbar() {
   ]
   return (
     <nav className={styles.navbar}>
-      <ul>
+      <ul className="container">
         {navbarLinks.map((link, index) => (
           <li
             className={classNames(

@@ -2,27 +2,50 @@
   @include flex-center(cross);
 
   flex-direction: column;
+  gap: 36px;
+
+
   
-  .new-user {
+  .logged-in,
+  .logged-out {
     @include flex-center;
 
-    margin: 48px 0 96px;;
     flex-direction: column;
-    gap: 24px;
-    width: 400px;
+    min-width: 450px;
+    max-width: 720px;
+
+    & > h1,
+    & > h2 {
+      text-align: center;
+      margin-bottom: 24px;
+    }
   }
 
-  
-  .trainers {
-    h3 {
-      text-align: center;
-    }
+  .logged-in {
+    padding-top: 56px;
 
-    ul {
-      display: flex;
-      flex-wrap: wrap;
+    .create-edit {    
+      @include flex-center;
+      
       gap: 24px;
-      height: 100%;
+      
+      .link{
+        @include flex-center;
+        @include square(150px);
+        
+        position: relative;
+        flex-direction: column;
+        padding: 12px;
+        gap: 12px;
+        text-align: center;
+        cursor: pointer;
+        color: var(--primary-100);
+
+        span {
+          font-size: px-to-rem(20);
+          font-weight: 500;
+        }
+      }
     }
   }
 }

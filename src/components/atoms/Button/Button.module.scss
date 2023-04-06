@@ -3,10 +3,9 @@
 
   position: relative;
   display: flex;
-  flex-shrink: 0;
   height: fit-content;
   width: fit-content;
-  border-radius: var(--radius-s);
+  border-radius: 45px;
   font-family: inherit;
   border: 1px solid transparent;
   background-color: transparent;
@@ -15,8 +14,10 @@
   transition: var(--transition-all-1);
   user-select: none;
   box-shadow: 0 1px 4px rgb(0 0 0 / 15%);
+  flex-shrink: 0;
 
-  span {  
+  span { 
+    font-weight: 600;
     text-shadow: 1px 2px 2px rgb(0 0 0 / 5%);
 
   }
@@ -33,7 +34,7 @@
   // &.is-medium {
     @include text-style(700, 16, 0.3);
 
-    padding: 7px 15px;
+    padding: 12px 16px;
 
   // }
 

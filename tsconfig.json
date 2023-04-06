@@ -19,7 +19,13 @@
       "@public*": ["./public/*"]
     }
   },
-  "include": ["../next-env.d.ts", "**/*.ts", "**/*.tsx", "prisma/seeds/types.json"],
+  "include": [
+    "../next-env.d.ts",
+    "**/*.ts",
+    "**/*.tsx",
+    "prisma/seeds/types.json",
+    "src/components/pokemon/PokemonBadge/PokemonBadgetsx"
+  ],
   "exclude": ["node_modules"],
   "ts-node": {
     "compilerOptions": {

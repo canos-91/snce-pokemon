@@ -1,7 +1,8 @@
-import { Header, Navbar } from '@/components/layout'
 import styles from './AppLayout.module.scss'
-import { Rubik } from 'next/font/google'
 import classNames from 'classnames'
+import { Rubik } from 'next/font/google'
+import { Header, Navbar } from '@/components/layout'
+import PokeBallSvg from '@public/assets/svg/pokeball.svg'
 
 const rubik = Rubik({ subsets: ['latin'] })
 
@@ -12,9 +13,10 @@ interface AppLayoutProps {
 export default function AppLayout({ children }: AppLayoutProps) {
   return (
     <div className={classNames(styles.layout, rubik.className)}>
-      <Navbar />
+      <Header />
       <div className={styles.view}>
-        <Header />
+        <Navbar />
+        <PokeBallSvg className={styles.pokeball} />
         {children}
       </div>
     </div>
