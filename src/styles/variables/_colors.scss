@@ -2,6 +2,13 @@
   // Background
   --background-color: var(--grey-100);
 
+  // Glass
+  --glass-border: 1px solid rgb(255 255 255 / 50%);
+  --glass-gradient-1: linear-gradient(rgb(255 255 255 / 10%), rgb(255 255 255 / 30%));
+  --glass-gradient-2: linear-gradient(rgb(255 255 255 / 30%), rgb(255 255 255 / 50%));
+  --glass-gradient-3: linear-gradient(rgb(255 255 255 / 50%), rgb(255 255 255 / 70%));
+  --glass-gradient-4: linear-gradient(rgb(255 255 255 / 70%), rgb(255 255 255 / 90%));
+
   // Pokemon types colors
   --bug: #A8B820;
   --bug-light: #C6D16E;

@@ -1,16 +1,28 @@
 .home-page {
-  @include flex-center;
-  
-  .trainers {
-    @include flex-center;
+  @include flex-center(cross);
 
-  }
+  flex-direction: column;
   
   .new-user {
     @include flex-center;
 
+    margin: 48px 0 96px;;
     flex-direction: column;
     gap: 24px;
     width: 400px;
+  }
+
+  
+  .trainers {
+    h3 {
+      text-align: center;
+    }
+
+    ul {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 24px;
+      height: 100%;
+    }
   }
 }

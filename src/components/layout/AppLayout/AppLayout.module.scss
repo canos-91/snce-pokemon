@@ -1,20 +1,21 @@
 .layout {
   position: relative;
-  display: grid;
-  grid-template-rows: var(--header-height) 1fr;
-  grid-template-columns: var(--navbar-width) 1fr;
+  display: flex;
   height: 100vh;
   width: 100%;
   max-width: 100%;
   overflow-x: hidden;
   background: linear-gradient(45deg, #d2ffde, #ceefff, #ded1ff);  
-  
-  & > [class*="page"] {
+
+  .view {
     display: flex;
     flex-direction: column;
-    flex-grow: 1;
-    overflow-y: auto;
-    scroll-behavior: smooth;
-    padding: 24px;
+    width: 100%;
+    
+    & > [class*="-page"] {
+      scroll-behavior: smooth;
+      padding: 24px 24px 48px;
+      flex-grow: 1;
+    }
   }
 }

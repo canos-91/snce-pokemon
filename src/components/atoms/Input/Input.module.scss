@@ -6,9 +6,20 @@
   padding: 12px 16px;
   width: 100%;
   transition: var(--transition-all-1);
-  border: 1px solid rgb(255 255 255 / 50%);
-  box-shadow: 0 2px 4px rgb(0 0 0 / 15%);
-  background: linear-gradient(rgb(255 255 255 / 30%), rgb(255 255 255 / 50%));
+  border: var(--glass-border);
+  box-shadow: 0 2px 8px rgb(0 0 0 / 10%);
+  z-index: 1;
+  background: var(--glass-gradient-1);
+
+  &::before {
+    position: absolute;
+    content: '';
+    inset: 0;
+    background: var(--glass-gradient-1);
+    transition: var(--transition-all-1);
+    opacity: 0;
+    z-index: -1;
+  }
 
   input {
     width: 100%;
@@ -29,8 +40,8 @@
     }
   }
 
-  &:hover:not(.disabled),
-  &.active {
-    background: linear-gradient(rgb(255 255 255 / 50%), rgb(255 255 255 / 70%));
+  &:hover:not(.disabled)::before,
+  &.active::before {
+        opacity: 1;
   }
 }

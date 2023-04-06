@@ -1,6 +1,6 @@
 /* eslint-disable @typescript-eslint/no-empty-function */
 import { Trainer } from '@prisma/client'
-import { createContext, useState, useContext, ReactNode } from 'react'
+import { createContext, useState, useContext, ReactNode, useMemo, useCallback } from 'react'
 
 type TUserContext = {
   user: Trainer | null
@@ -30,23 +30,26 @@ export function UserProvider({ children }: UserContextProps) {
   const [user, setUser] = useState<Trainer | null>(null)
   const [trainers, setTrainers] = useState<Trainer[]>([])
 
-  const setTrainer = (trainer: Trainer) => {
+  const setTrainer = useCallback((trainer: Trainer) => {
     setUser(trainer)
-  }
+  }, [])
 
-  const setTrainersList = (trainers: Trainer[]) => {
+  const setTrainersList = useCallback((trainers: Trainer[]) => {
     setTrainers([...trainers])
-  }
+  }, [])
 
-  const value: TUserContext = {
-    user,
-    setTrainer,
-    setTrainersList,
-    trainers,
-  }
+  const contextValue: TUserContext = useMemo(
+    () => ({
+      user,
+      trainers,
+      setTrainer,
+      setTrainersList,
+    }),
+    [user, setTrainer, setTrainersList, trainers]
+  )
   return (
     <>
-      <UserContext.Provider value={value}>{children}</UserContext.Provider>
+      <UserContext.Provider value={contextValue}>{children}</UserContext.Provider>
     </>
   )
 }

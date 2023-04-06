@@ -1,4 +1,4 @@
 import PokemonCard from './PokemonCard/PokemonCard'
-import PokemonTeam from './PokemonTeam/PokemonTeam'
+import TrainerBadge from './TrainerBadge/TrainerBadge'
 
-export { PokemonCard, PokemonTeam }
+export { PokemonCard, TrainerBadge }

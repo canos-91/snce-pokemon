@@ -1,7 +1,9 @@
 .create-team-page { 
+  display: flex;
+  justify-content: space-evenly;
   
   .random-pkmn {
-    @include flex-center;
+    @include flex-center(cross);
 
     flex-direction: column;
     
@@ -9,7 +11,17 @@
       @include flex-center;
 
       flex-direction: column;
+      margin-top: 32px;
       gap: 16px;
     }
+  }
+
+  .team {
+    @include flex-center;
+
+    flex-wrap: wrap;
+    align-content: flex-start;
+    gap: 20px;
+    width: calc(190px * 3 + 106px)
   }
 }

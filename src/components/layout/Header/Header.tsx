@@ -1,12 +1,10 @@
-import Image from 'next/image'
 import styles from './Header.module.scss'
+import PkmnLogo from '@public/assets/svg/pkmn_logo.svg'
 
 export default function Header() {
   return (
     <header className={styles.header}>
-      <div className={styles.logo}>
-        <Image src="/pkmn_logo.svg" alt="logo" fill />
-      </div>
+      <PkmnLogo className={styles.logo} alt="logo" />
     </header>
   )
 }

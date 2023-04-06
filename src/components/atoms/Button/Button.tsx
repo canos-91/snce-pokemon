@@ -10,9 +10,9 @@ interface ButtonProps extends ButtonHTMLAttributes<HTMLButtonElement> {
   onClick: () => void
 }
 
-export default function Button({ action = '', color = 'default', disabled, ...rest }: ButtonProps) {
+export default function Button({ action = '', color = 'default', disabled, ...attrs }: ButtonProps) {
   return (
-    <button className={classNames(style.btn, style[`btn-${color}`], disabled && style.disabled)} {...rest}>
+    <button className={classNames(style.btn, style[`btn-${color}`], disabled && style.disabled)} {...attrs}>
       <span className="capital">{action}</span>
     </button>
   )

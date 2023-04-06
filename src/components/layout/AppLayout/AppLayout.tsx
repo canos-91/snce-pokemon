@@ -12,9 +12,11 @@ interface AppLayoutProps {
 export default function AppLayout({ children }: AppLayoutProps) {
   return (
     <div className={classNames(styles.layout, rubik.className)}>
-      <Header />
       <Navbar />
-      {children}
+      <div className={styles.view}>
+        <Header />
+        {children}
+      </div>
     </div>
   )
 }
