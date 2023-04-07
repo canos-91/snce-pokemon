@@ -1,38 +1,89 @@
-This is a [Next.js](https://nextjs.org/) project bootstrapped with [`create-next-app`](https://github.com/vercel/next.js/tree/canary/packages/create-next-app).
+# SNCE POKEMON APP
 
-## Getting Started
+This is a test project developed for S'nce Group.
 
-First, run the development server:
+This is a Next.js project in a Dockerised environment.
+
+Three services are run by Docker: Next.js app with Prisma ORM,
+local MySQL database, NginX proxy server
+
+The docker-compose script builds and runs the services from Dockerfile
+The Dockerfile are multi-stage builds optimized to cache dependencies
+
+## Requirements
+
+- Docker
+- Node.js and NPM package manager
+- A few GB of available space
+- Internet connection
+
+## Environment Variables
+
+To run this project, you will need to add the following environment variables to your .env file
+Make a '.env.example' copy on root folder and rename it to '.env'
+
+Set DB_PASSWORD field in .env file to 'root'
 
 ```bash
-npm run dev
-# or
-yarn dev
-# or
-pnpm dev
+DB_PASSWORD=root
 ```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+## Run Locally
 
-You can start editing the page by modifying `pages/index.tsx`. The page auto-updates as you edit the file.
+Please note that bash command could differ depending on your OS, so they will be astracted
+Open a terminal in root folder and install dependencies with npm package manager, then run Docker script:
 
-[API routes](https://nextjs.org/docs/api-routes/introduction) can be accessed on [http://localhost:3000/api/hello](http://localhost:3000/api/hello). This endpoint can be edited in `pages/api/hello.ts`.
+```bash
+npm install
 
-The `pages/api` directory is mapped to `/api/*`. Files in this directory are treated as [API routes](https://nextjs.org/docs/api-routes/introduction) instead of React pages.
+docker-compose up
+# or, to run in background
+docker-compose up -d
+```
 
-This project uses [`next/font`](https://nextjs.org/docs/basic-features/font-optimization) to automatically optimize and load Inter, a custom Google Font.
+## Migrations
 
-## Learn More
+When the script is done, open a new terminal in the root folder and enter the Next.js container to run migrations:
 
-To learn more about Next.js, take a look at the following resources:
+```bash
+# enter container
+docker exec -it snce-pokemon-app sh
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+# run migrations
+npx prisma migrate dev
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js/) - your feedback and contributions are welcome!
+#run seeder
+npx prisma db seed
+```
 
-## Deploy on Vercel
+Now you can access the app with your browser on [http://localhost:3000](http://localhost:3000)
 
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
+[API routes](https://nextjs.org/docs/api-routes/introduction) can be accessed on [http://localhost:3000/api](http://localhost:3000/api) with HTTP requests
 
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/deployment) for more details.
+## Additional actions
+
+Some useful actions to perform if needed:
+
+```bash
+# From inside Next.js container
+
+# reset migrations
+npx prisma migrate reset
+```
+
+```bash
+# From root folder
+
+#Stop containers
+docker-compose down
+
+#Rebuild images
+docker-compose build
+
+# Remove docker volumes
+npm clean
+```
+
+## Author
+
+- [@marcocanopoli](https://www.github.com/marcocanopoli)
