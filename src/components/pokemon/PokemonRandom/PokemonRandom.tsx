@@ -1,7 +1,7 @@
 import styles from './PokemonRandom.module.scss'
 import classNames from 'classnames'
 import type { ApiPokemon, PokemonWithRelations } from '@/types/models'
-import { useState } from 'react'
+import { useMemo, useState } from 'react'
 import { useUser } from '@/context/UserContext'
 import { axiosClient } from '@/lib/apiClient'
 import { pokeApiService } from '@/services/pokeApiService'
@@ -29,6 +29,8 @@ export default function PokemonRandom({ save = false }: PokemonRandomProps) {
   // }
 
   // useSWR(() => `/api/pokemon/${rndPkmnId}`, pkmnFetcher)
+
+  const teamPokemonIds: number[] = useMemo(() => teamPokemons?.map((p) => p.id) || [], [teamPokemons])
 
   /**
    * Fetches a random Pokémon from the api
@@ -76,7 +78,11 @@ export default function PokemonRandom({ save = false }: PokemonRandomProps) {
       <PokemonCard pkmn={rndPokemon} active={rndPokemon !== undefined} />
       <div className={styles.btns}>
         <Button onClick={getRandomPokemon} action="Gotta catch 'em all!" color="accent" />
-        <Button onClick={addToTeam} action="Add to team" disabled={!rndPokemon || teamPokemons.length >= 6} />
+        <Button
+          onClick={addToTeam}
+          action="Add to team"
+          disabled={!rndPokemon || teamPokemons.length >= 6 || teamPokemonIds.includes(rndPokemon.id)}
+        />
       </div>
     </div>
   )

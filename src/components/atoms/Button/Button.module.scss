@@ -82,12 +82,12 @@
     Error
   ========================================================================== */
 
-  @include btn-style(".btn-error", default, var(--white-90), var(--error-p));
+  @include btn-style(".btn-error", default, var(--white-90), var(--error-400));
   @include btn-style(".btn-error", hover, base, var(--error-300));
   @include btn-style(".btn-error", active, base, var(--error-500));
   @include btn-style(".btn-error", disabled);
   @include btn-style(".btn-error.no-action", default, var(--primary-300), var(--grey-300));
-  @include btn-style(".btn-error.no-action", hover, var(--error-p), var(--error-100));
+  @include btn-style(".btn-error.no-action", hover, var(--error-400), var(--error-100));
   @include btn-style(".btn-error.no-action", active, var(--error-500), var(--error-200));
   @include btn-style(".btn-error.no-action", disabled, var(--primary-300), var(--grey-500));
 
@@ -95,7 +95,7 @@
     Error alt
   ========================================================================== */
 
-  @include btn-style(".btn-error-alt", default, var(--error-p), transparent);
+  @include btn-style(".btn-error-alt", default, var(--error-400), transparent);
   @include btn-style(".btn-error-alt", default, base, var(--grey-300), "large");
   @include btn-style(".btn-error-alt", hover, base, var(--error-100));
   @include btn-style(".btn-error-alt", active, var(--error-500), var(--error-200));
@@ -115,7 +115,7 @@
   ========================================================================== */
 
   @include btn-style(".btn-warning", default, var(--primary-300), var(--grey-300));
-  @include btn-style(".btn-warning", hover, var(--warning-p), var(--warning-100));
+  @include btn-style(".btn-warning", hover, var(--warning-400), var(--warning-100));
   @include btn-style(".btn-warning", active, var(--warning-500), var(--warning-200));
   @include btn-style(".btn-warning", disabled, var(--primary-300), var(--grey-500));
 }

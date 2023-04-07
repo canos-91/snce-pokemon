@@ -8,9 +8,14 @@ const getTeam = async (req: NextApiRequest): Promise<TeamWithRelations | null> =
   return await teamService.readTeam(body)
 }
 
+const deleteTeam = async (req: NextApiRequest): Promise<boolean> => {
+  const { query } = req
+  return await teamService.deleteTeam(parseInt(query.id as string))
+}
+
 export default async function handler(
   req: NextApiRequest,
   res: NextApiResponse
 ): Promise<TeamWithRelations | undefined | void> {
-  return await RouteHandler(req, res, { GET: getTeam })
+  return await RouteHandler(req, res, { GET: getTeam, DELETE: deleteTeam })
 }

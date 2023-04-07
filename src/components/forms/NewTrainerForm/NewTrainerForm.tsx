@@ -19,7 +19,7 @@ export default function NewTrainerForm() {
   const createTrainer = async (event: FormEvent) => {
     event.preventDefault()
 
-    const trainer: TrainerWithTeams | undefined = await axiosClient.post(`/api/trainer/create`, { username })
+    const trainer: TrainerWithTeams | undefined = await axiosClient.post(`/api/trainer/upsert`, { username })
     if (trainer) {
       setCurrentTrainer(trainer)
     }

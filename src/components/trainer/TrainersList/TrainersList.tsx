@@ -17,15 +17,16 @@ export default function TrainersList() {
   return (
     <section className={styles['trainers-list']}>
       <ul className="container">
-        {trainers.map((trainer, i) => (
-          <li key={i}>
-            <GlassBadge
-              type="trainer"
-              attributes={{ title: trainer.username, subtitle: `${trainer.teams?.length} teams` }}
-              onClick={() => setCurrentUser(trainer)}
-            />
-          </li>
-        ))}
+        {trainers?.length > 0 &&
+          trainers?.map((trainer, i) => (
+            <li key={i}>
+              <GlassBadge
+                type="trainer"
+                attributes={{ title: trainer.username, subtitle: `${trainer.teams?.length} teams` }}
+                onClick={() => setCurrentUser(trainer)}
+              />
+            </li>
+          ))}
       </ul>
     </section>
   )

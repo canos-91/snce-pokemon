@@ -1,6 +1,9 @@
 .team-edit-form {
   @include flex-center(cross);
 
+  flex-direction: column;
+  gap: 24px;
+
   .title {
     align-self: flex-start;
   }
@@ -16,6 +19,11 @@
     }
   }
 
-  flex-direction: column;
-  gap: 24px;
+  .actions {
+    @include flex-center(cross);
+
+    align-self: flex-end;
+    gap: 16px;
+  }
+
 }

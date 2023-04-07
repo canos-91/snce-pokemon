@@ -3,7 +3,6 @@ import styles from './Home.module.scss'
 import classNames from 'classnames'
 import { useUser } from '@/context/UserContext'
 import { useEffect, useState } from 'react'
-import { axiosClient } from '@/lib/apiClient'
 import { TrainersList } from '@/components/trainer'
 import type { TrainerWithTeams } from '@/types/models'
 import { NewTrainerForm } from '@/components/forms'
@@ -11,24 +10,37 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faSquarePlus, faPenSquare } from '@fortawesome/free-solid-svg-icons'
 import Link from 'next/link'
 import TeamsList from '@/components/team/TeamsList/TeamsList'
+import { loadTrainers } from '@/lib/loadTrainers'
 
-export default function Home() {
-  const { trainer, setCurrentTrainersList } = useUser()
+interface HomeProps {
+  fetchedTrainers: TrainerWithTeams[]
+}
+
+/**
+ * Load stored trainers before mount
+ */
+export async function getStaticProps() {
+  const fetchedTrainers: TrainerWithTeams[] | undefined = await loadTrainers()
+
+  return {
+    props: {
+      fetchedTrainers,
+    },
+  }
+}
+
+export default function Home({ fetchedTrainers }: HomeProps) {
+  const { trainer, setCurrentTrainersList, trainers } = useUser()
   const [isTeamListSet, setTeamList] = useState<boolean>(false)
 
   /**
-   * Load stored trainers on mount
+   * Store fetched trainers
    */
   useEffect(() => {
-    const getTrainers = async () => {
-      const dbTrainers: TrainerWithTeams[] | undefined = await axiosClient.get(`/api/trainer/list`)
-
-      if (dbTrainers) {
-        setCurrentTrainersList(dbTrainers)
-      }
+    if (fetchedTrainers) {
+      setCurrentTrainersList(fetchedTrainers)
     }
-    getTrainers()
-  }, [setCurrentTrainersList])
+  }, [setCurrentTrainersList, fetchedTrainers])
 
   const showTeams = () => {
     setTeamList(true)
@@ -43,10 +55,14 @@ export default function Home() {
         {!trainer ? (
           // Logged in
           <section className={styles['logged-out']}>
-            <h2>Select your profile or create one</h2>
+            {trainers.length > 0 && (
+              <>
+                <h2>Select your profile or create one</h2>
 
-            {/* Trainers */}
-            <TrainersList />
+                {/* Trainers */}
+                <TrainersList />
+              </>
+            )}
 
             {/* New trainer */}
             <NewTrainerForm />

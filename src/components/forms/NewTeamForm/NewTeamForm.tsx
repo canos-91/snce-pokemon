@@ -19,7 +19,8 @@ export default function NewTeamForm() {
   const createTeam = async (event: FormEvent) => {
     event.preventDefault()
 
-    const team: TeamWithRelations | undefined = await axiosClient.post(`/api/team/create`, {
+    const team: TeamWithRelations | undefined = await axiosClient.post(`/api/team/upsert`, {
+      id: -1,
       name: teamName,
       trainerId: trainer?.id,
     })

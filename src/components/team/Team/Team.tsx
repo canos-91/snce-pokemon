@@ -2,31 +2,54 @@ import styles from './Team.module.scss'
 import classNames from 'classnames'
 import { PokemonBadge } from '@/components/pokemon'
 import { useUser } from '@/context/UserContext'
-import { forwardRef, useImperativeHandle } from 'react'
+import { forwardRef, useEffect, useImperativeHandle, useState } from 'react'
 import { axiosClient } from '@/lib/apiClient'
 import type { SaveTeam } from '@/pages/team/create'
+import type { PokemonWithRelations, TeamWithRelations } from '@/types/models'
 
 interface TeamProps {
   deleteFromTeam?: boolean
+  team?: TeamWithRelations
 }
 
-const Team = forwardRef<SaveTeam, TeamProps>(({ deleteFromTeam = false }: TeamProps, ref) => {
-  const { currentTeam, teamPokemons } = useUser()
+const Team = forwardRef<SaveTeam, TeamProps>(({ team, deleteFromTeam = false }: TeamProps, ref) => {
+  const { trainer, currentTeam, teamPokemons, setCurrentTrainer } = useUser()
+  const [sectionTeam, setSectionTeam] = useState<TeamWithRelations | null>(null)
+  const [sectionPokemons, setSectionPokemons] = useState<PokemonWithRelations[]>([])
 
   Team.displayName = 'Team'
+
+  /**
+   * Store team
+   */
+  useEffect(() => {
+    if (team) {
+      setSectionTeam(sectionTeam)
+      setSectionPokemons(team.pokemons?.map((tp) => tp.pokemon))
+    } else {
+      setSectionTeam(currentTeam)
+      setSectionPokemons(teamPokemons)
+    }
+  }, [team, sectionTeam, currentTeam, teamPokemons])
 
   /**
    * Save current team Pokémons to DB
    */
   const saveTeam = async (): Promise<void> => {
-    if (currentTeam) {
+    if (sectionTeam && trainer) {
       try {
-        const payload = teamPokemons.map((p) => ({
-          teamId: currentTeam.id,
+        const payload = sectionPokemons.map((p) => ({
+          teamId: sectionTeam.id,
           pokemonId: p.id,
         }))
 
-        await axiosClient.post(`/api/team/pokemon/save`, payload)
+        const saved: TeamWithRelations | null = await axiosClient.post(`/api/team/pokemon/save`, payload)
+
+        if (saved) {
+          const { teams, ...rest } = trainer
+          const trainerTeams = teams?.filter((t) => t.id !== sectionTeam.id) || []
+          setCurrentTrainer({ ...rest, teams: [...trainerTeams, saved] })
+        }
       } catch (err) {
         console.log(err)
       }
@@ -59,7 +82,7 @@ const Team = forwardRef<SaveTeam, TeamProps>(({ deleteFromTeam = false }: TeamPr
 
   return (
     <section className={classNames(styles['pokemon-team'], 'container')}>
-      {teamPokemons.map((pokemon, index) => (
+      {sectionPokemons.map((pokemon, index) => (
         <PokemonBadge pkmn={pokemon} key={index} idx={index} deleteFromTeam={deleteFromTeam} />
       ))}
     </section>

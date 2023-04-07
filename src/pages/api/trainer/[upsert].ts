@@ -7,11 +7,11 @@ interface TrainerCreateRequest extends NextApiRequest {
   body: { username: string }
 }
 
-const createTrainer = async (req: TrainerCreateRequest): Promise<Trainer | undefined> => {
+const uspsertTrainer = async (req: TrainerCreateRequest): Promise<Trainer | undefined> => {
   const { body }: TrainerCreateRequest = req
-  return await trainerService.createTrainer(body.username)
+  return await trainerService.uspsertTrainer(body.username)
 }
 
 export default async function handler(req: NextApiRequest, res: NextApiResponse) {
-  return await RouteHandler(req, res, { POST: createTrainer })
+  return await RouteHandler(req, res, { POST: uspsertTrainer })
 }

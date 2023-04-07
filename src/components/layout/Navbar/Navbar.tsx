@@ -30,11 +30,11 @@ export default function Navbar() {
     {
       icon: '',
       label: 'Your teams',
-      src: '/team/create',
+      src: '/team/list',
     },
   ]
   return (
-    <nav className={classNames(styles.navbar, 'container')}>
+    <nav className={classNames(styles.navbar, 'glass-box')}>
       <ul>
         {navbarLinks.map((link, index) => (
           <li

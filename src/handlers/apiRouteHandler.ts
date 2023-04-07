@@ -13,7 +13,7 @@ export interface RouteHandlers {
 export async function RouteHandler(request: NextApiRequest, response: NextApiResponse, handlers: RouteHandlers) {
   const method = request.method as HttpMethod
   const handler: HttpHandler | undefined = handlers[method]
-  console.log(method)
+  console.log(request.query)
 
   if (!handler) {
     return response.status(405).send('Method not allowed')

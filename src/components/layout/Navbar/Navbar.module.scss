@@ -23,12 +23,17 @@
 
       &.disabled:not(.active) {
         a {
-          color: var(--grey-500);
+          color: var(--grey-600);
         }
 
         pointer-events: none;
       }
 
     }
+  }
+
+  &:hover:not(.disabled)::before,
+  &.active::before {
+    opacity: 0;
   }
 }

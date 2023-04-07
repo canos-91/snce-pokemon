@@ -7,7 +7,7 @@ type ButtonColor = 'default' | 'accent' | 'error' | 'error-alt' | 'primary' | 's
 interface ButtonProps extends ButtonHTMLAttributes<HTMLButtonElement> {
   action?: string
   color?: ButtonColor
-  onClick?: () => void
+  onClick?: (params?: any) => void
 }
 
 export default function Button({ action = '', color = 'default', disabled, ...attrs }: ButtonProps) {

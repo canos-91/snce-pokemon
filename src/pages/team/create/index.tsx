@@ -14,7 +14,7 @@ export interface SaveTeam {
 }
 
 export default function CreateTeam() {
-  useAuthGuard({ team: true })
+  useAuthGuard({})
 
   const { currentTeam } = useUser()
   const save = useRef<SaveTeam>(null)

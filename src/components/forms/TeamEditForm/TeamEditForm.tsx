@@ -4,31 +4,51 @@ import { useUser } from '@/context/UserContext'
 import { useState, useMemo, FormEvent } from 'react'
 import { axiosClient } from '@/lib/apiClient'
 import { Button, Input } from '@/components/atoms'
-import { TeamWithRelations } from '@/types/models'
+import { TeamWithRelations, TrainerWithTeams } from '@/types/models'
+import { useRouter } from 'next/router'
 
 export default function TeamEditForm() {
+  const router = useRouter()
   const [teamName, setTeamName] = useState<string>('')
-  const { trainer, setCurrentTeam, currentTeam } = useUser()
+  const { trainer, trainers, setCurrentTeam, currentTeam, setCurrentTrainer, setCurrentTrainersList } = useUser()
 
-  const teamNames: string[] = useMemo(
-    () => trainer?.teams?.map((t) => t.name.toLowerCase()).filter((name) => name !== currentTeam?.name) || [],
-    [trainer?.teams]
-  )
+  const teamNames: string[] = useMemo(() => trainer?.teams?.map((t) => t.name.toLowerCase()) || [], [trainer?.teams])
 
   /**
-   * Creates a new Team for current trainer
+   * Edits current team info
    */
 
   const updateTeam = async (event: FormEvent) => {
     event.preventDefault()
 
-    const team: TeamWithRelations | undefined = await axiosClient.post(`/api/team/create`, {
+    const updated: TeamWithRelations | undefined = await axiosClient.put(`/api/team/upsert`, {
       name: teamName,
+      id: currentTeam?.id,
       trainerId: trainer?.id,
     })
-    if (team) {
-      // if (!teamNames.includes(created.username)) setCurrentTrainersList([...trainers, created])
-      setCurrentTeam(team)
+    if (updated) {
+      setCurrentTrainersList([...trainers.filter((t) => t.id !== trainer?.id), updated.trainer as TrainerWithTeams])
+      setTeamName('')
+      setCurrentTeam(updated)
+    }
+  }
+
+  /**
+   * Deletes team
+   */
+  const deleteTeam = async (event: FormEvent) => {
+    event.preventDefault()
+
+    if (currentTeam && trainer) {
+      const deleted: boolean = await axiosClient.delete(`/api/team/${currentTeam.id}`)
+
+      if (deleted === true) {
+        const { teams, ...rest } = trainer
+        const filteredTeams = teams?.filter((t) => t.id !== currentTeam.id)
+        setCurrentTrainer({ ...rest, teams: filteredTeams })
+        setCurrentTeam(null)
+        router.push('/home')
+      }
     }
   }
 
@@ -48,12 +68,15 @@ export default function TeamEditForm() {
           placeholder={currentTeam?.name}
         />
       </div>
-      <Button
-        action="Save"
-        color="accent"
-        type="submit"
-        disabled={!teamName || teamNames.includes(teamName.toLocaleLowerCase())}
-      />
+      <div className={styles.actions}>
+        <Button
+          action="Save"
+          color="accent"
+          type="submit"
+          disabled={!teamName || teamNames.includes(teamName.toLocaleLowerCase())}
+        />
+        <Button action="Delete" color="error" onClick={(event: FormEvent) => deleteTeam(event)} />
+      </div>
     </form>
   )
 }

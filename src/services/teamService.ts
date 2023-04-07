@@ -2,6 +2,7 @@ import { prisma } from '@/lib/prismaClient'
 import { TeamWithRelations } from '@/types/models'
 
 export interface TeamCreateData {
+  id?: number
   trainerId: number
   name: string
 }
@@ -75,6 +76,25 @@ export default class TeamService {
   }
 
   /**
+   * Updates a team for a specific trainer
+   * @param teamData - trainerId and name
+   * @returns - the created team or undefined
+   */
+  updateTeam = async (teamData: TeamCreateData): Promise<TeamWithRelations | undefined> => {
+    const team = await prisma.team.update({
+      where: {
+        id: teamData.id,
+      },
+      data: teamData,
+      include: teamRelations,
+    })
+
+    if (!team) throw new Error('An error occurred while creating new team')
+
+    return team
+  }
+
+  /**
    * Lists all teams for a specific trainer
    * @param trainerId - the trainer's ID
    * @returns - the trainer's teams
@@ -91,6 +111,22 @@ export default class TeamService {
     if (!teams.length) throw new Error(`An error occurred while listing trainer's teams`)
 
     return teams
+  }
+
+  /**
+   * Deletes a team by its ID
+   * @param teamId - team ID
+   * @returns
+   */
+  deleteTeam = async (teamId: number): Promise<boolean> => {
+    const removed = await prisma.team.delete({
+      where: {
+        id: teamId,
+      },
+    })
+
+    if (!removed) throw new Error('An error occurred while deleting team')
+    return true
   }
 
   /* ==========================================================================
@@ -124,12 +160,12 @@ export default class TeamService {
    * @param teamAddData - array of teamId and pokemonId
    * @returns
    */
-  upsertManyTeamPokemons = async (teamAddData: TeamPokemonData[]): Promise<boolean> => {
+  upsertManyTeamPokemons = async (teamAddData: TeamPokemonData[]): Promise<TeamWithRelations | null> => {
     const updated = await Promise.all(teamAddData.map((p) => this.upsertTeamPokemon(p)))
 
     if (!updated) throw new Error('An error occurred while adding Pokémons to team')
 
-    return true
+    return this.readTeam(teamAddData[0].teamId)
   }
 
   /**

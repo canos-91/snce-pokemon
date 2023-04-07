@@ -9,7 +9,7 @@ type TUserContext = {
   setTeamPokemons: (pokemons: PokemonWithRelations[]) => void
   setCurrentTrainer: (trainer: TrainerWithTeams) => void
   setCurrentTrainersList: (trainers: TrainerWithTeams[]) => void
-  setCurrentTeam: (team: TeamWithRelations) => void
+  setCurrentTeam: (team: TeamWithRelations | null) => void
 }
 
 type UserContextProps = {
@@ -47,7 +47,7 @@ export function UserProvider({ children }: UserContextProps) {
     setCurrentTrainers([...trainers])
   }, [])
 
-  const setCurrentTeam = useCallback((team: TeamWithRelations) => {
+  const setCurrentTeam = useCallback((team: TeamWithRelations | null) => {
     setTeam(team)
   }, [])
 

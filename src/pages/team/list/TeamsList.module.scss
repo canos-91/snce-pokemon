@@ -1,0 +1,36 @@
+.teams-list-page {
+  
+  .create-new {
+    margin: 0 auto;
+    min-width: 300px;
+    max-width: 450px;
+    margin-top: 56px;
+  } 
+  
+  .teams {
+    @include flex-center(cross);
+
+    flex-flow: column wrap;
+    align-items: stretch;
+    justify-content: space-evenly;
+    max-width: 100%;
+    width: max-content;
+    margin: 0 auto;
+    gap: 36px;
+    
+    .select {
+      align-self: flex-end;
+    }
+    
+    .section-title {
+      @include flex-center(cross);
+
+      gap: 24px;
+      flex-wrap: wrap;
+      justify-content: space-between;
+      margin-bottom: 16px;
+      height: 45px;
+    }
+  }
+}
+  

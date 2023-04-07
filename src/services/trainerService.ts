@@ -10,7 +10,7 @@ export default class TrainerService {
    * @param username
    * @returns - the created trainer or undefined
    */
-  createTrainer = async (username: string): Promise<Trainer | undefined> => {
+  uspsertTrainer = async (username: string): Promise<Trainer | undefined> => {
     try {
       return await prisma.trainer.upsert({
         where: {

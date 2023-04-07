@@ -10,5 +10,5 @@ export function useAuthGuard(checks: useAuthGuardProps) {
 
   useEffect(() => {
     if (!trainer || (checks?.team && !currentTeam)) router.push('/home')
-  }, [])
+  }, [checks?.team, currentTeam, router, trainer])
 }

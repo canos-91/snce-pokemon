@@ -13,7 +13,7 @@ export interface TrainerWithTeams extends Trainer {
 }
 
 export interface TeamWithRelations extends Team {
-  trainer: Trainer
+  trainer: TrainerWithTeams | Trainer
   pokemons: TeamPokemonsWithRelations[]
 }
 
