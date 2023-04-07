@@ -12,5 +12,5 @@ export default async function handler(
   req: NextApiRequest,
   res: NextApiResponse
 ): Promise<PokemonWithRelations | undefined | void> {
-  return await RouteHandler<PokemonWithRelations>(req, res, { GET: getPokemon })
+  return await RouteHandler(req, res, { GET: getPokemon })
 }

@@ -19,7 +19,7 @@ model Trainer {
 model Team {
   id          Int       @id   @default(autoincrement())
   trainerId   Int
-  trainer     Trainer   @relation(fields: [trainerId], references: [id])
+  trainer     Trainer   @relation(fields: [trainerId], references: [id], onDelete: Cascade)
   name        String    
   createdAt   DateTime  @default(now())
   updatedAt   DateTime  @updatedAt
@@ -37,13 +37,12 @@ model Pokemon {
 }
 
 model TeamPokemons {
-  id          Int       @default(autoincrement())
   pokemonId   Int
   teamId      Int 
-  pokemon     Pokemon   @relation(fields: [pokemonId], references: [id])
-  team        Team      @relation(fields: [teamId], references: [id])
+  pokemon     Pokemon   @relation(fields: [pokemonId], references: [id], onDelete: Cascade)
+  team        Team      @relation(fields: [teamId], references: [id], onDelete: Cascade)
 
-  @@id([id, pokemonId, teamId])
+  @@id([pokemonId, teamId])
 }
 
 model Ability {
@@ -61,8 +60,8 @@ model Type {
 model PokemonAbilities {
   pokemonId   Int
   abilityId   Int
-  pokemon     Pokemon   @relation(fields: [pokemonId], references: [id])
-  ability     Ability   @relation(fields: [abilityId], references: [id])
+  pokemon     Pokemon   @relation(fields: [pokemonId], references: [id], onDelete: Cascade)
+  ability     Ability   @relation(fields: [abilityId], references: [id], onDelete: Cascade)
 
   @@id([pokemonId, abilityId])
 }
@@ -70,8 +69,8 @@ model PokemonAbilities {
 model PokemonTypes {
   pokemonId   Int
   typeId      Int
-  pokemon     Pokemon   @relation(fields: [pokemonId], references: [id])
-  type        Type      @relation(fields: [typeId], references: [id])
+  pokemon     Pokemon   @relation(fields: [pokemonId], references: [id], onDelete: Cascade)
+  type        Type      @relation(fields: [typeId], references: [id], onDelete: Cascade)
 
   @@id([pokemonId, typeId])
 }

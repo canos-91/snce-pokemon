@@ -1,11 +1,10 @@
-import { useMemo, useState } from 'react'
+import { useState } from 'react'
 import Image from 'next/image'
 import styles from './PokemonBadge.module.scss'
 import classNames from 'classnames'
 import PokeBallSvg from '@public/assets/svg/pokeball.svg'
 import { Badge } from '@/components/atoms'
-import { ApiPokemon, PokemonWithRelations } from '@/types/models'
-import { getLastIntFromURL } from '@/utils/string'
+import type { PokemonWithRelations } from '@/types/models'
 
 export type PokemonBadgeProps = {
   pkmn?: PokemonWithRelations
@@ -16,10 +15,8 @@ export default function PokemonBadge({ pkmn, active = false }: PokemonBadgeProps
   const [isActive, setActive] = useState(false)
 
   return (
-    <div
-      className={classNames(styles['pokemon-badge'], (isActive || active) && styles.active)}
-      onClick={() => pkmn && !active && setActive(!isActive)}
-    >
+    <div className={classNames(styles['pokemon-badge'], (isActive || active) && styles.active)}>
+      {/* onClick={() => pkmn && !active && setActive(!isActive)} */}
       <div className={styles.pokeball}>
         <PokeBallSvg />
       </div>

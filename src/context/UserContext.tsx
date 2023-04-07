@@ -1,6 +1,5 @@
 /* eslint-disable @typescript-eslint/no-empty-function */
 import { TeamWithRelations, TrainerWithTeams } from '@/types/models'
-import { Team } from '@prisma/client'
 import { createContext, useState, useContext, ReactNode, useMemo, useCallback } from 'react'
 
 type TUserContext = {

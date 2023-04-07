@@ -12,5 +12,5 @@ export default async function handler(
   req: NextApiRequest,
   res: NextApiResponse
 ): Promise<TeamWithRelations | undefined | void> {
-  return await RouteHandler<TeamWithRelations>(req, res, { GET: getTeam })
+  return await RouteHandler(req, res, { GET: getTeam })
 }

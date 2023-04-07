@@ -1,5 +1,5 @@
 import type { NextApiRequest, NextApiResponse } from 'next'
-import { pokeApiService } from '@/services'
+import { pokeApiService } from '@/services/pokeApiService'
 import { RouteHandler } from '@/handlers/apiRouteHandler'
 
 const geIPokemonCount = async (): Promise<number | undefined> => {

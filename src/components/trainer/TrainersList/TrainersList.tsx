@@ -1,5 +1,4 @@
 import styles from './TrainersList.module.scss'
-import classNames from 'classnames'
 import { useUser } from '@/context/UserContext'
 import { TrainerBadge } from '@/components/trainer'
 import { TrainerWithTeams } from '@/types/models'

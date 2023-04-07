@@ -6,7 +6,7 @@ export interface TeamCreateData {
   name: string
 }
 
-export interface TeamAddPokemonData {
+export interface TeamPokemonData {
   teamId: number
   pokemonId: number
 }
@@ -36,17 +36,33 @@ const teamRelations = {
 export default class TeamService {
   /**
    * Adds a Pokémon to a team
-   * @param teamData - teamId and pokemonId
+   * @param teamAddData - teamId and pokemonId
    * @returns
    */
-  addPkmnToTeam = async (teamAddData: TeamAddPokemonData): Promise<string> => {
+  addPkmnToTeam = async (teamAddData: TeamPokemonData): Promise<boolean> => {
     const created = await prisma.teamPokemons.create({
       data: teamAddData,
     })
 
-    if (!created) throw new Error('An error occurred while adding pokemon to team')
+    if (!created) throw new Error('An error occurred while adding Pokémon to team')
 
-    return 'OK'
+    return true
+  }
+
+  /**
+   * Removes a Pokémon from a team
+   * @param teamRemoveData - id, teamId and pokemonId
+   * @returns
+   */
+  removePkmnFromTeam = async (teamRemoveData: TeamPokemonData): Promise<boolean> => {
+    const removed = await prisma.teamPokemons.delete({
+      where: {
+        pokemonId_teamId: teamRemoveData,
+      },
+    })
+
+    if (!removed) throw new Error('An error occurred while removing Pokémon from team')
+    return true
   }
 
   /**

@@ -4,8 +4,13 @@ export type HttpHeaders = {
   [key: string]: string
 }
 
+export type ConfigData = {
+  [key: string]: string | number
+}
+
 export type RequestConfig = {
-  headers: HttpHeaders
+  headers?: HttpHeaders
+  data?: ConfigData
 }
 export class ApiConfiguration {
   accessToken?: string
@@ -17,10 +22,11 @@ export interface IApiClient {
   patch<TRequest, TResponse>(path: string, object: TRequest): Promise<TResponse>
   put<TRequest, TResponse>(path: string, object: TRequest): Promise<TResponse>
   get<TResponse>(path: string): Promise<TResponse>
+  delete<TResponse>(path: string, config?: RequestConfig): Promise<TResponse>
 }
 
 const handleError = (error: unknown) => {
-  // console.log(error)
+  console.log(`API Client error: ${error}`)
 }
 
 export class ApiClient implements IApiClient {
@@ -83,6 +89,18 @@ export class ApiClient implements IApiClient {
   async get<TResponse>(path: string): Promise<TResponse> {
     try {
       const response = await this.client.get<TResponse>(path)
+      return response.data
+    } catch (error) {
+      handleError(error)
+    }
+    return {} as TResponse
+  }
+
+  async delete<TResponse>(path: string, config?: RequestConfig): Promise<TResponse> {
+    try {
+      const response = config
+        ? await this.client.delete<TResponse>(path, config)
+        : await this.client.delete<TResponse>(path)
       return response.data
     } catch (error) {
       handleError(error)

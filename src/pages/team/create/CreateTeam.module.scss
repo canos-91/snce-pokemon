@@ -1,4 +1,12 @@
-.create-team-page {   
+.create-team-page { 
+
+  .create-new {
+    margin: 0 auto;
+    min-width: 300px;
+    max-width: 450px;
+    margin-top: 56px;
+  } 
+
   .add-to-team {
     display: flex;
     flex-wrap: wrap;

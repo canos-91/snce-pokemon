@@ -4,6 +4,10 @@ export interface TeamPokemonsWithRelations extends TeamPokemons {
   pokemon: PokemonWithRelations
 }
 
+export interface TeamPokemonsWithTeam extends TeamPokemons {
+  team: TeamWithRelations
+}
+
 export interface TrainerWithTeams extends Trainer {
   teams: Team[]
 }
@@ -14,9 +18,9 @@ export interface TeamWithRelations extends Team {
 }
 
 export interface PokemonWithRelations extends Pokemon {
-  abilities: { ability: any }[]
+  abilities: { ability: Ability }[]
   types: {
-    type: any
+    type: Type
   }[]
 }
 

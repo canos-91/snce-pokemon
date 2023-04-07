@@ -10,7 +10,7 @@ export default function NewTeamForm() {
   const [teamName, setTeamName] = useState<string>('')
   const { user, setUserTeam } = useUser()
 
-  const teamNames: string[] = useMemo(() => user?.teams.map((t) => t.name.toLowerCase()) || [], [user?.teams])
+  const teamNames: string[] = useMemo(() => user?.teams?.map((t) => t.name.toLowerCase()) || [], [user?.teams])
 
   /**
    * Creates a new Team for current user

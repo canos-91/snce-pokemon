@@ -4,7 +4,7 @@ import { useState } from 'react'
 import { Button } from '@/components/atoms'
 import { getRandomInt } from '@/utils/number'
 import classNames from 'classnames'
-import { PokemonCard, PokemonBadge, PokemonTeam } from '@/components/pokemon'
+import { PokemonCard, PokemonTeam } from '@/components/pokemon'
 import { ApiPokemon, PokemonWithRelations } from '@/types/models'
 import { axiosClient } from '@/lib/apiClient'
 import { useAuthGuard } from '@/hooks/useAuthGuard'
@@ -53,7 +53,10 @@ export default function CreateTeam() {
         })
 
         if (pkmn) {
-          const added = await axiosClient.post(`/api/team/add/${team?.id}`, { teamId: team?.id, pokemonId: pkmn.id })
+          const added: boolean = await axiosClient.post(`/api/team/pokemon/${team?.id}`, {
+            teamId: team?.id,
+            pokemonId: pkmn.id,
+          })
 
           if (added) {
             setPokemons([...pokemons, pkmn])
@@ -73,7 +76,7 @@ export default function CreateTeam() {
       </Head>
       <main className={classNames(styles['create-team-page'])}>
         {!team ? (
-          <section className="mt-56">
+          <section className={styles['create-new']}>
             <NewTeamForm />
           </section>
         ) : (
@@ -89,7 +92,7 @@ export default function CreateTeam() {
               </div>
 
               {/* Team Pokemons */}
-              {pokemons.length !== 0 && <PokemonTeam team={team} pokemons={pokemons} />}
+              {pokemons.length !== 0 && <PokemonTeam setPokemons={setPokemons} pokemons={pokemons} />}
             </section>
           </>
         )}
