@@ -69,9 +69,8 @@ Some useful actions to perform if needed:
 
 # reset migrations
 npx prisma migrate reset
-```
 
-```bash
+
 # From root folder
 
 #Stop containers
