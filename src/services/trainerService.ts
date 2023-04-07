@@ -1,6 +1,7 @@
 import { prisma } from '@/lib/prismaClient'
 import { TrainerWithTeams } from '@/types/models'
 import { Trainer } from '@prisma/client'
+import { teamRelations } from '@/services/teamService'
 
 export default class TrainerService {
   /**
@@ -34,7 +35,9 @@ export default class TrainerService {
         id: 'asc',
       },
       include: {
-        teams: true,
+        teams: {
+          include: teamRelations,
+        },
       },
     })
 

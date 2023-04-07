@@ -1,0 +1,18 @@
+.pokemon-team {  
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 20px;
+  width: fit-content;
+  min-width: 400px;
+  padding: 32px;
+  padding-right: 12px;
+}
+
+@media screen and (max-width: 900px) {
+  .pokemon-team {
+    @include flex-center(cross);
+
+      flex-flow: column wrap;
+      align-content: flex-start;
+  }
+}

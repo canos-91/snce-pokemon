@@ -9,7 +9,7 @@ export interface TeamPokemonsWithTeam extends TeamPokemons {
 }
 
 export interface TrainerWithTeams extends Trainer {
-  teams: Team[]
+  teams: TeamWithRelations[]
 }
 
 export interface TeamWithRelations extends Team {

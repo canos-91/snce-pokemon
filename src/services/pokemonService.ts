@@ -15,6 +15,12 @@ export default class PokemonService {
   createPokemon = async (pokemon: ApiPokemon): Promise<PokemonWithRelations | undefined> => {
     const { id, base_experience, name, abilities, types, sprites } = pokemon
 
+    // Remove unwanted duplicates for types and abilities returned from PokeApi
+    const uniqueAbilities = abilities.filter(
+      (a, idx) => abilities.findIndex((b) => a.ability.name === b.ability.name) === idx
+    )
+    const uniqueTypes = types.filter((a, idx) => types.findIndex((b) => a.type.name === b.type.name) === idx)
+
     // const pokemonAbilities: PokemonAbilities[] = abilities.map(
     //   (a: { ability: { name: string; url: string } }) => ({
     //     abilityId: getLastIntFromURL(a.ability.url),
@@ -32,9 +38,11 @@ export default class PokemonService {
 
       if (!pkmn) {
         await Promise.all(
-          abilities.map((a) => this.upsertAbility({ id: getLastIntFromURL(a.ability.url), name: a.ability.name }))
+          uniqueAbilities.map((a) => this.upsertAbility({ id: getLastIntFromURL(a.ability.url), name: a.ability.name }))
         )
-        await Promise.all(types.map((t) => this.upsertType({ id: getLastIntFromURL(t.type.url), name: t.type.name })))
+        await Promise.all(
+          uniqueTypes.map((t) => this.upsertType({ id: getLastIntFromURL(t.type.url), name: t.type.name }))
+        )
         // pkmn = await this.upsertPokemon({
         //   id,
         //   name,
@@ -46,7 +54,7 @@ export default class PokemonService {
         //   await Promise.all(pokemonTypes.map((t) => this.upsertPkmnType(t)))
         // }
 
-        const pokemonAbilities = abilities.map((a: { ability: { name: string; url: string } }) => ({
+        const pokemonAbilities = uniqueAbilities.map((a: { ability: { name: string; url: string } }) => ({
           ability: {
             connect: {
               id: getLastIntFromURL(a.ability.url),
@@ -54,7 +62,7 @@ export default class PokemonService {
           },
         }))
 
-        const pokemonTypes = types.map((t: { type: { name: string; url: string } }) => ({
+        const pokemonTypes = uniqueTypes.map((t: { type: { name: string; url: string } }) => ({
           type: {
             connect: {
               id: getLastIntFromURL(t.type.url),
@@ -156,6 +164,8 @@ export default class PokemonService {
    */
   upsertAbility = async (abilityData: Ability): Promise<Ability | never> => {
     const { id, name } = abilityData
+
+    console.log(abilityData)
 
     try {
       return await prisma.ability.upsert({

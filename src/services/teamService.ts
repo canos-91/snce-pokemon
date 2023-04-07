@@ -11,7 +11,7 @@ export interface TeamPokemonData {
   pokemonId: number
 }
 
-const teamRelations = {
+export const teamRelations = {
   trainer: true,
   pokemons: {
     include: {
@@ -34,37 +34,6 @@ const teamRelations = {
 }
 
 export default class TeamService {
-  /**
-   * Adds a Pokémon to a team
-   * @param teamAddData - teamId and pokemonId
-   * @returns
-   */
-  addPkmnToTeam = async (teamAddData: TeamPokemonData): Promise<boolean> => {
-    const created = await prisma.teamPokemons.create({
-      data: teamAddData,
-    })
-
-    if (!created) throw new Error('An error occurred while adding Pokémon to team')
-
-    return true
-  }
-
-  /**
-   * Removes a Pokémon from a team
-   * @param teamRemoveData - id, teamId and pokemonId
-   * @returns
-   */
-  removePkmnFromTeam = async (teamRemoveData: TeamPokemonData): Promise<boolean> => {
-    const removed = await prisma.teamPokemons.delete({
-      where: {
-        pokemonId_teamId: teamRemoveData,
-      },
-    })
-
-    if (!removed) throw new Error('An error occurred while removing Pokémon from team')
-    return true
-  }
-
   /**
    * Creates a new team for a specific trainer
    * @param teamData - trainerId and name
@@ -122,5 +91,60 @@ export default class TeamService {
     if (!teams.length) throw new Error(`An error occurred while listing trainer's teams`)
 
     return teams
+  }
+
+  /* ==========================================================================
+    TeamPokemon model
+  ========================================================================== */
+
+  /**
+   * Adds a Pokémon to a team
+   * @param teamAddData - teamId and pokemonId
+   * @returns - the created record
+   */
+  upsertTeamPokemon = async (teamAddData: TeamPokemonData): Promise<TeamPokemonData | never> => {
+    try {
+      return await prisma.teamPokemons.upsert({
+        where: {
+          pokemonId_teamId: teamAddData,
+        },
+        update: {},
+        create: teamAddData,
+      })
+    } catch (e) {
+      console.log(
+        `An error occurred while adding Pokémon with id '${teamAddData.pokemonId}' to team with id '${teamAddData.teamId}': ${e}`
+      )
+      throw e
+    }
+  }
+
+  /**
+   * Adds many Pokémons to a team
+   * @param teamAddData - array of teamId and pokemonId
+   * @returns
+   */
+  upsertManyTeamPokemons = async (teamAddData: TeamPokemonData[]): Promise<boolean> => {
+    const updated = await Promise.all(teamAddData.map((p) => this.upsertTeamPokemon(p)))
+
+    if (!updated) throw new Error('An error occurred while adding Pokémons to team')
+
+    return true
+  }
+
+  /**
+   * Removes a Pokémon from a team
+   * @param teamRemoveData - id, teamId and pokemonId
+   * @returns
+   */
+  removePkmnFromTeam = async (teamRemoveData: TeamPokemonData): Promise<boolean> => {
+    const removed = await prisma.teamPokemons.delete({
+      where: {
+        pokemonId_teamId: teamRemoveData,
+      },
+    })
+
+    if (!removed) throw new Error('An error occurred while removing Pokémon from team')
+    return true
   }
 }

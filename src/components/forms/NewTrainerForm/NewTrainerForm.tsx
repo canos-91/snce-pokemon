@@ -8,7 +8,7 @@ import { TrainerWithTeams } from '@/types/models'
 
 export default function NewTrainerForm() {
   const [username, setUsername] = useState<string>('')
-  const { trainers, setTrainer } = useUser()
+  const { trainers, setCurrentTrainer } = useUser()
 
   const usernames: string[] = useMemo(() => trainers.map((t) => t.username.toLowerCase()), [trainers])
 
@@ -21,7 +21,7 @@ export default function NewTrainerForm() {
 
     const trainer: TrainerWithTeams | undefined = await axiosClient.post(`/api/trainer/create`, { username })
     if (trainer) {
-      setTrainer(trainer)
+      setCurrentTrainer(trainer)
     }
   }
 

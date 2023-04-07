@@ -1,0 +1,17 @@
+.edit-team-page {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-evenly;
+  max-width: 100%;
+  gap: 36px;
+
+  .section-title {
+    @include flex-center(cross);
+
+    justify-content: space-between;
+    margin-bottom: 16px;
+    height: 45px;
+  }
+  
+}
+  

@@ -40,12 +40,30 @@
         text-align: center;
         cursor: pointer;
         color: var(--primary-100);
-
+        
         span {
           font-size: px-to-rem(20);
           font-weight: 500;
         }
+
+        &.disabled {
+          pointer-events: none;
+          color: var(--grey-600);    
+          opacity: 0.4;      
+        }
       }
     }
+
+    .trainer-teams {
+      @include flex-center;
+
+      flex-direction: column;
+      margin-top: 48px;
+
+      & > h3 {
+        text-align: center;
+        margin-bottom: 24px;
+      }
+  }
   }
 }

@@ -1,15 +1,21 @@
 .header {
-  @include flex-center;
-
+  display: grid;
+  grid-template-columns: 1fr 200px 1fr;
   height: var(--header-height);
-  padding: 24px;
-  padding-left: calc(var(--navbar-width) + 24px);
+  padding: 24px 36px;
   background: var(--glass-gradient-top);
   z-index: 10;
 
   // box-shadow: var(--shadow);
     
   .logo {
-    height: 100%;
+    width: 200px;
+  }
+
+  .badges {
+    @include flex-center(cross);
+
+    justify-content: flex-end;
+    gap: 16px;
   }
 }

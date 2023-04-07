@@ -1,22 +1,40 @@
 @import '@/styles/animations';
 
 .pokemon-badge {
-  @include flex-center(cross);
-
   position: relative;
-  height: 100px;
-  width: 100%;
-  max-width: 450px;
-  padding: 0 32px 0 12px;
-  font-size: px-to-rem(24);
-  border-radius: 100px;
-  border: var(--glass-border); 
-  background: var(--glass-gradient-2);
-  box-shadow: 0 4px 8px rgb(0 0 0 / 10%);
-  cursor: pointer;
-  transition: var(--transition-all-1);
-  user-select: none;
-  gap: 12px;
+  padding-right: 20px;
+  min-width: fit-content;
+
+  .remove {
+    position: absolute;
+    right: 0;
+    opacity: 0;
+    visibility: hidden;
+    cursor: pointer;
+    transition: var(--transition-all-1);
+
+    &:hover {
+      color: var(--error-500);
+    }
+  }
+
+  .badge {
+    @include flex-center(cross);
+
+    position: relative;
+    height: 100px;
+    width: 100%;
+    max-width: 450px;
+    padding: 0 32px 0 12px;
+    font-size: px-to-rem(24);
+    border-radius: 100px;
+    border: var(--glass-border);
+    background: var(--glass-gradient-2);
+    box-shadow: 0 4px 8px rgb(0 0 0 / 10%);
+    cursor: pointer;
+    transition: var(--transition-all-1);
+    user-select: none;
+    gap: 12px;
 
     &::before {
       content: '';
@@ -25,7 +43,7 @@
       border: 4px solid white;
       border-radius: inherit;
     }
-    
+
     &::after {
       content: '';
       position: absolute;
@@ -35,73 +53,79 @@
       border-radius: inherit;
       transition: var(--transition-all-1);
     }
-  
-  .pokeball {
-    @include flex-center(cross);
 
-    padding-left: 16px;
-    position: absolute;
-    inset: 0;
+    .pokeball {
+      @include flex-center(cross);
 
-    svg {
-      opacity: 0.7;
-      height: 70%;
-      fill: white;
+      padding-left: 16px;
+      position: absolute;
+      inset: 0;
 
-    }
-  }
-  
+      svg {
+        opacity: 0.7;
+        height: 70%;
+        fill: white;
 
-  .sprite,
-  .types,
-  .abilities,
-  .info {
-    display: flex;
-    flex-direction: column;   
-    z-index: 1;
-  }
-
-  .sprite {
-    margin-left: 8px;
-    overflow: hidden;       
-  }
-
-  .types {
-    align-items: center;
-    width: 80px;
-    gap: 8px;
-  }
-  
-  .info {   
-    text-transform: capitalize;
-
-    .abilities {
-      flex-grow: 1;
+      }
     }
 
-    .pkmn-name {
-      text-shadow: 2px 4px 2px rgb(0 0 0 / 10%);
-    }  
-  }   
 
-  
+    .sprite,
+    .types,
+    .abilities,
+    .info {
+      display: flex;
+      flex-direction: column;
+      z-index: 1;
+    }
+
+    .sprite {
+      margin-left: 8px;
+      overflow: hidden;
+    }
+
+    .types {
+      align-items: center;
+      width: 80px;
+      gap: 8px;
+    }
+
+    .info {
+      text-transform: capitalize;
+
+      .abilities {
+        flex-grow: 1;
+      }
+
+      .pkmn-name {
+        text-shadow: 2px 4px 2px rgb(0 0 0 / 10%);
+      }
+    }
+  }
+
   &.active,
   &:hover {
-    transform: scale(1.02);
-    box-shadow: 0 8px 16px rgb(0 0 0 / 20%);
-    
-    &::before {
-      filter: drop-shadow(0 2px 6px white);
-    }
-    
-    &::after {      
-      background: linear-gradient(rgb(255 246 146 / 70%), rgb(255 225 85 / 80%));
+    .remove {
+      visibility: visible;
       opacity: 1;
     }
-    
-    .sprite {
-      animation: bounce 1.3s ease-in-out infinite;
+
+    .badge {
+      transform: scale(1.02);
+      box-shadow: 0 8px 16px rgb(0 0 0 / 20%);
+      
+      &::before {
+        filter: drop-shadow(0 2px 6px white);
+      }
+      
+      &::after {
+        background: linear-gradient(rgb(255 246 146 / 70%), rgb(255 225 85 / 80%));
+        opacity: 1;
+      }
+      
+      .sprite {
+        animation: bounce 1.3s ease-in-out infinite;
+      }      
     }
-    
   }
 }

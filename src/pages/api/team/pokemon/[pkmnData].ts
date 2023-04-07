@@ -4,12 +4,12 @@ import type { TeamPokemonData } from '@/services/teamService'
 import { RouteHandler } from '@/handlers/apiRouteHandler'
 
 interface TeamPokemonUpdateRequest extends NextApiRequest {
-  body: TeamPokemonData
+  body: TeamPokemonData[]
 }
 
 const addToTeam = async (req: TeamPokemonUpdateRequest): Promise<boolean> => {
   const { body }: TeamPokemonUpdateRequest = req
-  return await teamService.addPkmnToTeam(body)
+  return await teamService.upsertManyTeamPokemons(body)
 }
 
 export default async function handler(req: NextApiRequest, res: NextApiResponse) {

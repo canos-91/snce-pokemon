@@ -6,10 +6,9 @@ type useAuthGuardProps = { team?: boolean } | undefined
 
 export function useAuthGuard(checks: useAuthGuardProps) {
   const router = useRouter()
-  const { user, team } = useUser()
+  const { trainer, currentTeam } = useUser()
 
   useEffect(() => {
-    if (!user) router.push('/home')
-    if (checks?.team && !team) router.push('/team/create')
+    if (!trainer || (checks?.team && !currentTeam)) router.push('/home')
   }, [])
 }

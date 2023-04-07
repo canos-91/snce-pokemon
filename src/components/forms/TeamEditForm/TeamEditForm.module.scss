@@ -1,0 +1,21 @@
+.team-edit-form {
+  @include flex-center(cross);
+
+  .title {
+    align-self: flex-start;
+  }
+
+  .field {
+    width: 100%;
+
+    label {
+      cursor: pointer;
+      display: inline-block;
+      margin-bottom: 8px;
+      font-weight: 600;
+    }
+  }
+
+  flex-direction: column;
+  gap: 24px;
+}

@@ -13,7 +13,7 @@ interface NavbarLink {
 
 export default function Navbar() {
   const router = useRouter()
-  const { user } = useUser()
+  const { trainer } = useUser()
 
   const navbarLinks: NavbarLink[] = [
     {
@@ -34,12 +34,12 @@ export default function Navbar() {
     },
   ]
   return (
-    <nav className={styles.navbar}>
-      <ul className="container">
+    <nav className={classNames(styles.navbar, 'container')}>
+      <ul>
         {navbarLinks.map((link, index) => (
           <li
             className={classNames(
-              !user && styles.disabled,
+              !trainer && styles.disabled,
               (link.aliases?.includes(router.pathname) || router.pathname == link.src) && styles.active
             )}
             key={index}

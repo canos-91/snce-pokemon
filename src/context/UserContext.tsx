@@ -1,14 +1,15 @@
-/* eslint-disable @typescript-eslint/no-empty-function */
-import { TeamWithRelations, TrainerWithTeams } from '@/types/models'
+import type { PokemonWithRelations, TeamWithRelations, TrainerWithTeams } from '@/types/models'
 import { createContext, useState, useContext, ReactNode, useMemo, useCallback } from 'react'
 
 type TUserContext = {
-  user: TrainerWithTeams | null
-  team: TeamWithRelations | null
+  trainer: TrainerWithTeams | null
+  currentTeam: TeamWithRelations | null
+  teamPokemons: PokemonWithRelations[]
   trainers: TrainerWithTeams[]
-  setTrainer: (trainer: TrainerWithTeams) => void
-  setTrainersList: (trainers: TrainerWithTeams[]) => void
-  setUserTeam: (team: TeamWithRelations) => void
+  setTeamPokemons: (pokemons: PokemonWithRelations[]) => void
+  setCurrentTrainer: (trainer: TrainerWithTeams) => void
+  setCurrentTrainersList: (trainers: TrainerWithTeams[]) => void
+  setCurrentTeam: (team: TeamWithRelations) => void
 }
 
 type UserContextProps = {
@@ -16,12 +17,14 @@ type UserContextProps = {
 }
 
 const userContextDefault: TUserContext = {
-  user: null,
-  team: null,
+  trainer: null,
   trainers: [],
-  setTrainer: () => {},
-  setTrainersList: () => {},
-  setUserTeam: () => {},
+  currentTeam: null,
+  teamPokemons: [],
+  setCurrentTeam: () => null,
+  setCurrentTrainer: () => null,
+  setCurrentTrainersList: () => [],
+  setTeamPokemons: () => [],
 }
 
 const UserContext = createContext<TUserContext>(userContextDefault)
@@ -31,32 +34,48 @@ export function useUser() {
 }
 
 export function UserProvider({ children }: UserContextProps) {
-  const [user, setUser] = useState<TrainerWithTeams | null>(null)
-  const [team, setTeam] = useState<TeamWithRelations | null>(null)
-  const [trainers, setTrainers] = useState<TrainerWithTeams[]>([])
+  const [trainer, setUser] = useState<TrainerWithTeams | null>(null)
+  const [trainers, setCurrentTrainers] = useState<TrainerWithTeams[]>([])
+  const [currentTeam, setTeam] = useState<TeamWithRelations | null>(null)
+  const [teamPokemons, setPokemons] = useState<PokemonWithRelations[]>([])
 
-  const setTrainer = useCallback((trainer: TrainerWithTeams) => {
+  const setCurrentTrainer = useCallback((trainer: TrainerWithTeams) => {
     setUser(trainer)
   }, [])
 
-  const setUserTeam = useCallback((team: TeamWithRelations) => {
+  const setCurrentTrainersList = useCallback((trainers: TrainerWithTeams[]) => {
+    setCurrentTrainers([...trainers])
+  }, [])
+
+  const setCurrentTeam = useCallback((team: TeamWithRelations) => {
     setTeam(team)
   }, [])
 
-  const setTrainersList = useCallback((trainers: TrainerWithTeams[]) => {
-    setTrainers([...trainers])
+  const setTeamPokemons = useCallback((pokemons: PokemonWithRelations[]) => {
+    setPokemons([...pokemons])
   }, [])
 
   const contextValue = useMemo(
     (): TUserContext => ({
-      user,
-      team,
+      trainer,
+      currentTeam,
+      teamPokemons,
       trainers,
-      setTrainer,
-      setTrainersList,
-      setUserTeam,
+      setTeamPokemons,
+      setCurrentTrainer,
+      setCurrentTrainersList,
+      setCurrentTeam,
     }),
-    [team, user, setTrainer, setTrainersList, setUserTeam, trainers]
+    [
+      trainer,
+      currentTeam,
+      teamPokemons,
+      trainers,
+      setTeamPokemons,
+      setCurrentTrainer,
+      setCurrentTrainersList,
+      setCurrentTeam,
+    ]
   )
   return (
     <>

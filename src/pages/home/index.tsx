@@ -2,7 +2,7 @@ import Head from 'next/head'
 import styles from './Home.module.scss'
 import classNames from 'classnames'
 import { useUser } from '@/context/UserContext'
-import { useEffect } from 'react'
+import { useEffect, useState } from 'react'
 import { axiosClient } from '@/lib/apiClient'
 import { TrainersList } from '@/components/trainer'
 import type { TrainerWithTeams } from '@/types/models'
@@ -10,9 +10,11 @@ import { NewTrainerForm } from '@/components/forms'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faSquarePlus, faPenSquare } from '@fortawesome/free-solid-svg-icons'
 import Link from 'next/link'
+import TeamsList from '@/components/team/TeamsList/TeamsList'
 
 export default function Home() {
-  const { user, setTrainersList } = useUser()
+  const { trainer, setCurrentTrainersList } = useUser()
+  const [isTeamListSet, setTeamList] = useState<boolean>(false)
 
   /**
    * Load stored trainers on mount
@@ -22,12 +24,15 @@ export default function Home() {
       const dbTrainers: TrainerWithTeams[] | undefined = await axiosClient.get(`/api/trainer/list`)
 
       if (dbTrainers) {
-        setTrainersList(dbTrainers)
+        setCurrentTrainersList(dbTrainers)
       }
     }
     getTrainers()
-  }, [setTrainersList])
+  }, [setCurrentTrainersList])
 
+  const showTeams = () => {
+    setTeamList(true)
+  }
   return (
     <>
       <Head>
@@ -35,7 +40,7 @@ export default function Home() {
         <meta name="description" content="Become the best Pokémon trainer in the world!" />
       </Head>
       <main className={classNames(styles['home-page'])}>
-        {!user ? (
+        {!trainer ? (
           // Logged in
           <section className={styles['logged-out']}>
             <h2>Select your profile or create one</h2>
@@ -58,11 +63,24 @@ export default function Home() {
                 <span>Create team</span>
               </Link>
 
-              <Link href="/team/edit" className={classNames('glass-box', styles.link)}>
-                <FontAwesomeIcon icon={faPenSquare} style={{ fontSize: 50 }} />
-                <span>Edit team</span>
-              </Link>
+              {!isTeamListSet && (
+                <div
+                  className={classNames('glass-box', styles.link, !trainer.teams?.length && styles.disabled)}
+                  onClick={showTeams}
+                >
+                  <FontAwesomeIcon icon={faPenSquare} style={{ fontSize: 50 }} />
+                  <span>Edit team</span>
+                </div>
+              )}
             </div>
+
+            {/* Trainer's teams */}
+            {isTeamListSet && (
+              <div className={styles['trainer-teams']}>
+                <h3>Select a team</h3>
+                <TeamsList />
+              </div>
+            )}
           </section>
         )}
       </main>

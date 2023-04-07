@@ -1,31 +1,29 @@
 .navbar {
-  padding: 16px;
-  width: var(--navbar-width);
   flex-shrink: 0;
+  padding: 8px;
+  height: fit-content;
+  width: fit-content;
   
   ul {
     @include flex-center;
-    
-    flex-direction: column;
-    padding: 24px 0 48px;
+
     gap: 12px;
     
     li {
       padding: 4px;
       text-align: center;
 
-
-      &.active {
+      &.active:not(:hover) {
         a {
-            color: violet;
-          }
+          color: var(--dragon);
+        }
 
-          pointer-events: none;
+        // pointer-events: none;
       }
 
       &.disabled:not(.active) {
         a {
-          color: grey;
+          color: var(--grey-500);
         }
 
         pointer-events: none;
