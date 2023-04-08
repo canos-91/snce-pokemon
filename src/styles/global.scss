@@ -103,6 +103,12 @@ ul, li {
     opacity: 1;
   }
 }
+
+.hidden {
+  display: none;
+  visibility: hidden;
+  opacity: 0;
+}
   
   /* ==========================================================================
   Margin and padding

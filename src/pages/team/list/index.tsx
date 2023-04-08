@@ -80,18 +80,19 @@ const TeamsListPage = () => {
             {/* Teams */}
             {parsedTeams.map((team, index) => (
               <>
-                {((typeFilter && team.types.includes(typeFilter)) || !typeFilter) && (
-                  <section className={styles.team} key={index}>
-                    <div className={styles['section-title']}>
-                      <h2>{`Team '${team.name}'`}</h2>
-                      <strong>
-                        {`Created on: `}
-                        <span>{`${formatDate(team.createdAt)}`}</span>
-                      </strong>
-                    </div>
-                    <TeamRecap team={team} />
-                  </section>
-                )}
+                <section
+                  className={classNames(styles.team, typeFilter && !team.types.includes(typeFilter) && 'hidden')}
+                  key={index}
+                >
+                  <div className={styles['section-title']}>
+                    <h2>{`Team '${team.name}'`}</h2>
+                    <strong>
+                      {`Created on: `}
+                      <span>{`${formatDate(team.createdAt)}`}</span>
+                    </strong>
+                  </div>
+                  <TeamRecap team={team} />
+                </section>
               </>
             ))}
           </section>

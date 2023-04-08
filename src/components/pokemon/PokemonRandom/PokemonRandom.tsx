@@ -6,25 +6,11 @@ import { pokeApiService } from '@/services/pokeApiService'
 import { getRandomInt } from '@/utils/number'
 import { Button } from '@/components/atoms'
 import { PokemonCard } from '@/components/pokemon'
-import { TeamPokemonData } from '@/services/teamService'
 import { useTeam } from '@/context/TeamContext'
-// import useSWR, { Fetcher } from 'swr'
 
 const PokemonRandom = () => {
   const { team, pokemons, setPokemons } = useTeam()
   const [rndPokemon, setRndPokemon] = useState<ApiPokemon>()
-
-  // const [rndPkmnId, setRndPkmnId] = useState<number>()
-
-  // const pkmnFetcher: Fetcher<void> = (url: string) => {
-  //   if (rndPkmnId) {
-  //     axiosClient.get<ApiPokemon>(url).then((pkmn) => {
-  //       setPokemon(pkmn)
-  //     })
-  //   }
-  // }
-
-  // useSWR(() => `/api/pokemon/${rndPkmnId}`, pkmnFetcher)
 
   const teamPokemonIds: number[] = useMemo(() => pokemons?.map((p) => p.id) || [], [pokemons])
 
