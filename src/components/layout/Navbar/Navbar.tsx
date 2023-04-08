@@ -36,8 +36,8 @@ const Navbar = () => {
     },
   ]
   return (
-    <nav className={classNames(styles.navbar, 'glass-box')}>
-      <ul>
+    <nav className={styles.navbar}>
+      <ul className={'glass-box'}>
         {navbarLinks.map((link, index) => (
           <li
             className={classNames(

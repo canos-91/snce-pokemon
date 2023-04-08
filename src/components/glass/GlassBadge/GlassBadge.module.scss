@@ -3,6 +3,7 @@
 .glass-badge {
   @include flex-center;
 
+  flex-shrink: 0;
   padding: 8px;
   padding-right: 16px;
   border-radius: 100px;
@@ -10,6 +11,7 @@
   text-shadow: 1px 2px 2px rgb(0 0 0 / 10%);
   background: var(--glass-gradient-2);
   filter: drop-shadow(0 2px 6px white);
+  user-select: none;
   
   &.trainer {
     background: linear-gradient(-145deg, rgb(201 85 255 / 10%), rgb(201 85 255 / 30%));

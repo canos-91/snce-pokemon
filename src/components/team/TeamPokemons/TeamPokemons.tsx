@@ -1,10 +1,11 @@
 import styles from './TeamPokemons.module.scss'
-import classNames from 'classnames'
 import { PokemonBadge } from '@/components/pokemon'
 import { useUser } from '@/context/UserContext'
 import { forwardRef, useEffect, useImperativeHandle, useState } from 'react'
 import { axiosClient } from '@/lib/apiClient'
 import type { PokemonWithRelations, TeamWithRelations } from '@/types/models'
+import { TeamPokemonData } from '@/services/teamService'
+import { useTeam } from '@/context/TeamContext'
 
 export interface SaveTeam {
   saveTeam(): Promise<void>
@@ -12,11 +13,12 @@ export interface SaveTeam {
 
 interface TeamPokemonsProps {
   deleteFromTeam?: boolean
-  team?: TeamWithRelations
+  teamId?: number
 }
 
-const TeamPokemons = forwardRef<SaveTeam, TeamPokemonsProps>(({ team, deleteFromTeam = false }, ref) => {
-  const { trainer, currentTeam, teamPokemons, setCurrentTrainer } = useUser()
+const TeamPokemons = forwardRef<SaveTeam, TeamPokemonsProps>(({ teamId, deleteFromTeam = false }, ref) => {
+  const { trainer, setCurrentTrainer } = useUser()
+  const { team, pokemons } = useTeam()
   const [sectionTeam, setSectionTeam] = useState<TeamWithRelations | null>(null)
   const [sectionPokemons, setSectionPokemons] = useState<PokemonWithRelations[]>([])
 
@@ -26,14 +28,14 @@ const TeamPokemons = forwardRef<SaveTeam, TeamPokemonsProps>(({ team, deleteFrom
    * Store team
    */
   useEffect(() => {
-    if (team) {
-      setSectionTeam(sectionTeam)
-      setSectionPokemons(team.pokemons?.map((tp) => tp.pokemon))
-    } else {
-      setSectionTeam(currentTeam)
-      setSectionPokemons(teamPokemons)
-    }
-  }, [team, sectionTeam, currentTeam, teamPokemons])
+    // if (teamId) {
+    //   setSectionTeam(sectionTeam)
+    //   setSectionPokemons(pkmnTeam.pokemons?.map((tp) => tp.pokemon))
+    // } else {
+    setSectionTeam(team)
+    setSectionPokemons(pokemons)
+    // }
+  }, [sectionTeam, team, pokemons])
 
   /**
    * Save current team Pokémons to DB
@@ -46,7 +48,7 @@ const TeamPokemons = forwardRef<SaveTeam, TeamPokemonsProps>(({ team, deleteFrom
           pokemonId: p.id,
         }))
 
-        const saved: TeamWithRelations | null = await axiosClient.post(`/api/team/pokemon/add`, payload)
+        const saved = await axiosClient.post<TeamPokemonData[], TeamWithRelations>(`/api/pkmnTeam/pokemon/add`, payload)
 
         if (saved) {
           const { teams, ...rest } = trainer
@@ -65,7 +67,7 @@ const TeamPokemons = forwardRef<SaveTeam, TeamPokemonsProps>(({ team, deleteFrom
   useImperativeHandle(ref, () => ({ saveTeam }))
 
   return (
-    <section className={classNames(styles['pokemon-team'], 'container')}>
+    <section className={styles['pokemon-team']}>
       {sectionPokemons.map((pokemon, index) => (
         <PokemonBadge pkmn={pokemon} key={index} idx={index} deleteFromTeam={deleteFromTeam} />
       ))}

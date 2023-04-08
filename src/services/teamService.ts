@@ -146,7 +146,7 @@ export default class TeamService {
    * @param teamAddData - teamId and pokemonId
    * @returns - the created record
    */
-  upsertTeamPokemon = async (teamAddData: TeamPokemonData): Promise<TeamPokemonData | never> => {
+  upsertTeamPokemon = async (teamAddData: TeamPokemonData): Promise<TeamPokemonData> => {
     try {
       return await prisma.teamPokemons.upsert({
         where: {

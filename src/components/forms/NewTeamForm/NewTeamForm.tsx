@@ -4,10 +4,17 @@ import { useState, useMemo, FormEvent } from 'react'
 import { axiosClient } from '@/lib/apiClient'
 import { Button, Input } from '@/components/atoms'
 import type { TeamWithRelations } from '@/types/models'
+import { TeamCreateData } from '@/services/teamService'
+import { useTeam } from '@/context/TeamContext'
 
-const NewTeamForm = () => {
+interface NewTeamFormProps {
+  setCreated: (value: boolean) => void
+}
+
+const NewTeamForm = ({ setCreated }: NewTeamFormProps) => {
   const [teamName, setTeamName] = useState<string>('')
-  const { trainer, setCurrentTeam } = useUser()
+  const { trainer } = useUser()
+  const { setTeam } = useTeam()
 
   const teamNames: string[] = useMemo(() => trainer?.teams?.map((t) => t.name.toLowerCase()) || [], [trainer?.teams])
 
@@ -17,13 +24,16 @@ const NewTeamForm = () => {
   const createTeam = async (event: FormEvent) => {
     event.preventDefault()
 
-    const team: TeamWithRelations | undefined = await axiosClient.post(`/api/team/create`, {
-      name: teamName,
-      trainerId: trainer?.id,
-    })
+    const createdTeam =
+      trainer &&
+      (await axiosClient.post<TeamCreateData, TeamWithRelations>(`/api/team/create`, {
+        name: teamName,
+        trainerId: trainer?.id,
+      }))
 
-    if (team) {
-      setCurrentTeam(team)
+    if (createdTeam) {
+      setTeam(createdTeam)
+      setCreated(true)
     }
   }
 

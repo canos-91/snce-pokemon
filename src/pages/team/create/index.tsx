@@ -4,16 +4,17 @@ import classNames from 'classnames'
 import { PokemonRandom } from '@/components/pokemon'
 import { TeamPokemons } from '@/components/team'
 import { useAuthGuard } from '@/hooks/useAuthGuard'
-import { useUser } from '@/context/UserContext'
 import { NewTeamForm } from '@/components/forms'
 import { Button } from '@/components/atoms'
-import { useRef } from 'react'
+import { useRef, useState } from 'react'
 import type { SaveTeam } from '@/components/team/TeamPokemons/TeamPokemons'
+import { useTeam } from '@/context/TeamContext'
 
 const CreateTeamPage = () => {
   useAuthGuard()
 
-  const { currentTeam } = useUser()
+  const { team, hasChanges } = useTeam()
+  const [isCreated, setCreated] = useState<boolean>(false)
   const save = useRef<SaveTeam>(null)
 
   return (
@@ -23,9 +24,9 @@ const CreateTeamPage = () => {
         <meta name="description" content="Pokémon Trainer - Create new team" />
       </Head>
       <main className={classNames(styles['create-team-page'])}>
-        {!currentTeam ? (
+        {!isCreated ? (
           <section className={styles['create-new']}>
-            <NewTeamForm />
+            <NewTeamForm setCreated={setCreated} />
           </section>
         ) : (
           <>
@@ -39,10 +40,11 @@ const CreateTeamPage = () => {
               {/* Team Pokemons */}
               <div>
                 <div className={styles['section-title']}>
-                  <h4>{`'${currentTeam?.name}' team Pokémons`}</h4>
+                  <h4>{`'${team?.name}' Pokémons`}</h4>
                   <Button
                     action="Save team"
                     color="accent"
+                    disabled={!hasChanges}
                     onClick={() => {
                       save.current?.saveTeam()
                     }}

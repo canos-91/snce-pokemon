@@ -3,15 +3,16 @@ import styles from './EditTeamPage.module.scss'
 import classNames from 'classnames'
 import { PokemonRandom } from '@/components/pokemon'
 import { TeamPokemons } from '@/components/team'
-import type { PokemonWithRelations } from '@/types/models'
+import type { PokemonWithRelations, TeamWithRelations } from '@/types/models'
 import { useAuthGuard } from '@/hooks/useAuthGuard'
 import { useUser } from '@/context/UserContext'
-import { FormEvent, useEffect, useMemo, useRef } from 'react'
+import { FormEvent, useEffect, useRef } from 'react'
 import { axiosClient } from '@/lib/apiClient'
 import type { SaveTeam } from '@/components/team/TeamPokemons/TeamPokemons'
 import { TeamEditForm } from '@/components/forms'
 import { Button } from '@/components/atoms'
 import router from 'next/router'
+import { useTeam } from '@/context/TeamContext'
 
 interface EditTeamPageProps {
   teamId?: number
@@ -20,7 +21,8 @@ interface EditTeamPageProps {
 const EditTeamPage = ({ teamId }: EditTeamPageProps) => {
   useAuthGuard({ team: true })
 
-  const { currentTeam, setTeamPokemons, setCurrentTeam, setCurrentTrainer, trainer, teamPokemons } = useUser()
+  const { setCurrentTrainer, trainer } = useUser()
+  const { team, setPokemons, setTeam, hasChanges } = useTeam()
   const save = useRef<SaveTeam>(null)
 
   /**
@@ -29,25 +31,16 @@ const EditTeamPage = ({ teamId }: EditTeamPageProps) => {
   useEffect(() => {
     if (teamId !== undefined) {
       const readTeam = async (): Promise<void> => {
-        setCurrentTeam(await axiosClient.get(`/api/team/${teamId}`))
+        const read = await axiosClient.get<TeamWithRelations>(`/api/team/${teamId}`)
+        setTeam(read || null)
       }
 
       readTeam()
     }
 
-    const pkmns: PokemonWithRelations[] = currentTeam?.pokemons?.map((tp) => tp.pokemon) || []
-    setTeamPokemons(pkmns)
-  }, [currentTeam?.pokemons, setCurrentTeam, setTeamPokemons, teamId])
-
-  /**
-   * Returns true if any pokemon are added or removed
-   */
-  const hasChanges: boolean = useMemo(() => {
-    const savedTeam = trainer?.teams?.find((t) => t.id === currentTeam?.id)
-    const savedIds = savedTeam?.pokemons.map((p) => p.pokemon.id).sort()
-    const teamIds = teamPokemons.map((p) => p.id).sort()
-    return JSON.stringify(savedIds) !== JSON.stringify(teamIds)
-  }, [currentTeam?.id, teamPokemons, trainer?.teams])
+    const pkmns: PokemonWithRelations[] = team?.pokemons?.map((tp) => tp.pokemon) || []
+    setPokemons(pkmns)
+  }, [team?.pokemons, setTeam, setPokemons, teamId])
 
   /**
    * Delete team
@@ -55,14 +48,14 @@ const EditTeamPage = ({ teamId }: EditTeamPageProps) => {
   const deleteTeam = async (event: FormEvent) => {
     event.preventDefault()
 
-    if (currentTeam && trainer) {
-      const deleted: boolean = await axiosClient.delete(`/api/team/${currentTeam.id}`)
+    if (team && trainer) {
+      const deleted = await axiosClient.delete<boolean>(`/api/team/${team.id}`)
 
-      if (deleted === true) {
+      if (deleted) {
         const { teams, ...rest } = trainer
-        const filteredTeams = teams?.filter((t) => t.id !== currentTeam.id)
+        const filteredTeams = teams?.filter((t) => t.id !== team.id)
         setCurrentTrainer({ ...rest, teams: filteredTeams })
-        setCurrentTeam(null)
+        setTeam(null)
         router.push('/home')
       }
     }
@@ -89,7 +82,7 @@ const EditTeamPage = ({ teamId }: EditTeamPageProps) => {
         {/* Team Pokemons */}
         <div>
           <div className={styles['section-title']}>
-            <h4>{`'${currentTeam?.name}' team Pokémons`}</h4>
+            <h4>{`'${team?.name}' team Pokémons`}</h4>
             <div className={styles.actions}>
               <Button
                 action="Save team"

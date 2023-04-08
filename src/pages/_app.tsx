@@ -5,6 +5,7 @@ import Head from 'next/head'
 import type { AppProps } from 'next/app'
 import { AppLayout } from '@/components/layout'
 import { UserProvider } from '@/context/UserContext'
+import { TeamProvider } from '@/context/TeamContext'
 
 // Tell Font Awesome to skip adding the CSS automatically since it's already imported above
 config.autoAddCss = false
@@ -33,9 +34,11 @@ const App = ({ Component, pageProps }: AppProps) => {
         <meta name="viewport" content="width=device-width, initial-scale=1" />
       </Head>
       <UserProvider>
-        <AppLayout>
-          <Component {...pageProps} />
-        </AppLayout>
+        <TeamProvider>
+          <AppLayout>
+            <Component {...pageProps} />
+          </AppLayout>
+        </TeamProvider>
       </UserProvider>
     </>
   )

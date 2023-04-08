@@ -4,17 +4,19 @@ import { GlassBadge } from '@/components/glass'
 import { useRouter } from 'next/router'
 import type { TeamWithRelations } from '@/types/models'
 import classNames from 'classnames'
+import { useTeam } from '@/context/TeamContext'
 
 const TeamsList = () => {
   const router = useRouter()
-  const { setCurrentTeam, trainer } = useUser()
+  const { trainer } = useUser()
+  const { setTeam } = useTeam()
 
   /**
    * Sets selected team and redirects to edit page
    * @param team
    */
   const setTeamAndPush = (team: TeamWithRelations) => {
-    setCurrentTeam(team)
+    setTeam(team)
     router.push(`/team/${team.id}/edit`)
   }
 

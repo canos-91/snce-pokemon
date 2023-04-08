@@ -61,47 +61,41 @@ const TeamsListPage = () => {
         <meta name="description" content="Pokémon Trainer - Your teams" />
       </Head>
       <main className={classNames(styles['teams-list-page'])}>
-        {!trainer?.teams ? (
-          <section className={styles['create-new']}>
-            <NewTeamForm />
+        <>
+          <section className={styles.teams}>
+            {/* Types filter */}
+            <div className={styles.select}>
+              <label htmlFor="types">Choose a type: </label>
+
+              <select name="types" id="types" onChange={handleTypeChange}>
+                <option value="">All</option>
+                {typeNames.map((type, i) => (
+                  <option className="capital" key={i} value={type}>
+                    {type}
+                  </option>
+                ))}
+              </select>
+            </div>
+
+            {/* Teams */}
+            {parsedTeams.map((team, index) => (
+              <>
+                {((typeFilter && team.types.includes(typeFilter)) || !typeFilter) && (
+                  <section className={styles.team} key={index}>
+                    <div className={styles['section-title']}>
+                      <h2>{`Team '${team.name}'`}</h2>
+                      <strong>
+                        {`Created on: `}
+                        <span>{`${formatDate(team.createdAt)}`}</span>
+                      </strong>
+                    </div>
+                    <TeamRecap team={team} />
+                  </section>
+                )}
+              </>
+            ))}
           </section>
-        ) : (
-          <>
-            <section className={styles.teams}>
-              {/* Types filter */}
-              <div className={styles.select}>
-                <label htmlFor="types">Choose a type: </label>
-
-                <select name="types" id="types" onChange={handleTypeChange}>
-                  <option value="">All</option>
-                  {typeNames.map((type, i) => (
-                    <option className="capital" key={i} value={type}>
-                      {type}
-                    </option>
-                  ))}
-                </select>
-              </div>
-
-              {/* Teams */}
-              {parsedTeams.map((team, index) => (
-                <>
-                  {((typeFilter && team.types.includes(typeFilter)) || !typeFilter) && (
-                    <section className={styles.team} key={index}>
-                      <div className={styles['section-title']}>
-                        <h4>{`Team '${team.name}'`}</h4>
-                        <strong>
-                          {`Created on: `}
-                          <span>{`${formatDate(team.createdAt)}`}</span>
-                        </strong>
-                      </div>
-                      <TeamRecap team={team} />
-                    </section>
-                  )}
-                </>
-              ))}
-            </section>
-          </>
-        )}
+        </>
       </main>
     </>
   )

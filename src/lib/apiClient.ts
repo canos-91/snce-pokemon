@@ -18,15 +18,16 @@ export class ApiConfiguration {
 }
 
 export interface IApiClient {
-  post<TRequest, TResponse>(path: string, object: TRequest, config?: RequestConfig): Promise<TResponse>
-  patch<TRequest, TResponse>(path: string, object: TRequest): Promise<TResponse>
-  put<TRequest, TResponse>(path: string, object: TRequest): Promise<TResponse>
-  get<TResponse>(path: string): Promise<TResponse>
-  delete<TResponse>(path: string, config?: RequestConfig): Promise<TResponse>
+  post<TRequest, TResponse>(path: string, object: TRequest, config?: RequestConfig): Promise<TResponse | undefined>
+  patch<TRequest, TResponse>(path: string, object: TRequest): Promise<TResponse | undefined>
+  put<TRequest, TResponse>(path: string, object: TRequest): Promise<TResponse | undefined>
+  get<TResponse>(path: string): Promise<TResponse | undefined>
+  delete<TResponse>(path: string, config?: RequestConfig): Promise<TResponse | undefined>
 }
 
 const handleError = (error: unknown) => {
   console.log(`API Client error: ${error}`)
+  return undefined
 }
 
 /**
@@ -55,58 +56,43 @@ export class ApiClient implements IApiClient {
     this.client = this.createAxiosClient(apiConfiguration)
   }
 
-  async post<TRequest, TResponse>(path: string, payload: TRequest, config?: RequestConfig): Promise<TResponse> {
-    try {
-      const response = config
-        ? await this.client.post<TResponse>(path, payload, config)
-        : await this.client.post<TResponse>(path, payload)
-      return response.data
-    } catch (error) {
-      handleError(error)
-    }
-    return {} as TResponse
+  async get<TResponse>(path: string): Promise<TResponse | undefined> {
+    return await this.client
+      .get<TResponse>(path)
+      .then((res) => res.data)
+      .catch((err) => handleError(err))
   }
 
-  async patch<TRequest, TResponse>(path: string, payload: TRequest): Promise<TResponse> {
-    try {
-      const response = await this.client.patch<TResponse>(path, payload)
-      return response.data
-    } catch (error) {
-      handleError(error)
-    }
-    return {} as TResponse
+  async post<TRequest, TResponse>(
+    path: string,
+    payload: TRequest,
+    config?: RequestConfig
+  ): Promise<TResponse | undefined> {
+    return await this.client
+      .post<TResponse>(path, payload, config)
+      .then((res) => res.data)
+      .catch((err) => handleError(err))
   }
 
-  async put<TRequest, TResponse>(path: string, payload: TRequest): Promise<TResponse> {
-    try {
-      const response = await this.client.put<TResponse>(path, payload)
-      return response.data
-    } catch (error) {
-      handleError(error)
-    }
-    return {} as TResponse
+  async patch<TRequest, TResponse>(path: string, payload: TRequest): Promise<TResponse | undefined> {
+    return await this.client
+      .patch<TResponse>(path, payload)
+      .then((res) => res.data)
+      .catch((err) => handleError(err))
   }
 
-  async get<TResponse>(path: string): Promise<TResponse> {
-    try {
-      const response = await this.client.get<TResponse>(path)
-      return response.data
-    } catch (error) {
-      handleError(error)
-    }
-    return {} as TResponse
+  async put<TRequest, TResponse>(path: string, payload: TRequest): Promise<TResponse | undefined> {
+    return await this.client
+      .put<TResponse>(path, payload)
+      .then((res) => res.data)
+      .catch((err) => handleError(err))
   }
 
-  async delete<TResponse>(path: string, config?: RequestConfig): Promise<TResponse> {
-    try {
-      const response = config
-        ? await this.client.delete<TResponse>(path, config)
-        : await this.client.delete<TResponse>(path)
-      return response.data
-    } catch (error) {
-      handleError(error)
-    }
-    return {} as TResponse
+  async delete<TResponse>(path: string, config?: RequestConfig): Promise<TResponse | undefined> {
+    return await this.client
+      .delete<TResponse>(path, config)
+      .then((res) => res.data)
+      .catch((err) => handleError(err))
   }
 }
 

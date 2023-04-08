@@ -7,8 +7,9 @@ import { Badge } from '@/components/atoms'
 import type { PokemonWithRelations } from '@/types/models'
 import { faTrash } from '@fortawesome/free-solid-svg-icons'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
-import { useUser } from '@/context/UserContext'
 import { axiosClient } from '@/lib/apiClient'
+import { TeamPokemonData } from '@/services/teamService'
+import { useTeam } from '@/context/TeamContext'
 
 export type PokemonBadgeProps = {
   pkmn: PokemonWithRelations
@@ -18,19 +19,19 @@ export type PokemonBadgeProps = {
 }
 
 const PokemonBadge = ({ pkmn, idx, deleteFromTeam = false, active = false }: PokemonBadgeProps) => {
-  const { currentTeam, teamPokemons, setTeamPokemons } = useUser()
+  const { team, pokemons, setPokemons } = useTeam()
   const [isActive] = useState(false)
 
   /**
    * Remove Pokémon from team
    */
   const removePkmn = async () => {
-    setTeamPokemons(teamPokemons.filter((p, i) => i !== idx))
+    setPokemons(pokemons.filter((p, i) => i !== idx))
 
-    if (currentTeam && deleteFromTeam) {
-      await axiosClient.delete(`/api/team/pokemon/delete`, {
+    if (team && deleteFromTeam) {
+      await axiosClient.delete<TeamPokemonData>(`/api/team/pokemon/delete`, {
         data: {
-          teamId: currentTeam.id,
+          teamId: team.id,
           pokemonId: pkmn.id,
         },
       })

@@ -1,13 +1,13 @@
 import styles from './PokemonRandom.module.scss'
-import classNames from 'classnames'
 import type { ApiPokemon, PokemonWithRelations } from '@/types/models'
 import { useMemo, useState } from 'react'
-import { useUser } from '@/context/UserContext'
 import { axiosClient } from '@/lib/apiClient'
 import { pokeApiService } from '@/services/pokeApiService'
 import { getRandomInt } from '@/utils/number'
 import { Button } from '@/components/atoms'
 import { PokemonCard } from '@/components/pokemon'
+import { TeamPokemonData } from '@/services/teamService'
+import { useTeam } from '@/context/TeamContext'
 // import useSWR, { Fetcher } from 'swr'
 
 interface PokemonRandomProps {
@@ -15,7 +15,7 @@ interface PokemonRandomProps {
 }
 
 const PokemonRandom = ({ save = false }: PokemonRandomProps) => {
-  const { currentTeam, teamPokemons, setTeamPokemons } = useUser()
+  const { team, pokemons, setPokemons } = useTeam()
   const [rndPokemon, setRndPokemon] = useState<ApiPokemon>()
 
   // const [rndPkmnId, setRndPkmnId] = useState<number>()
@@ -30,7 +30,7 @@ const PokemonRandom = ({ save = false }: PokemonRandomProps) => {
 
   // useSWR(() => `/api/pokemon/${rndPkmnId}`, pkmnFetcher)
 
-  const teamPokemonIds: number[] = useMemo(() => teamPokemons?.map((p) => p.id) || [], [teamPokemons])
+  const teamPokemonIds: number[] = useMemo(() => pokemons?.map((p) => p.id) || [], [pokemons])
 
   /**
    * Fetches a random Pokémon from the api
@@ -45,26 +45,26 @@ const PokemonRandom = ({ save = false }: PokemonRandomProps) => {
    * Adds the random Pokémon to the created team
    */
   const addToTeam = async () => {
-    if (rndPokemon && currentTeam) {
+    if (rndPokemon && team) {
       try {
-        const pkmn: PokemonWithRelations = await axiosClient.post(`/api/pokemon/create`, {
+        const pkmn = await axiosClient.post<ApiPokemon, PokemonWithRelations>(`/api/pokemon/create`, {
           ...rndPokemon,
         })
 
-        if (pkmn.id) {
-          let added = false
+        if (pkmn) {
+          let added: boolean | undefined = false
 
           if (save) {
-            added = await axiosClient.post(`/api/team/pokemon/add`, [
+            added = await axiosClient.post<TeamPokemonData[], boolean>(`/api/team/pokemon/add`, [
               {
-                teamId: currentTeam.id,
+                teamId: team.id,
                 pokemonId: pkmn.id,
               },
             ])
           }
 
           if (added || !save) {
-            setTeamPokemons([...teamPokemons, pkmn])
+            setPokemons([...pokemons, pkmn])
             setRndPokemon(undefined)
           }
         }
@@ -74,7 +74,7 @@ const PokemonRandom = ({ save = false }: PokemonRandomProps) => {
     }
   }
   return (
-    <div className={classNames(styles['random-pkmn'], 'container')}>
+    <div className={styles['random-pkmn']}>
       <PokemonCard pkmn={rndPokemon} active={rndPokemon !== undefined} />
 
       {/* ACtions */}
@@ -83,7 +83,7 @@ const PokemonRandom = ({ save = false }: PokemonRandomProps) => {
         <Button
           onClick={addToTeam}
           action="Add to team"
-          disabled={!rndPokemon || teamPokemons.length >= 6 || teamPokemonIds.includes(rndPokemon.id)}
+          disabled={!rndPokemon || pokemons.length >= 6 || teamPokemonIds.includes(rndPokemon.id)}
         />
       </div>
     </div>

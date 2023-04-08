@@ -5,6 +5,6 @@ import { axiosClient } from './apiClient'
  * Fetches trainers from db
  * @returns
  */
-export const loadTrainers = async (): Promise<TrainerWithTeams[] | undefined> => {
-  return await axiosClient.get(`${process.env.SERVER_HOST}/api/trainer/list`)
+export const loadTrainers = async () => {
+  return await axiosClient.get<TrainerWithTeams[]>(`${process.env.SERVER_HOST}/api/trainer/list`)
 }

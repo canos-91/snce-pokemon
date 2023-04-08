@@ -4,10 +4,13 @@ import { useState, useMemo, FormEvent } from 'react'
 import { axiosClient } from '@/lib/apiClient'
 import { Button, Input } from '@/components/atoms'
 import type { TeamWithRelations, TrainerWithTeams } from '@/types/models'
+import { TeamUpdateData } from '@/services/teamService'
+import { useTeam } from '@/context/TeamContext'
 
 const TeamEditForm = () => {
   const [teamName, setTeamName] = useState<string>('')
-  const { trainer, trainers, setCurrentTeam, currentTeam, setCurrentTrainersList } = useUser()
+  const { trainer, trainers, setCurrentTrainersList } = useUser()
+  const { team, setTeam } = useTeam()
 
   const teamNames: string[] = useMemo(() => trainer?.teams?.map((t) => t.name.toLowerCase()) || [], [trainer?.teams])
 
@@ -17,16 +20,19 @@ const TeamEditForm = () => {
   const updateTeam = async (event: FormEvent) => {
     event.preventDefault()
 
-    const updated: TeamWithRelations | undefined = await axiosClient.put(`/api/team/update`, {
-      name: teamName,
-      id: currentTeam?.id,
-      trainerId: trainer?.id,
-    })
+    const updated =
+      trainer &&
+      team &&
+      (await axiosClient.put<TeamUpdateData, TeamWithRelations>(`/api/team/update`, {
+        name: teamName,
+        id: team?.id,
+        trainerId: trainer?.id,
+      }))
 
     if (updated) {
       setCurrentTrainersList([...trainers.filter((t) => t.id !== trainer?.id), updated.trainer as TrainerWithTeams])
       setTeamName('')
-      setCurrentTeam(updated)
+      setTeam(updated)
     }
   }
 
@@ -46,7 +52,7 @@ const TeamEditForm = () => {
             value={teamName}
             name="team-name"
             onChange={(event) => setTeamName(event.target.value)}
-            placeholder={currentTeam?.name}
+            placeholder={team?.name}
           />
           {/* Update */}
           <Button

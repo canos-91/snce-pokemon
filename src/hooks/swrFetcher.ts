@@ -2,12 +2,8 @@ import useSWR from 'swr'
 import { axiosClient } from '@/lib/apiClient'
 import { ApiPokemon } from '@/types/models'
 
-const fetcher = (url: string) => axiosClient.get(url).then((res) => res)
+const pkmnFetcher = (url: string) => axiosClient.get<ApiPokemon>(url).then((res) => res)
 
-export const usePokemon = (id: string | number | undefined): { pkmn: ApiPokemon } => {
-  const { data } = useSWR(`/api/pokemon/${id}`, fetcher)
-
-  return {
-    pkmn: data as ApiPokemon,
-  }
+export const usePokemon = (id: string | number | undefined): ApiPokemon | undefined => {
+  return useSWR(`/api/pokemon/${id}`, pkmnFetcher).data
 }

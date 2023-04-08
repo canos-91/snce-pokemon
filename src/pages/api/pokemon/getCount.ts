@@ -1,11 +1,11 @@
 import type { NextApiRequest, NextApiResponse } from 'next'
 import { pokeApiService } from '@/services/pokeApiService'
-import { RouteHandler } from '@/handlers/apiRouteHandler'
+import { routeHandler } from '@/handlers/apiRouteHandler'
 
-const geIPokemonCount = async (): Promise<number | undefined> => {
+const getPokemonCount = async (): Promise<number | undefined> => {
   return await pokeApiService.getPokemonCount()
 }
 
-export default async function handler(req: NextApiRequest, res: NextApiResponse): Promise<void> {
-  return await RouteHandler(req, res, { GET: geIPokemonCount })
+export default async function handler(req: NextApiRequest, res: NextApiResponse) {
+  return await routeHandler<number>(req, res, { GET: getPokemonCount })
 }

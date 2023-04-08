@@ -7,7 +7,7 @@ import { TrainersList } from '@/components/trainer'
 import type { TrainerWithTeams } from '@/types/models'
 import { NewTrainerForm } from '@/components/forms'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
-import { faSquarePlus, faPenSquare } from '@fortawesome/free-solid-svg-icons'
+import { faSquarePlus, faPenSquare, faBars, faSquarePollHorizontal } from '@fortawesome/free-solid-svg-icons'
 import Link from 'next/link'
 import TeamsList from '@/components/team/TeamsList/TeamsList'
 import { loadTrainers } from '@/lib/loadTrainers'
@@ -20,7 +20,7 @@ interface HomePageProps {
  * Load stored trainers before mount
  */
 export async function getStaticProps() {
-  const fetchedTrainers: TrainerWithTeams[] | undefined = await loadTrainers()
+  const fetchedTrainers = await loadTrainers()
 
   return {
     props: {
@@ -70,7 +70,7 @@ const HomePage = ({ fetchedTrainers }: HomePageProps) => {
         ) : (
           // Logged out
           <section className={styles['logged-in']}>
-            <h1>Where do we start?</h1>
+            <h1 className="mb-48">Where do we start?</h1>
 
             {/* Create or edit team */}
             <div className={classNames(styles['create-edit'])}>
@@ -79,15 +79,21 @@ const HomePage = ({ fetchedTrainers }: HomePageProps) => {
                 <span>Create team</span>
               </Link>
 
-              {!isTeamListSet && (
-                <div
-                  className={classNames('glass-box', styles.link, !trainer.teams?.length && styles.disabled)}
-                  onClick={showTeams}
-                >
-                  <FontAwesomeIcon icon={faPenSquare} style={{ fontSize: 50 }} />
-                  <span>Edit team</span>
-                </div>
-              )}
+              <div
+                className={classNames('glass-box', styles.link, !trainer.teams?.length && styles.disabled)}
+                onClick={showTeams}
+              >
+                <FontAwesomeIcon icon={faPenSquare} style={{ fontSize: 50 }} />
+                <span>Edit team</span>
+              </div>
+
+              <Link
+                href="/team/list"
+                className={classNames('glass-box', styles.link, !trainer.teams?.length && styles.disabled)}
+              >
+                <FontAwesomeIcon icon={faSquarePollHorizontal} style={{ fontSize: 50 }} />
+                <span>Your teams</span>
+              </Link>
             </div>
 
             {/* Trainer's teams */}

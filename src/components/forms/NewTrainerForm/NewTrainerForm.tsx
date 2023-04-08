@@ -17,7 +17,9 @@ const NewTrainerForm = () => {
   const createTrainer = async (event: FormEvent) => {
     event.preventDefault()
 
-    const trainer: TrainerWithTeams | undefined = await axiosClient.post(`/api/trainer/create`, { username })
+    const trainer = await axiosClient.post<{ username: string }, TrainerWithTeams>(`/api/trainer/create`, {
+      username,
+    })
 
     if (trainer) {
       setCurrentTrainer(trainer)

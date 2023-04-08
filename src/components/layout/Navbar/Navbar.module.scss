@@ -1,12 +1,13 @@
 .navbar {
-  flex-shrink: 0;
-  padding: 8px;
-  height: fit-content;
   width: fit-content;
+
+  @include flex-center;
   
   ul {
     @include flex-center;
 
+    padding: 8px;
+    flex-shrink: 0;
     gap: 12px;
     
     li {

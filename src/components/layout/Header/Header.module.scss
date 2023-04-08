@@ -3,10 +3,9 @@
   grid-template-columns: 1fr 200px 1fr;
   height: var(--header-height);
   padding: 24px 36px;
-  background: var(--glass-gradient-top);
+  background: var(--glass-gradient-1);
   z-index: 10;
-
-  // box-shadow: var(--shadow);
+  box-shadow: 0 4px 16px  rgb(93 0 112 / 5%);
     
   .logo {
     width: 200px;

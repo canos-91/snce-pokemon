@@ -24,6 +24,7 @@ body,
 }
 
 body {
+  background: var(--bg-gradient);
   scrollbar-color: var(--primary-200) transparent;
   color: var(--primary-100);
 
@@ -69,9 +70,14 @@ ul, li {
   position: relative;
   padding: 32px;
   border-radius: var(--radius);
-  backdrop-filter: blur(16px) saturate(180%);
-  background-color: rgb(255 255 255 / 60%);
-  border: 1px solid rgb(209 213 219 / 30%);
+  background: var(--glass-gradient-1);
+  border: var(--glass-border);
+  box-shadow: 0 2px 4px rgb(0 0 0 / 10%);
+  backdrop-filter: blur(16px);
+
+  // backdrop-filter: blur(16px) saturate(180%);
+  // background-color: rgb(255 255 255 / 60%);
+  // border: 1px solid rgb(209 213 219 / 30%);
 }
 
 .glass-box {
