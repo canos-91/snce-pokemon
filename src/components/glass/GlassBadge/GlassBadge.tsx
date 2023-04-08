@@ -1,5 +1,4 @@
 import { HTMLAttributes } from 'react'
-
 import styles from './GlassBadge.module.scss'
 import PokeBallColorSvg from '@public/assets/svg/pokeball_color.svg'
 import BaseBallCapSvg from '@public/assets/svg/baseball-cap.svg'
@@ -12,19 +11,19 @@ interface GlassBadgeProps extends HTMLAttributes<HTMLDivElement> {
   transparent?: boolean
 }
 
-export default function GlassBadge({
-  attributes,
-  type = '',
-  transparent = false,
-  clickable = true,
-  ...attrs
-}: GlassBadgeProps) {
+const GlassBadge = ({ attributes, type = '', transparent = false, clickable = true, ...attrs }: GlassBadgeProps) => {
   return (
     <div
       className={classNames(styles['glass-badge'], clickable && styles.clickable, type && !transparent && styles[type])}
       {...attrs}
     >
-      {type === 'trainer' ? <BaseBallCapSvg className={styles.icon} /> : <PokeBallColorSvg className={styles.icon} />}
+      {type === 'trainer' ? (
+        <BaseBallCapSvg className={styles.icon} />
+      ) : type === 'team' ? (
+        <PokeBallColorSvg className={styles.icon} />
+      ) : (
+        <></>
+      )}
 
       {/* Username */}
       <div className={styles.attributes}>
@@ -34,3 +33,5 @@ export default function GlassBadge({
     </div>
   )
 }
+
+export default GlassBadge

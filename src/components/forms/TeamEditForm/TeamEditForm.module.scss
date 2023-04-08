@@ -17,6 +17,12 @@
       margin-bottom: 8px;
       font-weight: 600;
     }
+
+    & > div {
+      @include flex-center(cross);
+
+      gap: 16px
+    }
   }
 
   .actions {

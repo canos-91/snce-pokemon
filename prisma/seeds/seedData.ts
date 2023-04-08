@@ -1,4 +1,37 @@
-export const types = [
+export const trainersData = [
+  {
+    username: 'John',
+  },
+  {
+    username: 'Andrew',
+  },
+  {
+    username: 'Oscar',
+  },
+  {
+    username: 'Ash',
+  },
+  {
+    username: 'Brock',
+  },
+  {
+    username: 'Misty',
+  },
+  {
+    username: 'Elle',
+  },
+  {
+    username: 'Mike',
+  },
+  {
+    username: 'Peter',
+  },
+  {
+    username: 'Julie',
+  },
+]
+
+export const typesData = [
   {
     id: 1,
     name: 'normal',
@@ -71,4 +104,25 @@ export const types = [
     id: 19,
     name: 'fairy',
   },
+]
+
+export const typeNames = [
+  'normal',
+  'fighting',
+  'flying',
+  'poison',
+  'ground',
+  'rock',
+  'bug',
+  'ghost',
+  'steel',
+  'fire',
+  'water',
+  'grass',
+  'electric',
+  'psychic',
+  'ice',
+  'dragon',
+  'dark',
+  'fairy',
 ]

@@ -16,16 +16,11 @@
     "incremental": true,
     "paths": {
       "@/*": ["./src/*"],
-      "@public*": ["./public/*"]
+      "@public*": ["./public/*"],
+      "@prisma*": ["./prisma/*"]
     }
   },
-  "include": [
-    "../next-env.d.ts",
-    "**/*.ts",
-    "**/*.tsx",
-    "prisma/seeds/types.json",
-    "src/components/pokemon/PokemonBadge/PokemonBadgetsx"
-  ],
+  "include": ["../next-env.d.ts", "**/*.ts", "**/*.tsx", "prisma/seeds/types.json"],
   "exclude": ["node_modules"],
   "ts-node": {
     "compilerOptions": {

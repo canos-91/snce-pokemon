@@ -1,29 +1,39 @@
 import Head from 'next/head'
-import styles from './TeamsList.module.scss'
+import styles from './TeamsListPage.module.scss'
 import classNames from 'classnames'
 import { TeamRecap } from '@/components/team'
 import { useAuthGuard } from '@/hooks/useAuthGuard'
 import { useUser } from '@/context/UserContext'
 import { NewTeamForm } from '@/components/forms'
 import { formatDate } from '@/utils/string'
-import { useMemo, useState } from 'react'
-import { TeamWithRelations } from '@/types/models'
-import { ITeamRecap } from '@/components/team/TeamRecap/TeamRecap'
+import { ChangeEvent, useMemo, useState } from 'react'
+import type { TeamWithRelations } from '@/types/models'
+import type { ITeamRecap } from '@/components/team/TeamRecap/TeamRecap'
+import { typeNames } from '@prisma/seeds/seedData'
 
 export interface SaveTeam {
   saveTeam(): Promise<void>
 }
 
-export default function TeamsList() {
+const TeamsListPage = () => {
   useAuthGuard({})
 
   const { trainer } = useUser()
   const [typeFilter, setTypeFilter] = useState<string>('')
 
-  const handleTypeChange = (event: any) => {
+  /**
+   * Set filter value on change
+   * @param event
+   */
+  const handleTypeChange = (event: ChangeEvent<HTMLSelectElement>) => {
     setTypeFilter(event.target.value)
   }
 
+  /**
+   * Get unique types strings from team's pokemons
+   * @param team
+   * @returns unique types array
+   */
   const filterTypes = (team: TeamWithRelations): string[] => {
     return [...new Set(team.pokemons.map((p) => p.pokemon.types.map((t) => t.type.name)).flat(1))]
   }
@@ -41,7 +51,8 @@ export default function TeamsList() {
         .sort((a, b) => Number(b.createdAt) - Number(a.createdAt)) || [],
     [trainer?.teams]
   )
-  const parsedTypes: string[] = useMemo(() => parsedTeams.map((pt) => pt.types).flat(1) || [], [parsedTeams])
+
+  // const parsedTypes: string[] = useMemo(() => parsedTeams.map((pt) => pt.types).flat(1) || [], [parsedTeams])
 
   return (
     <>
@@ -62,8 +73,8 @@ export default function TeamsList() {
                 <label htmlFor="types">Choose a type: </label>
 
                 <select name="types" id="types" onChange={handleTypeChange}>
-                  <option value="">--Please choose an option--</option>
-                  {parsedTypes.map((type, i) => (
+                  <option value="">All</option>
+                  {typeNames.map((type, i) => (
                     <option className="capital" key={i} value={type}>
                       {type}
                     </option>
@@ -95,3 +106,5 @@ export default function TeamsList() {
     </>
   )
 }
+
+export default TeamsListPage

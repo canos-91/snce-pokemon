@@ -9,9 +9,10 @@ interface NavbarLink {
   label: string
   src: string
   aliases?: string[]
+  disabled?: boolean
 }
 
-export default function Navbar() {
+const Navbar = () => {
   const router = useRouter()
   const { trainer } = useUser()
 
@@ -31,6 +32,7 @@ export default function Navbar() {
       icon: '',
       label: 'Your teams',
       src: '/team/list',
+      disabled: !trainer?.teams?.length,
     },
   ]
   return (
@@ -39,7 +41,7 @@ export default function Navbar() {
         {navbarLinks.map((link, index) => (
           <li
             className={classNames(
-              !trainer && styles.disabled,
+              (!trainer || link.disabled) && styles.disabled,
               (link.aliases?.includes(router.pathname) || router.pathname == link.src) && styles.active
             )}
             key={index}
@@ -51,3 +53,5 @@ export default function Navbar() {
     </nav>
   )
 }
+
+export default Navbar

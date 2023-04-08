@@ -22,7 +22,7 @@ class PokeApiService {
     try {
       return await this.pokeApiClient.get<ApiPokemon>(`${this.apiBaseURL}/pokemon/${pokemon}`)
     } catch (e) {
-      console.error(`An error occurred while retrieving Pokémon '${pokemon}': ${e}`)
+      throw new Error(`An error occurred while retrieving Pokémon '${pokemon}': ${e}`)
     }
   }
 
@@ -36,7 +36,7 @@ class PokeApiService {
 
       return response?.count
     } catch (e) {
-      console.error(`An error occurred while retrieving Pokémon list: ${e}`)
+      throw new Error(`An error occurred while retrieving Pokémon list: ${e}`)
     }
   }
 }

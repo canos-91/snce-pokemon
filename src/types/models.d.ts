@@ -1,5 +1,7 @@
 import { Pokemon, Team, Trainer, Ability, Type, TeamPokemons } from '@prisma/client'
 
+export type TypeName = typeof typeNames[number]
+
 export interface TeamPokemonsWithRelations extends TeamPokemons {
   pokemon: PokemonWithRelations
 }

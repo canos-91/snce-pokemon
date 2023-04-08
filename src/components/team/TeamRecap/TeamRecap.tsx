@@ -1,10 +1,7 @@
 import styles from './TeamRecap.module.scss'
 import classNames from 'classnames'
-import { PokemonBadge } from '@/components/pokemon'
-import { useUser } from '@/context/UserContext'
-import { useMemo } from 'react'
 import Image from 'next/image'
-import type { PokemonWithRelations, TeamWithRelations } from '@/types/models'
+import type { PokemonWithRelations } from '@/types/models'
 import { Badge } from '@/components/atoms'
 
 export interface ITeamRecap {
@@ -14,13 +11,12 @@ export interface ITeamRecap {
   pokemons: PokemonWithRelations[]
   types: string[]
 }
+
 interface TeamRecapProps {
   team: ITeamRecap
 }
 
 const TeamRecap = ({ team }: TeamRecapProps) => {
-  const { currentTeam, teamPokemons } = useUser()
-
   return (
     <section className={classNames(styles['team-recap'], 'container')}>
       <ul>
@@ -32,16 +28,19 @@ const TeamRecap = ({ team }: TeamRecapProps) => {
               <div className={classNames('glass-box', styles.pokemon)} key={i}>
                 {/* Sprite */}
                 <Image src={pkmn.spriteURL} alt={pkmn.name} width={64} height={64} priority />
+
                 {/* Name */}
                 <h4 className={classNames(styles['pkmn-name'], 'capital')}>{pkmn.name}</h4>
               </div>
             ))}
           </div>
         </li>
+
         {/* Base XP */}
         <li>
           <h4>Base XP total: {team.baseXpSum} pts</h4>
         </li>
+
         {/* Types */}
         <li>
           <h4>Types:</h4>
@@ -55,4 +54,5 @@ const TeamRecap = ({ team }: TeamRecapProps) => {
     </section>
   )
 }
+
 export default TeamRecap

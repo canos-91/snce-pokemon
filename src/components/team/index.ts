@@ -1,4 +1,5 @@
-import Team from './Team/Team'
+import TeamPokemons from './TeamPokemons/TeamPokemons'
 import TeamRecap from './TeamRecap/TeamRecap'
+import TeamsList from './TeamsList/TeamsList'
 
-export { Team, TeamRecap }
+export { TeamPokemons, TeamRecap, TeamsList }

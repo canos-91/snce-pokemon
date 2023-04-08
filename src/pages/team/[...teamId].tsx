@@ -1,24 +1,26 @@
 import Head from 'next/head'
-import styles from './EditTeam.module.scss'
+import styles from './EditTeamPage.module.scss'
 import classNames from 'classnames'
 import { PokemonRandom } from '@/components/pokemon'
-import { Team } from '@/components/team'
+import { TeamPokemons } from '@/components/team'
 import type { PokemonWithRelations } from '@/types/models'
 import { useAuthGuard } from '@/hooks/useAuthGuard'
 import { useUser } from '@/context/UserContext'
-import { useEffect, useRef } from 'react'
+import { FormEvent, useEffect, useRef } from 'react'
 import { axiosClient } from '@/lib/apiClient'
-import { SaveTeam } from './create'
+import type { SaveTeam } from '@/components/team/TeamPokemons/TeamPokemons'
 import { TeamEditForm } from '@/components/forms'
+import { Button } from '@/components/atoms'
+import router from 'next/router'
 
-interface EditTeamProps {
+interface EditTeamPageProps {
   teamId?: number
 }
 
-export default function EditTeam({ teamId }: EditTeamProps) {
+const EditTeamPage = ({ teamId }: EditTeamPageProps) => {
   useAuthGuard({ team: true })
 
-  const { currentTeam, setTeamPokemons, setCurrentTeam } = useUser()
+  const { currentTeam, setTeamPokemons, setCurrentTeam, setCurrentTrainer, trainer } = useUser()
   const save = useRef<SaveTeam>(null)
 
   /**
@@ -36,6 +38,25 @@ export default function EditTeam({ teamId }: EditTeamProps) {
     const pkmns: PokemonWithRelations[] = currentTeam?.pokemons?.map((tp) => tp.pokemon) || []
     setTeamPokemons(pkmns)
   }, [currentTeam?.pokemons, setCurrentTeam, setTeamPokemons, teamId])
+
+  /**
+   * Delete team
+   */
+  const deleteTeam = async (event: FormEvent) => {
+    event.preventDefault()
+
+    if (currentTeam && trainer) {
+      const deleted: boolean = await axiosClient.delete(`/api/team/${currentTeam.id}`)
+
+      if (deleted === true) {
+        const { teams, ...rest } = trainer
+        const filteredTeams = teams?.filter((t) => t.id !== currentTeam.id)
+        setCurrentTrainer({ ...rest, teams: filteredTeams })
+        setCurrentTeam(null)
+        router.push('/home')
+      }
+    }
+  }
 
   return (
     <>
@@ -59,10 +80,22 @@ export default function EditTeam({ teamId }: EditTeamProps) {
         <div>
           <div className={styles['section-title']}>
             <h4>{`'${currentTeam?.name}' team Pokémons`}</h4>
+            <div className={styles.actions}>
+              <Button
+                action="Save team"
+                color="accent"
+                onClick={() => {
+                  save.current?.saveTeam()
+                }}
+              />
+              <Button action="Delete" color="error" onClick={(event) => deleteTeam(event)} />
+            </div>
           </div>
-          <Team deleteFromTeam ref={save} />
+          <TeamPokemons deleteFromTeam ref={save} />
         </div>
       </main>
     </>
   )
 }
+
+export default EditTeamPage

@@ -2,9 +2,12 @@ import { prisma } from '@/lib/prismaClient'
 import { TeamWithRelations } from '@/types/models'
 
 export interface TeamCreateData {
-  id?: number
   trainerId: number
   name: string
+}
+
+export interface TeamUpdateData extends TeamCreateData {
+  id: number
 }
 
 export interface TeamPokemonData {
@@ -35,25 +38,29 @@ export const teamRelations = {
 }
 
 export default class TeamService {
+  /* ==========================================================================
+    Team model
+  ========================================================================== */
+
   /**
    * Creates a new team for a specific trainer
    * @param teamData - trainerId and name
    * @returns - the created team or undefined
    */
   createTeam = async (teamData: TeamCreateData): Promise<TeamWithRelations | undefined> => {
-    const team = await prisma.team.create({
-      data: {
-        name: teamData.name,
-        trainer: {
-          connect: { id: teamData.trainerId },
+    try {
+      return await prisma.team.create({
+        data: {
+          name: teamData.name,
+          trainer: {
+            connect: { id: teamData.trainerId },
+          },
         },
-      },
-      include: teamRelations,
-    })
-
-    if (!team) throw new Error('An error occurred while creating new team')
-
-    return team
+        include: teamRelations,
+      })
+    } catch (e) {
+      throw new Error('An error occurred while creating new team: ' + e)
+    }
   }
 
   /**
@@ -70,28 +77,27 @@ export default class TeamService {
         include: teamRelations,
       })
     } catch (e) {
-      console.log(`An error occurred while reading Team with id ${id}: ${e}`)
-      throw e
+      throw new Error(`An error occurred while reading Team with id ${id}: ${e}`)
     }
   }
 
   /**
    * Updates a team for a specific trainer
-   * @param teamData - trainerId and name
+   * @param teamData - id, trainerId and name
    * @returns - the created team or undefined
    */
-  updateTeam = async (teamData: TeamCreateData): Promise<TeamWithRelations | undefined> => {
-    const team = await prisma.team.update({
-      where: {
-        id: teamData.id,
-      },
-      data: teamData,
-      include: teamRelations,
-    })
-
-    if (!team) throw new Error('An error occurred while creating new team')
-
-    return team
+  updateTeam = async (teamData: TeamUpdateData): Promise<TeamWithRelations | undefined> => {
+    try {
+      return await prisma.team.update({
+        where: {
+          id: teamData.id,
+        },
+        data: teamData,
+        include: teamRelations,
+      })
+    } catch (e) {
+      throw new Error('An error occurred while updating team')
+    }
   }
 
   /**
@@ -100,17 +106,17 @@ export default class TeamService {
    * @returns - the trainer's teams
    */
   listTeams = async (trainerId: number): Promise<TeamWithRelations[]> => {
-    const teams = await prisma.team.findMany({
-      ...(trainerId && { where: { trainerId } }),
-      orderBy: {
-        createdAt: 'asc',
-      },
-      include: teamRelations,
-    })
-
-    if (!teams.length) throw new Error(`An error occurred while listing trainer's teams`)
-
-    return teams
+    try {
+      return await prisma.team.findMany({
+        ...(trainerId && { where: { trainerId } }),
+        orderBy: {
+          createdAt: 'asc',
+        },
+        include: teamRelations,
+      })
+    } catch {
+      throw new Error(`An error occurred while listing trainer's teams`)
+    }
   }
 
   /**
@@ -119,14 +125,16 @@ export default class TeamService {
    * @returns
    */
   deleteTeam = async (teamId: number): Promise<boolean> => {
-    const removed = await prisma.team.delete({
-      where: {
-        id: teamId,
-      },
-    })
-
-    if (!removed) throw new Error('An error occurred while deleting team')
-    return true
+    try {
+      await prisma.team.delete({
+        where: {
+          id: teamId,
+        },
+      })
+      return true
+    } catch (e) {
+      throw new Error('An error occurred while deleting team: ' + e)
+    }
   }
 
   /* ==========================================================================
@@ -148,10 +156,9 @@ export default class TeamService {
         create: teamAddData,
       })
     } catch (e) {
-      console.log(
+      throw new Error(
         `An error occurred while adding Pokémon with id '${teamAddData.pokemonId}' to team with id '${teamAddData.teamId}': ${e}`
       )
-      throw e
     }
   }
 
@@ -161,11 +168,12 @@ export default class TeamService {
    * @returns
    */
   upsertManyTeamPokemons = async (teamAddData: TeamPokemonData[]): Promise<TeamWithRelations | null> => {
-    const updated = await Promise.all(teamAddData.map((p) => this.upsertTeamPokemon(p)))
-
-    if (!updated) throw new Error('An error occurred while adding Pokémons to team')
-
-    return this.readTeam(teamAddData[0].teamId)
+    try {
+      await Promise.all(teamAddData.map((p) => this.upsertTeamPokemon(p)))
+      return await this.readTeam(teamAddData[0].teamId)
+    } catch (e) {
+      throw new Error('An error occurred while adding Pokémons to team:' + e)
+    }
   }
 
   /**
@@ -174,13 +182,16 @@ export default class TeamService {
    * @returns
    */
   removePkmnFromTeam = async (teamRemoveData: TeamPokemonData): Promise<boolean> => {
-    const removed = await prisma.teamPokemons.delete({
-      where: {
-        pokemonId_teamId: teamRemoveData,
-      },
-    })
+    try {
+      await prisma.teamPokemons.delete({
+        where: {
+          pokemonId_teamId: teamRemoveData,
+        },
+      })
 
-    if (!removed) throw new Error('An error occurred while removing Pokémon from team')
-    return true
+      return true
+    } catch (e) {
+      throw new Error('An error occurred while removing Pokémon from team')
+    }
   }
 }

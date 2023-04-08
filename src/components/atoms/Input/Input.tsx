@@ -6,10 +6,10 @@ interface InputProps extends InputHTMLAttributes<HTMLInputElement> {
   active?: boolean
 }
 
-export default function Input({ disabled, ...attrs }: InputProps) {
+const Input = ({ disabled, ...attrs }: InputProps) => {
   const [isFocused, setFocused] = useState<boolean>(false)
   return (
-    <div className={classNames(styles.input, isFocused && styles.active, disabled && styles.disabled)}>
+    <div className={classNames('glass-box', styles.input, isFocused && styles.active, disabled && styles.disabled)}>
       <input
         {...attrs}
         autoComplete="do-not-autofill"
@@ -20,3 +20,5 @@ export default function Input({ disabled, ...attrs }: InputProps) {
     </div>
   )
 }
+
+export default Input

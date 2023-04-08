@@ -77,9 +77,5 @@ export function UserProvider({ children }: UserContextProps) {
       setCurrentTeam,
     ]
   )
-  return (
-    <>
-      <UserContext.Provider value={contextValue}>{children}</UserContext.Provider>
-    </>
-  )
+  return <UserContext.Provider value={contextValue}>{children}</UserContext.Provider>
 }

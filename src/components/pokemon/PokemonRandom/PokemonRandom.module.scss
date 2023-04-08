@@ -2,11 +2,8 @@
   @include flex-center;
   
   flex-wrap: wrap;
-  
-  // flex-direction: column;
   height: fit-content;
   gap: 24px;
-
   
   .btns {
     @include flex-center;

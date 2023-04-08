@@ -29,6 +29,9 @@ const handleError = (error: unknown) => {
   console.log(`API Client error: ${error}`)
 }
 
+/**
+ * Axios reusable wrapper
+ */
 export class ApiClient implements IApiClient {
   private client: AxiosInstance
 
@@ -37,13 +40,11 @@ export class ApiClient implements IApiClient {
       responseType: 'json' as const,
       headers: {
         'Content-Type': 'application/json',
-        ...(apiConfig && {
-          ...(apiConfig.accessToken && {
-            Authorization: `Token ${apiConfig.accessToken}`,
-          }),
-          ...(apiConfig.baseURL && {
-            baseURL: apiConfig.baseURL,
-          }),
+        ...(apiConfig?.accessToken && {
+          Authorization: `Token ${apiConfig.accessToken}`,
+        }),
+        ...(apiConfig?.baseURL && {
+          baseURL: apiConfig.baseURL,
         }),
       },
       timeout: 10 * 1000,

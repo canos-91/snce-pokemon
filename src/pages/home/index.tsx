@@ -1,5 +1,5 @@
 import Head from 'next/head'
-import styles from './Home.module.scss'
+import styles from './HomePage.module.scss'
 import classNames from 'classnames'
 import { useUser } from '@/context/UserContext'
 import { useEffect, useState } from 'react'
@@ -12,7 +12,7 @@ import Link from 'next/link'
 import TeamsList from '@/components/team/TeamsList/TeamsList'
 import { loadTrainers } from '@/lib/loadTrainers'
 
-interface HomeProps {
+interface HomePageProps {
   fetchedTrainers: TrainerWithTeams[]
 }
 
@@ -29,7 +29,7 @@ export async function getStaticProps() {
   }
 }
 
-export default function Home({ fetchedTrainers }: HomeProps) {
+const HomePage = ({ fetchedTrainers }: HomePageProps) => {
   const { trainer, setCurrentTrainersList, trainers } = useUser()
   const [isTeamListSet, setTeamList] = useState<boolean>(false)
 
@@ -103,3 +103,5 @@ export default function Home({ fetchedTrainers }: HomeProps) {
     </>
   )
 }
+
+export default HomePage

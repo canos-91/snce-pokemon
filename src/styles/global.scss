@@ -25,11 +25,7 @@ body,
 
 body {
   scrollbar-color: var(--primary-200) transparent;
-
-  // background-color: var(--background-color);
   color: var(--primary-100);
-
-  // overflow-y: overlay;
 
   ::-webkit-scrollbar {
     width: 16px;
@@ -60,7 +56,7 @@ a {
 
   &:active,
   &:hover{
-    color: var(--accent-600)
+    color: var(--accent-500)
   }
 }
 
@@ -73,10 +69,6 @@ ul, li {
   position: relative;
   padding: 32px;
   border-radius: var(--radius);
-
-  // border: var(--glass-border);
-  // background: var(--glass-gradient-1);
-  // box-shadow: 0 4px 8px rgb(0 0 0 / 10%);
   backdrop-filter: blur(16px) saturate(180%);
   background-color: rgb(255 255 255 / 60%);
   border: 1px solid rgb(209 213 219 / 30%);
@@ -94,43 +86,17 @@ ul, li {
     position: absolute;
     content: '';
     inset: 0;
-    background: var(--glass-gradient-2);
     transition: var(--transition-all-1);
     opacity: 0;
     z-index: -1;
   }
-
+  
   &:hover:not(.disabled)::before,
   &.active::before {
+    background: var(--glass-gradient-2);
     opacity: 1;
   }
 }
-
-.flex-align-h {
-  @include flex-center(main);
-}
-
-.flex-align-v {
-  @include flex-center(cross);
-}
-
-.shimmer {
-  position: relative;
-  overflow: hidden;
-
-  &::after {
-    content: "";
-    position: absolute;
-    inset: 0;
-    background: linear-gradient(to right,
-        rgba(#fff, 0) 4%,
-        rgba(#fff, 0.3) 25%,
-        rgba(#fff, 0.5) 35%,
-        rgba(#fff, 0) 45%);
-    animation: shimmer 1.5s infinite alternate;
-  }
-}
-
   
   /* ==========================================================================
   Margin and padding
@@ -218,27 +184,3 @@ Dimensions
     clip-path: inset(0.6px)
   }
 }
-
-/* Enable hover only on non-touch devices */
-// @media (hover: hover) and (pointer: fine) {
-
-//   .card:hover {
-//     background: rgb(var(--card-rgb) 0.1);
-//     border: 1px solid rgb(var(--card-border-rgb) 0.15);
-//   }
-
-//   .card:hover span {
-//     transform: translateX(4px);
-//   }
-// }
-
-// @media (prefers-reduced-motion) {
-
-//   .thirteen::before {
-//     animation: none;
-//   }
-
-//   .card:hover span {
-//     transform: none;
-//   }
-// }

@@ -1,8 +1,6 @@
 /* eslint-disable @typescript-eslint/no-var-requires */
 /** @type {import('next').NextConfig} */
 
-const path = require('path')
-
 const nextConfig = {
   images: {
     remotePatterns: [
@@ -23,7 +21,7 @@ const nextConfig = {
     ]
   },
   sassOptions: {
-    includePaths: [path.join(__dirname, 'styles')],
+    includePaths: [require('path').join(__dirname, 'styles')],
     additionalData: `@use "sass:math"; @use "sass:color"; @import "@/styles/_functions.scss"; @import "@/styles/_mixins.scss";`,
     charset: false,
   },

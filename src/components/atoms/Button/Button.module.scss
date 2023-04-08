@@ -1,20 +1,23 @@
 .btn {
   @include flex-center;
-
+  @include text-style(700, 16, 0.3);
+  
   position: relative;
   display: flex;
+  flex-shrink: 0;
   height: fit-content;
   width: fit-content;
+  padding: 12px 16px;
   border-radius: 45px;
   font-family: inherit;
+  text-transform: capitalize;
   border: 1px solid transparent;
   background-color: transparent;
+  box-shadow: 0 1px 4px rgb(0 0 0 / 15%);
   color: inherit;
   cursor: pointer;
   transition: var(--transition-all-1);
   user-select: none;
-  box-shadow: 0 1px 4px rgb(0 0 0 / 15%);
-  flex-shrink: 0;
 
   span { 
     font-weight: 600;
@@ -28,22 +31,7 @@
   }
 
   /* ==========================================================================
-    Dimensions
-  ========================================================================== */
-
-  // &.is-medium {
-    @include text-style(700, 16, 0.3);
-
-    padding: 12px 16px;
-
-  // }
-
-  /* ==========================================================================
     Colors
-  ========================================================================== */
-
-  /* ==========================================================================
-    Default
   ========================================================================== */
 
   @include btn-style(".btn-default", default, var(--primary-300), var(--grey-300));
@@ -59,15 +47,6 @@
   @include btn-style(".btn-accent", hover, base, var(--accent-400));
   @include btn-style(".btn-accent", active, base, var(--accent-700));
   @include btn-style(".btn-accent", disabled);
-
-  /* ==========================================================================
-    Secondary
-  ========================================================================== */
-
-  @include btn-style(".btn-secondary", default, var(--primary-300), transparent);
-  @include btn-style(".btn-secondary", hover, var(--accent-600), var(--accent-100));
-  @include btn-style(".btn-secondary", active, var(--accent-600), var(--accent-200));
-  @include btn-style(".btn-secondary", disabled);
 
    /* ==========================================================================
     Primary
@@ -86,20 +65,6 @@
   @include btn-style(".btn-error", hover, base, var(--error-300));
   @include btn-style(".btn-error", active, base, var(--error-500));
   @include btn-style(".btn-error", disabled);
-  @include btn-style(".btn-error.no-action", default, var(--primary-300), var(--grey-300));
-  @include btn-style(".btn-error.no-action", hover, var(--error-400), var(--error-100));
-  @include btn-style(".btn-error.no-action", active, var(--error-500), var(--error-200));
-  @include btn-style(".btn-error.no-action", disabled, var(--primary-300), var(--grey-500));
-
-  /* ==========================================================================
-    Error alt
-  ========================================================================== */
-
-  @include btn-style(".btn-error-alt", default, var(--error-400), transparent);
-  @include btn-style(".btn-error-alt", default, base, var(--grey-300), "large");
-  @include btn-style(".btn-error-alt", hover, base, var(--error-100));
-  @include btn-style(".btn-error-alt", active, var(--error-500), var(--error-200));
-  @include btn-style(".btn-error-alt", disabled, base, var(--grey-400));
 
   /* ==========================================================================
     Success

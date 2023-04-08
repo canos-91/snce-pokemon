@@ -12,26 +12,29 @@ export type PokemonCardProps = {
   active?: boolean
 }
 
-/**
- * Formats Pokémon retrieved from Api as PokemonWithRelations
- */
-const formatApiPkmn = (pkmn: ApiPokemon): PokemonWithRelations => {
-  const { base_experience, sprites, types, abilities, ...rest } = pkmn
-
-  return {
-    ...rest,
-    baseXp: base_experience,
-    spriteURL: sprites.front_default,
-    types: types.map((t) => ({ type: { id: getLastIntFromURL(t.type.url), name: t.type.name } })),
-    abilities: abilities.map((a) => ({
-      ability: { id: getLastIntFromURL(a.ability.url), name: a.ability.name },
-    })),
-  }
-}
-
-export default function PokemonCard({ pkmn, active = false }: PokemonCardProps) {
+const PokemonCard = ({ pkmn, active = false }: PokemonCardProps) => {
   const [isActive, setActive] = useState(false)
 
+  /**
+   * Formats Pokémon retrieved from Api as PokemonWithRelations
+   */
+  const formatApiPkmn = (pkmn: ApiPokemon): PokemonWithRelations => {
+    const { base_experience, sprites, types, abilities, ...rest } = pkmn
+
+    return {
+      ...rest,
+      baseXp: base_experience,
+      spriteURL: sprites.front_default,
+      types: types.map((t) => ({ type: { id: getLastIntFromURL(t.type.url), name: t.type.name } })),
+      abilities: abilities.map((a) => ({
+        ability: { id: getLastIntFromURL(a.ability.url), name: a.ability.name },
+      })),
+    }
+  }
+
+  /**
+   * Formatted Pokémon
+   */
   const cardPkmn = useMemo((): PokemonWithRelations | undefined => {
     return pkmn && 'sprites' in pkmn ? formatApiPkmn(pkmn) : pkmn
   }, [pkmn])
@@ -46,14 +49,7 @@ export default function PokemonCard({ pkmn, active = false }: PokemonCardProps) 
         <div className={styles.inner}>
           {/* Sprite */}
           <div className={styles.sprite}>
-            <Image
-              src={cardPkmn.spriteURL}
-              alt={cardPkmn.name}
-              width={96}
-              height={96}
-              // onLoadingComplete={() => setLoaded(true)}
-              priority
-            ></Image>
+            <Image src={cardPkmn.spriteURL} alt={cardPkmn.name} width={96} height={96} priority></Image>
           </div>
 
           {/* Types */}
@@ -77,3 +73,5 @@ export default function PokemonCard({ pkmn, active = false }: PokemonCardProps) 
     </div>
   )
 }
+
+export default PokemonCard

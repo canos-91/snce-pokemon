@@ -1,20 +1,17 @@
 import Head from 'next/head'
-import styles from './CreateTeam.module.scss'
+import styles from './CreateTeamPage.module.scss'
 import classNames from 'classnames'
 import { PokemonRandom } from '@/components/pokemon'
-import { Team } from '@/components/team'
+import { TeamPokemons } from '@/components/team'
 import { useAuthGuard } from '@/hooks/useAuthGuard'
 import { useUser } from '@/context/UserContext'
 import { NewTeamForm } from '@/components/forms'
 import { Button } from '@/components/atoms'
 import { useRef } from 'react'
+import type { SaveTeam } from '@/components/team/TeamPokemons/TeamPokemons'
 
-export interface SaveTeam {
-  saveTeam(): Promise<void>
-}
-
-export default function CreateTeam() {
-  useAuthGuard({})
+const CreateTeamPage = () => {
+  useAuthGuard()
 
   const { currentTeam } = useUser()
   const save = useRef<SaveTeam>(null)
@@ -51,7 +48,7 @@ export default function CreateTeam() {
                     }}
                   />
                 </div>
-                <Team ref={save} />
+                <TeamPokemons ref={save} />
               </div>
             </section>
           </>
@@ -60,3 +57,5 @@ export default function CreateTeam() {
     </>
   )
 }
+
+export default CreateTeamPage

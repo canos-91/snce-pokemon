@@ -26,6 +26,7 @@ Set DB_PASSWORD field in .env file to 'root'
 
 ```bash
 DB_PASSWORD=root
+DB_USER=root
 ```
 
 ## Run Locally

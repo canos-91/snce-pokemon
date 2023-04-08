@@ -1,19 +1,20 @@
-import { ButtonHTMLAttributes } from 'react'
+import type { ButtonHTMLAttributes } from 'react'
 import style from './Button.module.scss'
 import classNames from 'classnames'
 
-type ButtonColor = 'default' | 'accent' | 'error' | 'error-alt' | 'primary' | 'secondary' | 'success' | 'warning'
+type ButtonColor = 'default' | 'accent' | 'error' | 'primary' | 'success' | 'warning'
 
 interface ButtonProps extends ButtonHTMLAttributes<HTMLButtonElement> {
-  action?: string
+  action: string
   color?: ButtonColor
-  onClick?: (params?: any) => void
 }
 
-export default function Button({ action = '', color = 'default', disabled, ...attrs }: ButtonProps) {
+const Button = ({ action, disabled, color = 'default', ...attrs }: ButtonProps) => {
   return (
     <button className={classNames(style.btn, style[`btn-${color}`], disabled && style.disabled)} {...attrs}>
-      <span className="capital">{action}</span>
+      <span>{action}</span>
     </button>
   )
 }
+
+export default Button

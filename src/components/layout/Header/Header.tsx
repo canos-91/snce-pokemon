@@ -2,9 +2,9 @@ import { useUser } from '@/context/UserContext'
 import styles from './Header.module.scss'
 import PkmnLogo from '@public/assets/svg/pkmn_logo.svg'
 import { GlassBadge } from '@/components/glass'
-import Navbar from '../Navbar/Navbar'
+import { Navbar } from '@/components/layout'
 
-export default function Header() {
+const Header = () => {
   const { trainer, currentTeam, teamPokemons } = useUser()
 
   return (
@@ -26,7 +26,7 @@ export default function Header() {
           <GlassBadge
             type="trainer"
             transparent
-            attributes={{ title: trainer.username, subtitle: `${trainer.teams?.length} teams` }}
+            attributes={{ title: trainer.username, subtitle: `${trainer.teams?.length || '0'} teams` }}
             clickable={false}
           />
         )}
@@ -34,3 +34,5 @@ export default function Header() {
     </header>
   )
 }
+
+export default Header

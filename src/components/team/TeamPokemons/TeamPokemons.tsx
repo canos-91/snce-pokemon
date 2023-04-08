@@ -1,23 +1,26 @@
-import styles from './Team.module.scss'
+import styles from './TeamPokemons.module.scss'
 import classNames from 'classnames'
 import { PokemonBadge } from '@/components/pokemon'
 import { useUser } from '@/context/UserContext'
 import { forwardRef, useEffect, useImperativeHandle, useState } from 'react'
 import { axiosClient } from '@/lib/apiClient'
-import type { SaveTeam } from '@/pages/team/create'
 import type { PokemonWithRelations, TeamWithRelations } from '@/types/models'
 
-interface TeamProps {
+export interface SaveTeam {
+  saveTeam(): Promise<void>
+}
+
+interface TeamPokemonsProps {
   deleteFromTeam?: boolean
   team?: TeamWithRelations
 }
 
-const Team = forwardRef<SaveTeam, TeamProps>(({ team, deleteFromTeam = false }: TeamProps, ref) => {
+const TeamPokemons = forwardRef<SaveTeam, TeamPokemonsProps>(({ team, deleteFromTeam = false }, ref) => {
   const { trainer, currentTeam, teamPokemons, setCurrentTrainer } = useUser()
   const [sectionTeam, setSectionTeam] = useState<TeamWithRelations | null>(null)
   const [sectionPokemons, setSectionPokemons] = useState<PokemonWithRelations[]>([])
 
-  Team.displayName = 'Team'
+  TeamPokemons.displayName = 'TeamPokemons'
 
   /**
    * Store team
@@ -43,7 +46,7 @@ const Team = forwardRef<SaveTeam, TeamProps>(({ team, deleteFromTeam = false }: 
           pokemonId: p.id,
         }))
 
-        const saved: TeamWithRelations | null = await axiosClient.post(`/api/team/pokemon/save`, payload)
+        const saved: TeamWithRelations | null = await axiosClient.post(`/api/team/pokemon/add`, payload)
 
         if (saved) {
           const { teams, ...rest } = trainer
@@ -61,25 +64,6 @@ const Team = forwardRef<SaveTeam, TeamProps>(({ team, deleteFromTeam = false }: 
    */
   useImperativeHandle(ref, () => ({ saveTeam }))
 
-  /**
-   * Retrieve, set and format team on mount
-   */
-  // useEffect(() => {
-  //   if (teamId !== undefined) {
-  //     const readTeam = async (): Promise<void> => {
-  //       setCurrentTeam(await axiosClient.get(`/api/team/${teamId}`))
-  //     }
-  //     readTeam()
-
-  //     const pkmns: PokemonWithRelations[] = team?.pokemons?.map((tp) => tp.pokemon) || []
-  //     setPokemons(pkmns)
-  //   }
-  // }, [pokemons, setPokemons, setCurrentTeam, team, teamId])
-
-  // useEffect(() => {
-  //   save.current = saveTeam
-  // }, [])
-
   return (
     <section className={classNames(styles['pokemon-team'], 'container')}>
       {sectionPokemons.map((pokemon, index) => (
@@ -88,4 +72,4 @@ const Team = forwardRef<SaveTeam, TeamProps>(({ team, deleteFromTeam = false }: 
     </section>
   )
 })
-export default Team
+export default TeamPokemons

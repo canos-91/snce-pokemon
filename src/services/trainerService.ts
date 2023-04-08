@@ -10,18 +10,13 @@ export default class TrainerService {
    * @param username
    * @returns - the created trainer or undefined
    */
-  uspsertTrainer = async (username: string): Promise<Trainer | undefined> => {
+  createTrainer = async (username: string): Promise<Trainer | undefined> => {
     try {
-      return await prisma.trainer.upsert({
-        where: {
-          username,
-        },
-        update: {},
-        create: { username },
+      return await prisma.trainer.create({
+        data: { username },
       })
     } catch (e) {
-      console.log(`An error occurred while creating Trainer with '${username}' username: ${e}`)
-      throw e
+      throw new Error(`An error occurred while creating Trainer with '${username}' username: ${e}`)
     }
   }
 
@@ -30,19 +25,19 @@ export default class TrainerService {
    * @returns - the trainers
    */
   listTrainers = async (): Promise<TrainerWithTeams[]> => {
-    const trainers = await prisma.trainer.findMany({
-      orderBy: {
-        id: 'asc',
-      },
-      include: {
-        teams: {
-          include: teamRelations,
+    try {
+      return await prisma.trainer.findMany({
+        orderBy: {
+          id: 'asc',
         },
-      },
-    })
-
-    if (!trainers.length) throw new Error(`An error occurred while listing trainer's trainers`)
-
-    return trainers
+        include: {
+          teams: {
+            include: teamRelations,
+          },
+        },
+      })
+    } catch (e) {
+      throw new Error(`An error occurred while listing trainer's trainers: ` + e)
+    }
   }
 }

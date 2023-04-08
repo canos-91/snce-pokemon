@@ -3,7 +3,6 @@
 .glass-badge {
   @include flex-center;
 
-  position: relative;
   padding: 8px;
   padding-right: 16px;
   border-radius: 100px;
@@ -21,9 +20,7 @@
   }
   
   &.clickable {    
-    cursor: pointer;
-    background: va(--glass-gradient-2);
-    
+    cursor: pointer;    
 
     &::before {
       content: '';
@@ -36,7 +33,7 @@
     }
 
     &:hover::before {
-      background: linear-gradient(rgb(255 255 255 / 5%), rgb(255 255 255 / 15%));
+      background: var(--glass-gradient-0);
       opacity: 1;
     }
   }
@@ -45,8 +42,6 @@
     @include square(24px);
 
     margin-right: 16px;
-
-    // animation: jump 0.7s ease infinite ;
   }
 
   .attributes {
@@ -63,5 +58,4 @@
       align-self: flex-end;
     }
   }
-
 }

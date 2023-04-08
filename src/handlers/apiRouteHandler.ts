@@ -1,7 +1,7 @@
 import type { NextApiRequest, NextApiResponse } from 'next'
 
 type HttpMethod = 'GET' | 'POST' | 'PUT' | 'DELETE'
-export type HttpHandler = (request: NextApiRequest, response: NextApiResponse) => Promise<any>
+export type HttpHandler = (request: NextApiRequest, response: NextApiResponse) => Promise<unknown>
 
 export interface RouteHandlers {
   GET?: HttpHandler
@@ -10,10 +10,16 @@ export interface RouteHandlers {
   DELETE?: HttpHandler
 }
 
+/**
+ * Handles requests to API router
+ * @param request
+ * @param response
+ * @param handlers - route method handlers
+ * @returns
+ */
 export async function RouteHandler(request: NextApiRequest, response: NextApiResponse, handlers: RouteHandlers) {
   const method = request.method as HttpMethod
   const handler: HttpHandler | undefined = handlers[method]
-  console.log(request.query)
 
   if (!handler) {
     return response.status(405).send('Method not allowed')
@@ -27,7 +33,6 @@ export async function RouteHandler(request: NextApiRequest, response: NextApiRes
     }
     return response.status(200).json(resource)
   } catch (err) {
-    console.log(err)
     return response.status(500).json({ error: 'Failed to load data' })
   }
 }

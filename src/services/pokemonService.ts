@@ -21,18 +21,6 @@ export default class PokemonService {
     )
     const uniqueTypes = types.filter((a, idx) => types.findIndex((b) => a.type.name === b.type.name) === idx)
 
-    // const pokemonAbilities: PokemonAbilities[] = abilities.map(
-    //   (a: { ability: { name: string; url: string } }) => ({
-    //     abilityId: getLastIntFromURL(a.ability.url),
-    //     pokemonId: id,
-    //   })
-    // )
-
-    // const pokemonTypes: PokemonTypes[] = types.map((t: { type: { name: string; url: string } }) => ({
-    //   typeId: getLastIntFromURL(t.type.url),
-    //   pokemonId: id,
-    // }))
-
     try {
       let pkmn = await this.readPokemon(pokemon.id)
 
@@ -43,16 +31,6 @@ export default class PokemonService {
         await Promise.all(
           uniqueTypes.map((t) => this.upsertType({ id: getLastIntFromURL(t.type.url), name: t.type.name }))
         )
-        // pkmn = await this.upsertPokemon({
-        //   id,
-        //   name,
-        //   baseXp: base_experience,
-        //   spriteURL: sprites.front_default,
-        // })
-        // if (pkmn) {
-        //   await Promise.all(pokemonAbilities.map((a) => this.upsertPkmnAbility(a)))
-        //   await Promise.all(pokemonTypes.map((t) => this.upsertPkmnType(t)))
-        // }
 
         const pokemonAbilities = uniqueAbilities.map((a: { ability: { name: string; url: string } }) => ({
           ability: {
@@ -99,7 +77,7 @@ export default class PokemonService {
       }
       return pkmn
     } catch (e) {
-      console.log(e)
+      throw new Error(`An error occurred while creating Pokémon '${pokemon.name}': ${e}`)
     }
   }
 
@@ -118,8 +96,7 @@ export default class PokemonService {
         create: pkmnData,
       })
     } catch (e) {
-      console.log(`An error occurred while creating '${pkmnData.name}' Pokémon with id ${pkmnData.id}: ${e}`)
-      throw e
+      throw new Error(`An error occurred while creating '${pkmnData.name}' Pokémon with id ${pkmnData.id}: ${e}`)
     }
   }
 
@@ -148,8 +125,7 @@ export default class PokemonService {
         },
       })
     } catch (e) {
-      console.log(`An error occurred while reading Pokémon with id ${id}: ${e}`)
-      throw e
+      throw new Error(`An error occurred while reading Pokémon with id ${id}: ${e}`)
     }
   }
 
@@ -176,8 +152,7 @@ export default class PokemonService {
         create: { id, name },
       })
     } catch (e) {
-      console.log(`An error occurred while creating '${name}' Ability: ${e}`)
-      throw e
+      throw new Error(`An error occurred while creating '${name}' Ability: ${e}`)
     }
   }
 
@@ -200,8 +175,7 @@ export default class PokemonService {
 
       return pkmnAbility
     } catch (e) {
-      console.log(`An error occurred while creating PokemonAbility: ${e}`)
-      throw e
+      throw new Error(`An error occurred while creating PokemonAbility: ${e}`)
     }
   }
 
@@ -218,8 +192,7 @@ export default class PokemonService {
         },
       })
     } catch (e) {
-      console.log(`An error occurred while reading Ability with id ${id}: ${e}`)
-      throw e
+      throw new Error(`An error occurred while reading Ability with id ${id}: ${e}`)
     }
   }
 
@@ -244,8 +217,7 @@ export default class PokemonService {
         create: { id, name },
       })
     } catch (e) {
-      console.log(`An error occurred while creating '${name}' Type: ${e}`)
-      throw e
+      throw new Error(`An error occurred while creating '${name}' Type: ${e}`)
     }
   }
 
@@ -268,8 +240,7 @@ export default class PokemonService {
 
       return pkmnType
     } catch (e) {
-      console.log(`An error occurred while creating PokemonAbility: ${e}`)
-      throw e
+      throw new Error(`An error occurred while creating PokemonAbility: ${e}`)
     }
   }
 
@@ -286,8 +257,7 @@ export default class PokemonService {
         },
       })
     } catch (e) {
-      console.log(`An error occurred while reading Type with id ${id}: ${e}`)
-      throw e
+      throw new Error(`An error occurred while reading Type with id ${id}: ${e}`)
     }
   }
 }

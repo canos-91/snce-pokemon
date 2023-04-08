@@ -1,34 +1,20 @@
 import { PrismaClient } from '@prisma/client'
+import { trainersData } from './seedData'
 
 const prisma = new PrismaClient()
-
-import { types } from './types'
 
 /**
  * Seeder function
  */
 const seed = async () => {
   try {
-    // await Promise.all(
-    //   types.map((t) =>
-    //     prisma.type.upsert({
-    //       where: {
-    //         id: t.id,
-    //       },
-    //       update: {},
-    //       create: {
-    //         id: t.id,
-    //         name: t.name,
-    //       },
-    //     })
-    //   )
-    // ).then(() => {
-    //   console.log('Pokémon types data seeder executed')
-    // })
-
-    await prisma.trainer.create({
-      data: { username: 'TestTrainer' },
-    })
+    await prisma.trainer
+      .createMany({
+        data: trainersData,
+      })
+      .then(() => {
+        console.log('Trainers seeder executed')
+      })
   } catch (e) {
     console.error(`An error occured while seeding DB: ${e}`)
     await prisma.$disconnect()

@@ -1,4 +1,3 @@
-/* eslint-disable react-hooks/exhaustive-deps */
 import styles from './NewTrainerForm.module.scss'
 import { useUser } from '@/context/UserContext'
 import { useState, useMemo, FormEvent } from 'react'
@@ -6,7 +5,7 @@ import { axiosClient } from '@/lib/apiClient'
 import { Button, Input } from '@/components/atoms'
 import { TrainerWithTeams } from '@/types/models'
 
-export default function NewTrainerForm() {
+const NewTrainerForm = () => {
   const [username, setUsername] = useState<string>('')
   const { trainers, setCurrentTrainer } = useUser()
 
@@ -15,11 +14,11 @@ export default function NewTrainerForm() {
   /**
    * Creates a new Trainer profile
    */
-
   const createTrainer = async (event: FormEvent) => {
     event.preventDefault()
 
-    const trainer: TrainerWithTeams | undefined = await axiosClient.post(`/api/trainer/upsert`, { username })
+    const trainer: TrainerWithTeams | undefined = await axiosClient.post(`/api/trainer/create`, { username })
+
     if (trainer) {
       setCurrentTrainer(trainer)
     }
@@ -28,7 +27,7 @@ export default function NewTrainerForm() {
   return (
     <form onSubmit={createTrainer} className={styles['new-trainer-form']}>
       <div>
-        <h2 className={styles.title}>Create new trainer profile</h2>
+        <h2>Create new trainer profile</h2>
       </div>
       <Input value={username} onChange={(event) => setUsername(event.target.value)} placeholder="Username" />
       <Button
@@ -40,3 +39,5 @@ export default function NewTrainerForm() {
     </form>
   )
 }
+
+export default NewTrainerForm

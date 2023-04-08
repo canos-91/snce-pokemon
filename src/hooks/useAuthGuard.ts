@@ -2,9 +2,9 @@ import { useUser } from '@/context/UserContext'
 import { useRouter } from 'next/router'
 import { useEffect } from 'react'
 
-type useAuthGuardProps = { team?: boolean } | undefined
+type UseAuthGuardProps = { team?: boolean } | undefined
 
-export function useAuthGuard(checks: useAuthGuardProps) {
+export const useAuthGuard = (checks?: UseAuthGuardProps) => {
   const router = useRouter()
   const { trainer, currentTeam } = useUser()
 

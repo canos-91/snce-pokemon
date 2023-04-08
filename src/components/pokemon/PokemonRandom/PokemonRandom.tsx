@@ -14,7 +14,7 @@ interface PokemonRandomProps {
   save?: boolean
 }
 
-export default function PokemonRandom({ save = false }: PokemonRandomProps) {
+const PokemonRandom = ({ save = false }: PokemonRandomProps) => {
   const { currentTeam, teamPokemons, setTeamPokemons } = useUser()
   const [rndPokemon, setRndPokemon] = useState<ApiPokemon>()
 
@@ -47,7 +47,7 @@ export default function PokemonRandom({ save = false }: PokemonRandomProps) {
   const addToTeam = async () => {
     if (rndPokemon && currentTeam) {
       try {
-        const pkmn: PokemonWithRelations = await axiosClient.post(`/api/pokemon/create/${rndPokemon.id}`, {
+        const pkmn: PokemonWithRelations = await axiosClient.post(`/api/pokemon/create`, {
           ...rndPokemon,
         })
 
@@ -55,7 +55,7 @@ export default function PokemonRandom({ save = false }: PokemonRandomProps) {
           let added = false
 
           if (save) {
-            added = await axiosClient.post(`/api/team/pokemon/${currentTeam.id}`, [
+            added = await axiosClient.post(`/api/team/pokemon/add`, [
               {
                 teamId: currentTeam.id,
                 pokemonId: pkmn.id,
@@ -76,6 +76,8 @@ export default function PokemonRandom({ save = false }: PokemonRandomProps) {
   return (
     <div className={classNames(styles['random-pkmn'], 'container')}>
       <PokemonCard pkmn={rndPokemon} active={rndPokemon !== undefined} />
+
+      {/* ACtions */}
       <div className={styles.btns}>
         <Button onClick={getRandomPokemon} action="Gotta catch 'em all!" color="accent" />
         <Button
@@ -87,3 +89,5 @@ export default function PokemonRandom({ save = false }: PokemonRandomProps) {
     </div>
   )
 }
+
+export default PokemonRandom

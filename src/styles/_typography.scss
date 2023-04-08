@@ -12,14 +12,6 @@ body {
 
 * {
 
-  &.x-small {
-    @include text-style(400, 10, 0.5);
-  }
-
-  &.body-alt {
-    @include text-style(400, 14, 0.25);
-  }
-
   &:focus-visible {
     outline: none;
   }
@@ -49,7 +41,6 @@ body {
   }
 
   &.capital {
-
     &::first-letter {
       text-transform: capitalize !important;
     }

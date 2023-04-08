@@ -1,17 +1,17 @@
 import style from './Badge.module.scss'
 import classNames from 'classnames'
+import type { TypeName } from '@/types/models'
 
 export type BadgeProps = {
   label: string
-  color?: string
+  color?: TypeName | 'default'
 }
 
-export default function Badge({ label, color = 'default' }: BadgeProps) {
+const Badge = ({ label, color = 'default' }: BadgeProps) => {
   return (
-    <>
-      <span className={classNames(style.badge, style[`badge-${color}`])}>
-        <small className="capital">{label}</small>
-      </span>
-    </>
+    <span className={classNames(style.badge, style[`badge-${color}`])}>
+      <small>{label}</small>
+    </span>
   )
 }
+export default Badge

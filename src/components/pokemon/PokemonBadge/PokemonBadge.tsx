@@ -17,9 +17,9 @@ export type PokemonBadgeProps = {
   deleteFromTeam?: boolean
 }
 
-export default function PokemonBadge({ pkmn, idx, deleteFromTeam = false, active = false }: PokemonBadgeProps) {
+const PokemonBadge = ({ pkmn, idx, deleteFromTeam = false, active = false }: PokemonBadgeProps) => {
   const { currentTeam, teamPokemons, setTeamPokemons } = useUser()
-  const [isActive, setActive] = useState(false)
+  const [isActive] = useState(false)
 
   /**
    * Remove Pokémon from team
@@ -41,7 +41,6 @@ export default function PokemonBadge({ pkmn, idx, deleteFromTeam = false, active
     <div className={classNames(styles['pokemon-badge'], (isActive || active) && styles.active)}>
       <FontAwesomeIcon className={styles.remove} icon={faTrash} style={{ fontSize: 16 }} onClick={() => removePkmn()} />
       <div className={styles.badge}>
-        {/* onClick={() => pkmn && !active && setActive(!isActive)} */}
         <div className={styles.pokeball}>
           <PokeBallSvg />
         </div>
@@ -49,15 +48,9 @@ export default function PokemonBadge({ pkmn, idx, deleteFromTeam = false, active
           <>
             {/* Sprite */}
             <div className={styles.sprite}>
-              <Image
-                src={pkmn.spriteURL}
-                alt={pkmn.name}
-                width={64}
-                height={64}
-                // onLoadingComplete={() => setLoaded(true)}
-                priority
-              ></Image>
+              <Image src={pkmn.spriteURL} alt={pkmn.name} width={64} height={64} priority></Image>
             </div>
+
             {/* Types */}
             <div className={classNames(styles.types)}>
               {pkmn.types?.map((t, index) => (
@@ -82,3 +75,5 @@ export default function PokemonBadge({ pkmn, idx, deleteFromTeam = false, active
     </div>
   )
 }
+
+export default PokemonBadge
