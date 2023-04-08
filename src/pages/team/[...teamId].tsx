@@ -6,7 +6,7 @@ import { TeamPokemons } from '@/components/team'
 import type { PokemonWithRelations } from '@/types/models'
 import { useAuthGuard } from '@/hooks/useAuthGuard'
 import { useUser } from '@/context/UserContext'
-import { FormEvent, useEffect, useRef } from 'react'
+import { FormEvent, useEffect, useMemo, useRef } from 'react'
 import { axiosClient } from '@/lib/apiClient'
 import type { SaveTeam } from '@/components/team/TeamPokemons/TeamPokemons'
 import { TeamEditForm } from '@/components/forms'
@@ -20,7 +20,7 @@ interface EditTeamPageProps {
 const EditTeamPage = ({ teamId }: EditTeamPageProps) => {
   useAuthGuard({ team: true })
 
-  const { currentTeam, setTeamPokemons, setCurrentTeam, setCurrentTrainer, trainer } = useUser()
+  const { currentTeam, setTeamPokemons, setCurrentTeam, setCurrentTrainer, trainer, teamPokemons } = useUser()
   const save = useRef<SaveTeam>(null)
 
   /**
@@ -38,6 +38,16 @@ const EditTeamPage = ({ teamId }: EditTeamPageProps) => {
     const pkmns: PokemonWithRelations[] = currentTeam?.pokemons?.map((tp) => tp.pokemon) || []
     setTeamPokemons(pkmns)
   }, [currentTeam?.pokemons, setCurrentTeam, setTeamPokemons, teamId])
+
+  /**
+   * Returns true if any pokemon are added or removed
+   */
+  const hasChanges: boolean = useMemo(() => {
+    const savedTeam = trainer?.teams?.find((t) => t.id === currentTeam?.id)
+    const savedIds = savedTeam?.pokemons.map((p) => p.pokemon.id).sort()
+    const teamIds = teamPokemons.map((p) => p.id).sort()
+    return JSON.stringify(savedIds) !== JSON.stringify(teamIds)
+  }, [currentTeam?.id, teamPokemons, trainer?.teams])
 
   /**
    * Delete team
@@ -84,6 +94,7 @@ const EditTeamPage = ({ teamId }: EditTeamPageProps) => {
               <Button
                 action="Save team"
                 color="accent"
+                disabled={!hasChanges}
                 onClick={() => {
                   save.current?.saveTeam()
                 }}
