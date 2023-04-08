@@ -71,7 +71,7 @@ const EditTeamPage = ({ teamId }: EditTeamPageProps) => {
         {/* Random Pkmn */}
         <div>
           <h4 className={styles['section-title']}>Get random Pokémon</h4>
-          <PokemonRandom save />
+          <PokemonRandom />
 
           {/* Team edit */}
           <div className="mt-48">

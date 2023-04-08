@@ -10,11 +10,7 @@ import { TeamPokemonData } from '@/services/teamService'
 import { useTeam } from '@/context/TeamContext'
 // import useSWR, { Fetcher } from 'swr'
 
-interface PokemonRandomProps {
-  save?: boolean
-}
-
-const PokemonRandom = ({ save = false }: PokemonRandomProps) => {
+const PokemonRandom = () => {
   const { team, pokemons, setPokemons } = useTeam()
   const [rndPokemon, setRndPokemon] = useState<ApiPokemon>()
 
@@ -52,21 +48,8 @@ const PokemonRandom = ({ save = false }: PokemonRandomProps) => {
         })
 
         if (pkmn) {
-          let added: boolean | undefined = false
-
-          if (save) {
-            added = await axiosClient.post<TeamPokemonData[], boolean>(`/api/team/pokemon/add`, [
-              {
-                teamId: team.id,
-                pokemonId: pkmn.id,
-              },
-            ])
-          }
-
-          if (added || !save) {
-            setPokemons([...pokemons, pkmn])
-            setRndPokemon(undefined)
-          }
+          setPokemons([...pokemons, pkmn])
+          setRndPokemon(undefined)
         }
       } catch (err) {
         console.log(err)

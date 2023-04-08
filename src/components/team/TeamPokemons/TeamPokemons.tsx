@@ -48,7 +48,7 @@ const TeamPokemons = forwardRef<SaveTeam, TeamPokemonsProps>(({ teamId, deleteFr
           pokemonId: p.id,
         }))
 
-        const saved = await axiosClient.post<TeamPokemonData[], TeamWithRelations>(`/api/pkmnTeam/pokemon/add`, payload)
+        const saved = await axiosClient.post<TeamPokemonData[], TeamWithRelations>(`/api/team/pokemon/add`, payload)
 
         if (saved) {
           const { teams, ...rest } = trainer

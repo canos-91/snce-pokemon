@@ -13,7 +13,7 @@ interface NewTeamFormProps {
 
 const NewTeamForm = ({ setCreated }: NewTeamFormProps) => {
   const [teamName, setTeamName] = useState<string>('')
-  const { trainer } = useUser()
+  const { trainer, setCurrentTrainer } = useUser()
   const { setTeam } = useTeam()
 
   const teamNames: string[] = useMemo(() => trainer?.teams?.map((t) => t.name.toLowerCase()) || [], [trainer?.teams])
@@ -33,6 +33,7 @@ const NewTeamForm = ({ setCreated }: NewTeamFormProps) => {
 
     if (createdTeam) {
       setTeam(createdTeam)
+      setCurrentTrainer({ ...trainer, teams: [...trainer.teams, createdTeam] })
       setCreated(true)
     }
   }
