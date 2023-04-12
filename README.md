@@ -29,6 +29,14 @@ DB_PASSWORD=root
 DB_USER=root
 ```
 
+If your are running a Mac with M1/M2 chip, open the docker-compose-yml file and uncomment the line
+
+```bash
+  # platform: linux/x86_64
+```
+
+in the mysql service, by removing the # at line start
+
 ## Run Locally
 
 Please note that bash command could differ depending on your OS, so they will be astracted
