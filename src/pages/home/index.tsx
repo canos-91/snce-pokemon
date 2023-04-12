@@ -24,7 +24,7 @@ export async function getStaticProps() {
 
   return {
     props: {
-      fetchedTrainers,
+      fetchedTrainers: fetchedTrainers || null,
     },
   }
 }
